@@ -13,9 +13,9 @@ Go deeper and find the App in your favorite technology that answers the selected
 
 So far, you will find the following use cases
 
-| Folder name | Use case                            | Description                                                          | Technologies                                             |   
-|-------------|-------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------|---|
-| start-app   | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI |   |                                                         |   |
+| Folder name | Use case                            | Description                                                          | Technologies                                             |
+|-------------|-------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------|
+| start-app   | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI |
 
 Don’t hesitate to help us complete this list!
 
