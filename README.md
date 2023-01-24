@@ -31,10 +31,10 @@ Every App comes with its own README file: just follow it!
 
 ## Developer resources
 ---
-- [Apps overview]([https://api.akeneo.com/apps/overview.html](https://api.akeneo.com/apps/overview.html))
-- [Start building your App]([https://api.akeneo.com/apps/homepage.html](https://api.akeneo.com/apps/homepage.html))
+- [Apps overview](https://api.akeneo.com/apps/overview.html])
+- [Start building your App](https://api.akeneo.com/apps/homepage.html)
 - [Guided tutorials](https://api.akeneo.com/tutorials/homepage.html)
-- [Postman Collection]([https://api.akeneo.com/apps/app-developer-tools.html](https://api.akeneo.com/apps/app-developer-tools.html))
+- [Postman Collection](https://api.akeneo.com/apps/app-developer-tools.html)
 
 ## Support
 The support of this repository is made in best effort by our Akeneo team.
