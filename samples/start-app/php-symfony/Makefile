@@ -7,7 +7,7 @@ install: ## Install PHP sample App
 	@$(MAKE) requirements
 	@$(MAKE) post-requirements
 
-requirements: ## build docker image
+requirements: ## Check all requirements before building and starting the App
 	@bin/install/checkRequirements.sh
 	@bin/install/dotEnvFileCreator.sh
 
@@ -17,8 +17,8 @@ post-requirements: build
 build: ## build docker image
 	$(DOCKER_BUILD)
 
-start:
+start: ## start docker image
 	$(DOCKER_UP)
 
-stop:
+stop: ## stop docker image
 	$(DOCKER_DOWN)
