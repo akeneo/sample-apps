@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase;
 
-use App\Storage\TokenStorageInterface;
+use App\Entity\Token;
+use App\Repository\TokenRepository;
 use GuzzleHttp\ClientInterface;
 
 
@@ -13,10 +14,10 @@ final class AppActivationCallback
     const GET_APP_TOKEN_URL = '/connect/apps/v1/oauth2/token';
 
     public function __construct(
-        private readonly ClientInterface       $client,
-        private readonly TokenStorageInterface $tokenStorage,
-        private readonly string                $oauthClientId,
-        private readonly string                $oauthClientSecret)
+        private readonly ClientInterface $client,
+        private readonly TokenRepository $tokenRepository,
+        private readonly string          $oauthClientId,
+        private readonly string          $oauthClientSecret)
     {
     }
 
@@ -55,7 +56,7 @@ final class AppActivationCallback
 
         $contents = json_decode($response->getBody()->getContents(), true);
 
-        $this->tokenStorage->store($contents['access_token']);
+        $this->tokenRepository->save(Token::create($contents['access_token']), true);
 
         return $contents;
     }
