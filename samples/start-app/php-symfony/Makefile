@@ -2,6 +2,7 @@ DOCKER_COMPOSE = docker compose
 DOCKER_BUILD = $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
+APP_ADDRESS = http://localhost:8082/
 
 install: ## Install PHP sample App
 	@$(MAKE) requirements
@@ -19,6 +20,7 @@ build: ## build docker image
 
 start: ## start docker image
 	$(DOCKER_UP)
+	@echo "Running on $(APP_ADDRESS)"
 
 stop: ## stop docker image
 	$(DOCKER_DOWN)
