@@ -5,9 +5,9 @@ The goal of this repository is to provide you with bootstraps of Apps in your fa
 
 More info about Apps [here]([https://api.akeneo.com/apps/overview.html](https://api.akeneo.com/apps/overview.html))
 
-## How to use this repository?
+## How to use this repository?
 
-### Use cases
+### Use cases
 Every folder in **samples** is a specific use case inside where you will find Apps in different technologies.
 Go deeper and find the App in your favorite technology that answers the selected use case.
 
