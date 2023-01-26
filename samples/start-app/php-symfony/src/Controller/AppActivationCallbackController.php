@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Exception\NoAccessTokenException;
+use App\Entity\Exception\AccessTokenNotFoundException;
 use App\Repository\TokenRepositoryInterface;
 use App\UseCase\AppActivationCallback;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +30,7 @@ final class AppActivationCallbackController extends AbstractController
                     file_get_contents($this->projectDir . '/templates/access_token.html')
                 );
             }
-        } catch (NoAccessTokenException $e) {
+        } catch (AccessTokenNotFoundException $e) {
         }
 
         return new Response(

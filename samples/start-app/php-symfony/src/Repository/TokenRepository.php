@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Exception\NoAccessTokenException;
+use App\Entity\Exception\AccessTokenNotFoundException;
 use App\Entity\Token;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -44,7 +44,7 @@ class TokenRepository extends ServiceEntityRepository implements TokenRepository
     }
 
     /**
-     * @throws NoAccessTokenException
+     * @throws AccessTokenNotFoundException
      */
     public function getToken(): ?Token
     {
@@ -55,7 +55,7 @@ class TokenRepository extends ServiceEntityRepository implements TokenRepository
                 ->getQuery()
                 ->getSingleResult();
         } catch (NoResultException $e) {
-            throw new NoAccessTokenException();
+            throw new AccessTokenNotFoundException();
         } catch (NonUniqueResultException) {
             return null;
         }

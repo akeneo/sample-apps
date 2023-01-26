@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Exception\NoAccessTokenException;
+use App\Entity\Exception\AccessTokenNotFoundException;
 use App\Entity\Token;
 
 interface TokenRepositoryInterface
@@ -12,7 +12,7 @@ interface TokenRepositoryInterface
     public function remove(Token $token, bool $flush = false): void;
 
     /**
-     * @throws NoAccessTokenException
+     * @throws AccessTokenNotFoundException
      */
     public function getToken(): ?Token;
 

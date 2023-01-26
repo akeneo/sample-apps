@@ -2,7 +2,7 @@
 
 namespace App\Entity\Exception;
 
-class NoAccessTokenException extends \Exception
+class AccessTokenNotFoundException extends \Exception
 {
     public function __construct()
     {
