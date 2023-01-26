@@ -2,23 +2,24 @@
 
 namespace App\Client;
 
-use App\Storage\TokenStorageInterface;
+use App\Repository\TokenRepository;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
 final class ClientFactory
 {
-    public function __construct(private readonly string $pimUrl, private readonly TokenStorageInterface $tokenStorage)
+    public function __construct(private readonly string $pimUrl, private readonly TokenRepository $tokenRepository)
     {
     }
 
     public function create(): ClientInterface
     {
-        if($this->pimUrl) {
+        $token = $this->tokenRepository->getToken();
+        if($token) {
             return new Client([
                 'base_uri' => $this->pimUrl,
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->tokenStorage->get()
+                    'Authorization' => 'Bearer ' . $token->getAccessToken()
                 ]
             ]);
         }
