@@ -8,7 +8,7 @@
 
 source samples/start-app/php-symfony/bin/install/terminalColorsDefinition.sh
 
-echo -e $(printf "${INTRO}Welcome to Akeneo's sample-apps intallation process :${ENDCOLOR}")
+echo -e $(printf "${INTRO}Welcome to Akeneo's Sample Apps intallation process :${ENDCOLOR}")
 echo "1 - Use make php-install for PHP / Symfony sample app"
 echo "2 - Use make php-node for NodeJS sample app"
 echo "3 - Use make php-python for Python sample app"
