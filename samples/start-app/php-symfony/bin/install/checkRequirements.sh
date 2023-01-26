@@ -13,17 +13,17 @@
 source $( dirname -- "${BASH_SOURCE[0]}" )/terminalColorsDefinition.sh
 
 if ! [ -x "$(command -v docker)" ]; then
-    echo -e $(printf "${WARNING}Docker is mandatory in order to run your apps.${ENDCOLOR}")
+    echo -e $(printf "${WARNING}Docker is mandatory in order to run your App.${ENDCOLOR}")
     echo -e $(printf "${WARNING}Please install the latest version of Docker on your computer before running this script.${ENDCOLOR}")
     echo -e $(printf "${WARNING}Install documentation : https://docs.docker.com/engine/install/${ENDCOLOR}")
     exit 1
 fi
 
-docker compose version > /dev/null 2>&1
+docker-compose version > /dev/null 2>&1
 DOCKER_COMPOSE_STATUS=$?
 
 if ! [ $DOCKER_COMPOSE_STATUS -eq 0 ]; then
-    echo -e $(printf "${WARNING}Docker-compose is mandatory in order to run your apps.${ENDCOLOR}")
+    echo -e $(printf "${WARNING}Docker Compose is mandatory in order to run your apps.${ENDCOLOR}")
     echo -e $(printf "${WARNING}Please install the latest version of docker-compose on your computer before running this script.${ENDCOLOR}")
     echo -e $(printf "${WARNING}Install documentation : https://docs.docker.com/compose/install/${ENDCOLOR}")
     exit 1

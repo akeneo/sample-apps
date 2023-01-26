@@ -49,10 +49,10 @@ if [[ ($CHECK_ERASE == "yes" || $CHECK_ERASE == "y") && ("$CHECK_WRITE" != "yes"
   cat $ENV_FILE > $ENV_LOCAL_FILE
 fi
 
-printf "\n###> Akeneo's oauth environment variables ###\n" >> $ENV_LOCAL_FILE
+printf "\n###> Akeneo's OAuth2 environment variables ###\n" >> $ENV_LOCAL_FILE
 printf "CLIENT_ID=%s\n" $CLIENT_ID >> $ENV_LOCAL_FILE
 printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >> $ENV_LOCAL_FILE
 printf "PIM_URL=%s\n" $PIM_URL >> $ENV_LOCAL_FILE
-printf "###< Akeneo's oauth environment variables ###" >> $ENV_LOCAL_FILE
+printf "###< Akeneo's OAauth2 environment variables ###" >> $ENV_LOCAL_FILE
 
 echo -e $(printf "${SUCCESS}.env file has been written to $PARENT_DIR/$(basename -- "$ENV_LOCAL_FILE")${ENDCOLOR}")
