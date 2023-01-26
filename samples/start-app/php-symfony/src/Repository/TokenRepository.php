@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Exception\NoAccessTokenException;
 use App\Entity\Token;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Token[]    findAll()
  * @method Token[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TokenRepository extends ServiceEntityRepository
+class TokenRepository extends ServiceEntityRepository implements TokenRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -41,15 +43,20 @@ class TokenRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws NonUniqueResultException
+     * @throws NoAccessTokenException
      */
     public function getToken(): ?Token
     {
-        return $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        try {
+            return $this->createQueryBuilder('t')
+                ->orderBy('t.id', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            throw new NoAccessTokenException();
+        } catch (NonUniqueResultException) {
+            return null;
+        }
     }
 }
