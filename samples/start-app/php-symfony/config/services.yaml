@@ -11,9 +11,10 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $oauthClientId: '%env(string:CLIENT_ID)%'
-            $oauthClientSecret: '%env(string:CLIENT_SECRET)%'
-            $pimUrl: '%env(string:AKENEO_PIM_URL)%'
+            string $oauthClientId: '%env(string:CLIENT_ID)%'
+            string $oauthClientSecret: '%env(string:CLIENT_SECRET)%'
+            string $pimUrl: '%env(string:AKENEO_PIM_URL)%'
+            string $projectDir: '%kernel.project_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

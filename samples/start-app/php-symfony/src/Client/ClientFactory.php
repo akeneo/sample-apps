@@ -14,12 +14,11 @@ final class ClientFactory
 
     public function create(): ClientInterface
     {
-        $token = $this->tokenRepository->getToken();
-        if($token) {
+        if($this->tokenRepository->hasToken()) {
             return new Client([
                 'base_uri' => $this->pimUrl,
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $token->getAccessToken()
+                    'Authorization' => 'Bearer ' . $this->tokenRepository->getToken()->getAccessToken()
                 ]
             ]);
         }

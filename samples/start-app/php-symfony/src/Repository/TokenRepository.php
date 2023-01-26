@@ -24,18 +24,19 @@ class TokenRepository extends ServiceEntityRepository implements TokenRepository
         parent::__construct($registry, Token::class);
     }
 
-    public function save(Token $entity, bool $flush = false): void
+    public function upsert(Token $token, bool $flush = false): void
     {
-        $this->getEntityManager()->persist($entity);
+        $token = $this->findOneBy(['accessToken' => $token->getAccessToken()]) ?? $token;
+        $this->getEntityManager()->persist($token);
 
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
 
-    public function remove(Token $entity, bool $flush = false): void
+    public function remove(Token $token, bool $flush = false): void
     {
-        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->remove($token);
 
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -58,5 +59,13 @@ class TokenRepository extends ServiceEntityRepository implements TokenRepository
         } catch (NonUniqueResultException) {
             return null;
         }
+    }
+
+    public function hasToken(): bool
+    {
+        return (bool) $this->createQueryBuilder('t')
+            ->select('count(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

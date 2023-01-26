@@ -21,7 +21,7 @@ final class AppActivationCallback
     {
     }
 
-    public function execute(array $session, string $state, string $code): array
+    public function execute(array $session, string $state, string $code): void
     {
         // We check if the received state is the same as in the session, for security.
         $sessionState = $session['oauth2_state'] ?? '';
@@ -56,8 +56,6 @@ final class AppActivationCallback
 
         $contents = json_decode($response->getBody()->getContents(), true);
 
-        $this->tokenRepository->save(Token::create($contents['access_token']), true);
-
-        return $contents;
+        $this->tokenRepository->upsert(Token::create($contents['access_token']), true);
     }
 }
