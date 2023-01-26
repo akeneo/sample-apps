@@ -48,7 +48,6 @@ fi
 printf "\n###> Akeneo's OAuth2 environment variables ###\n" >> $ENV_LOCAL_FILE
 printf "CLIENT_ID=%s\n" $CLIENT_ID >> $ENV_LOCAL_FILE
 printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >> $ENV_LOCAL_FILE
-<<<<<<< HEAD
 printf "AKENEO_PIM_URL=%s\n" $PIM_URL >> $ENV_LOCAL_FILE
 printf "###< Akeneo's OAauth2 environment variables ###" >> $ENV_LOCAL_FILE
 
