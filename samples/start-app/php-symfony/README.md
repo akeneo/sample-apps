@@ -5,7 +5,7 @@
 - You’ve installed Docker (20.10.22 or higher)
 
 ### Step 1: Get this App on your local machine
-Use [GitZip](https://kinolien.github.io/gitzip/)): enter [https://github.com/akeneo/sample-apps/samples/start-app/](https://github.com/akeneo/sample-apps/samples/start-app/php-symfony)js-node-express in the form at the top right.
+Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/akeneo/sample-apps/samples/start-app/php-symfony](https://github.com/akeneo/sample-apps/samples/start-app/php-symfony) in the form at the top right.
 ![img.png](images/step1-1.png)
 
 ### Step 2: Create a tunnel to expose your local App
