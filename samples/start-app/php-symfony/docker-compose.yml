@@ -12,7 +12,6 @@ services:
             - APP_ENV=${APP_ENV:-dev}
         volumes:
             - "./:/srv/app:rw"
-            - "./vendor:/srv/app/vendor:r"
         user: "${DOCKER_UID:-1000}"
         restart: unless-stopped
         ports:

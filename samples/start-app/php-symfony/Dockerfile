@@ -24,21 +24,7 @@ COPY docker/composer/php.ini /usr/local/etc/php/conf.d/custom.ini
 
 ###############################################################################
 
-FROM dev-tools AS vendors
-
-WORKDIR /srv/app
-COPY composer.json composer.lock symfony.lock ./
-RUN composer install \
-        --no-scripts \
-        --no-interaction \
-        --no-ansi \
-        --prefer-dist \
-        --optimize-autoloader \
-        --no-dev
-
-###############################################################################
-
-FROM vendors as development
+FROM dev-tools as development
 
 ARG USER=www-data
 
