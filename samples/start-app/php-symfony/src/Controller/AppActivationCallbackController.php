@@ -24,17 +24,12 @@ final class AppActivationCallbackController extends AbstractController
         session_start();
         $this->callback->execute($_SESSION, $_GET['state'], $_GET['code']);
 
-        try {
-            if ($this->tokenRepository->getToken()) {
-                return new Response(
-                    file_get_contents($this->projectDir . '/templates/access_token.html')
-                );
-            }
-        } catch (AccessTokenNotFoundException $e) {
+        if (!$this->tokenRepository->hasToken()) {
+            return new Response(file_get_contents($this->projectDir . '/templates/no_access_token.html'));
         }
 
         return new Response(
-            file_get_contents($this->projectDir . '/templates/no_access_token.html')
+            file_get_contents($this->projectDir . '/templates/access_token.html')
         );
     }
 }
