@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Client;
 
 use App\Repository\TokenRepository;
@@ -18,8 +20,8 @@ final class ClientFactory
             return new Client([
                 'base_uri' => $this->pimUrl,
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->tokenRepository->getToken()->getAccessToken(),
-                    'X-APP-SOURCE' => 'basicApp-symfony',
+                    'Authorization' =>sprintf("Bearer %s", $this->tokenRepository->getToken()->getAccessToken()),
+                    'X-APP-SOURCE' => 'startApp-symfony',
                 ]
             ]);
         }
