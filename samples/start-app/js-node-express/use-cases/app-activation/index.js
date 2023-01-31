@@ -4,21 +4,25 @@ const strings = require('locutus/php/strings');
 const crypto = require('crypto');
 const querystring = require('querystring');
 const https = require('https');
+const path = require('path');
+const { tokenDb } = require('../../data-access/index');
 
-const makeAppActivation = require('./activation');
-const makeAppCallback = require("./callback");
+const doAppActivation = require('./activation');
+const doAppCallback = require("./callback");
 
-const appActivate = makeAppActivation({
+const appActivate = doAppActivation({
     config,
     url,
 });
 
-const appCallback = makeAppCallback({
+const appCallback = doAppCallback({
     strings,
     crypto,
     querystring,
     config,
-    https
+    https,
+    path,
+    tokenDb
 });
 
 module.exports = {appActivate, appCallback};

@@ -1,9 +1,11 @@
-let makeAppCallback = function({
+let doAppCallback = function({
     strings,
     crypto,
     querystring,
     config,
-    https
+    https,
+    path,
+    tokenDb
 }) {
     return async function appCallback ({req, res, next}, randomString) {
 
@@ -40,8 +42,14 @@ let makeAppCallback = function({
             });
 
             response.on('end', function() {
-                console.log(response.body);
-                res.status(response.statusCode).json({ message: 'Access token => ' + JSON.parse(response.body).access_token });
+                const access_token = JSON.parse(response.body).access_token;
+                tokenDb.upsert({access_token});
+
+                if (!tokenDb.hasToken()) {
+                    res.sendFile(path.join(__dirname+'/../../views/no_access_token.html'));
+                } else {
+                    res.sendFile(path.join(__dirname+'/../../views/access_token.html'));
+                }
             });
         });
 
@@ -50,4 +58,4 @@ let makeAppCallback = function({
     };
 }
 
-module.exports = makeAppCallback;
+module.exports = doAppCallback;

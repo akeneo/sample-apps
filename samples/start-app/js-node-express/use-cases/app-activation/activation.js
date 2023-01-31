@@ -1,4 +1,4 @@
-let makeAppActivate = function({
+let doAppActivate = function({
     config,
     url
 }) {
@@ -22,4 +22,4 @@ let makeAppActivate = function({
     };
 }
 
-module.exports = makeAppActivate;
+module.exports = doAppActivate;
