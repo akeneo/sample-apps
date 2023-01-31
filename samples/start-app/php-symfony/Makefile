@@ -9,6 +9,7 @@ APP_ADDRESS = http://localhost:8082/
 install: ## Install PHP sample App
 	@$(MAKE) requirements
 	@$(MAKE) post-requirements
+	@$(MAKE) _display
 
 requirements: ## Check all requirements before building and starting the App
 	@bin/install/checkRequirements.sh
@@ -26,7 +27,13 @@ build: ## build docker image
 
 start: ## start docker image
 	$(DOCKER_UP)
-	@echo "Running on $(APP_ADDRESS)"
+	@$(MAKE) _display
 
 stop: ## stop docker image
 	$(DOCKER_DOWN)
+
+_display: ##
+	@echo ""
+	@echo "**** PHP Symfony Sample App ****"
+	@echo ""
+	@echo "     Web app (served by PHP Apache 1 - with hot reload): https://localhost:8082"
