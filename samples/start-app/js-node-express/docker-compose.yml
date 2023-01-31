@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: ../js-node-express
+      target: development
+      args:
+        USER: "${DOCKER_UID:-1000}"
+        NODE_ENV: local
+    environment:
+      - HOME=/tmp
+      - APP_ENV=${APP_ENV:-dev}
+      - NODE_ENV=local
+    volumes:
+      - "./:/srv/app:rw"
+    user: "${DOCKER_UID:-1000}"
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    networks:
+      - default
+
+networks:
+  default: ~
