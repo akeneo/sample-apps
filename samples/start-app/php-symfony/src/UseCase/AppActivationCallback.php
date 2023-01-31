@@ -43,7 +43,7 @@ final class AppActivationCallback
         $codeIdentifier = bin2hex(random_bytes(30));
         $codeChallenge = hash('sha256', $codeIdentifier . $this->oauthClientSecret);
 
-        $accessTokenUrl = $pimUrl . self::GET_APP_TOKEN_URL;
+        $accessTokenUrl = sprintf("$pimUrl %s", self::GET_APP_TOKEN_URL);
         $accessTokenRequestPayload = [
             'client_id' => $this->oauthClientId,
             'code_identifier' => $codeIdentifier,
