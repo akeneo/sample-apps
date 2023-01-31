@@ -19,7 +19,7 @@ final class ClientFactory
                 'base_uri' => $this->pimUrl,
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->tokenRepository->getToken()->getAccessToken(),
-                    'X-APP-SOURCE' => 'basicApp-symfony',
+                    'X-APP-SOURCE' => 'startApp-symfony',
                 ]
             ]);
         }
