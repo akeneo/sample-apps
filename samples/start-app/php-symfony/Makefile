@@ -37,3 +37,6 @@ _display: ##
 	@echo "**** PHP Symfony Sample App ****"
 	@echo ""
 	@echo "     Web app (served by PHP Apache 1 - with hot reload): https://localhost:8082"
+	@echo "     Activate URL : https://localhost:8082/activate"
+	@echo "     Callback URL : https://localhost:8082/callback"
+	@echo "     First API call URL : https://localhost:8082/first-api-call"
