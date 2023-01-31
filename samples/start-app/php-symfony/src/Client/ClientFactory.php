@@ -18,7 +18,7 @@ final class ClientFactory
             return new Client([
                 'base_uri' => $this->pimUrl,
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->tokenRepository->getToken()->getAccessToken(),
+                    'Authorization' =>sprintf("Bearer %s", $this->tokenRepository->getToken()->getAccessToken()),
                     'X-APP-SOURCE' => 'startApp-symfony',
                 ]
             ]);
