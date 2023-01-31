@@ -5,9 +5,9 @@ The goal of this repository is to provide you with bootstraps of Apps in your fa
 
 More info about Apps [here]([https://api.akeneo.com/apps/overview.html](https://api.akeneo.com/apps/overview.html))
 
-## How to use this repository?
+## How to use this repository?
 
-### Use cases
+### Use cases
 Every folder in **samples** is a specific use case inside where you will find Apps in different technologies.
 Go deeper and find the App in your favorite technology that answers the selected use case.
 
@@ -31,10 +31,10 @@ Every App comes with its own README file: just follow it!
 
 ## Developer resources
 ---
-- [Apps overview]([https://api.akeneo.com/apps/overview.html](https://api.akeneo.com/apps/overview.html))
-- [Start building your App]([https://api.akeneo.com/apps/homepage.html](https://api.akeneo.com/apps/homepage.html))
+- [Apps overview](https://api.akeneo.com/apps/overview.html])
+- [Start building your App](https://api.akeneo.com/apps/homepage.html)
 - [Guided tutorials](https://api.akeneo.com/tutorials/homepage.html)
-- [Postman Collection]([https://api.akeneo.com/apps/app-developer-tools.html](https://api.akeneo.com/apps/app-developer-tools.html))
+- [Postman Collection](https://api.akeneo.com/apps/app-developer-tools.html)
 
 ## Support
 The support of this repository is made in best effort by our Akeneo team.
