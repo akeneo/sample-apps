@@ -11,7 +11,7 @@ Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/aken
 ### Step 2: Create a tunnel to expose your local App
 Use [ngrok]([https://ngrok.com/](https://ngrok.com/)) to create a tunnel that allows your App to be accessed using a unique HTTPS URL. You need to create a ngrok account and auth token to preview your App.
 ```
-ngrok http 8082
+ngrok http 8081
 ```
 
 ### Step 3: Declare your local App as a test App in your sandbox to generate credentials
@@ -50,7 +50,7 @@ It means your App is connected. Well done!
 ### Step 6: Call your first API endpoint
 
 Last but not least, let’s call the PIM API!
-Simply go [here](http://localhost:8082/first-api-call).
+Simply go [here](http://localhost:8081/first-api-call).
 
 You should see
 ![img.png](images/step6-1.png)
