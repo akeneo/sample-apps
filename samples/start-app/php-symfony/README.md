@@ -37,12 +37,13 @@ make php-install
 ### Step 5: Activate your test App for your sandbox
 1. Back in your sandbox go to Connect > App store
 2. You see your App in the section “My App”
-[TODO Add picture]
+![img.png](images/step5-1.png)
+
 3. Click on CONNECT
 4. Follow the activation process steps until the end
 
 If everything is good, you should see
-[TODO Add picture (when App done)]
+![img.png](images/step5-2.png)
 
 It means your App is connected. Well done!
 
@@ -52,7 +53,8 @@ Last but not least, let’s call the PIM API!
 Simply go [here](http://localhost:8082/first-api-call).
 
 You should see
-[TODO Picture of the result]
+![img.png](images/step6-1.png)
+
 
 You will find a pre-configured HTTP client [here](https://github.com/akeneo/sample-apps/blob/main/samples/start-app/php-symfony/src/UseCase/FirstApiCall.php) . Feel free to use it for your project.
 
