@@ -15,7 +15,7 @@ services:
         user: "${DOCKER_UID:-1000}"
         restart: unless-stopped
         ports:
-            - "8082:80"
+            - "8081:80"
         networks:
             - default
 
