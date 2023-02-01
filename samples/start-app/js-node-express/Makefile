@@ -4,11 +4,12 @@ DOCKER_BUILD = $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
 DOCKER_EXEC = $(DOCKER_COMPOSE) run
-APP_ADDRESS = http://localhost:8082/
+APP_ADDRESS = http://localhost:8081/
 
-install: ## Install PHP sample App
+install: ## Install NodeJS sample App
 	@$(MAKE) requirements
 	@$(MAKE) post-requirements
+	@$(MAKE) _display
 
 requirements: ## Check all requirements before building and starting the App
 	@bin/install/checkRequirements.sh
@@ -26,7 +27,16 @@ build: ## build docker image
 
 start: ## start docker image
 	$(DOCKER_UP)
-	@echo "Running on $(APP_ADDRESS)"
+	@$(MAKE) _display
 
 stop: ## stop docker image
 	$(DOCKER_DOWN)
+
+_display: ##
+	@echo ""
+	@echo "**** NodeJS + Express Sample App ****"
+	@echo ""
+	@echo "     Web app (served by NodeJS + Express with hot reload): $(APP_ADDRESS)"
+	@echo "     Activate URL : $(APP_ADDRESS)activate"
+	@echo "     Callback URL : $(APP_ADDRESS)callback"
+	@echo "     First API call URL : $(APP_ADDRESS)first-api-call"
