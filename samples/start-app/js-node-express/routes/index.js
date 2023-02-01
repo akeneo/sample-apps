@@ -1,5 +1,6 @@
 const express = require('express');
 const appActivation = require('./app-activation.js');
+const api = require('./api.js');
 
 const router = express.Router();
 
@@ -9,5 +10,6 @@ router.get('/', function(req, res, next) {
 });
 
 router.use(appActivation);
+router.use(api);
 
 module.exports = router;
