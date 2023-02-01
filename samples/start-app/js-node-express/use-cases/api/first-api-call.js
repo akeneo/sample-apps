@@ -1,15 +1,14 @@
 let doFirstApiCall = function({
     config,
     https,
-    tokenDb,
-    path
+    tokenDb
  }) {
     return async function firstApiCall ({req, res, next}) {
 
         const pimUrl = new URL(process.env.AKENEO_PIM_URL);
 
         if (!await tokenDb.hasToken()) {
-            res.sendFile(path.join(__dirname+'/../../views/no_access_token.html'));
+            res.render('no_access_token');
         } else {
             const token = await tokenDb.getToken();
 

@@ -3,14 +3,16 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cons = require('consolidate');
 
 const indexRouter = require('./routes/index.js');
 
 const app = express();
 
 // view engine setup
+app.engine('html', cons.swig)
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -4,7 +4,6 @@ let doAppCallback = function({
     querystring,
     config,
     https,
-    path,
     tokenDb
 }) {
     return async function appCallback ({req, res, next}, randomString) {
@@ -46,9 +45,9 @@ let doAppCallback = function({
                 tokenDb.upsert({access_token});
 
                 if (!tokenDb.hasToken()) {
-                    res.sendFile(path.join(__dirname+'/../../views/no_access_token.html'));
+                    res.render('no_access_token');
                 } else {
-                    res.sendFile(path.join(__dirname+'/../../views/access_token.html'));
+                    res.render('access_token');
                 }
             });
         });
