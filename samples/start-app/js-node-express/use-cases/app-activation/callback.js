@@ -10,6 +10,9 @@ let doAppCallback = function({
 
         const pimUrl = new URL(process.env.AKENEO_PIM_URL);
 
+        console.log('hostname : ' + pimUrl.hostname);
+        console.log('port : ' + pimUrl.port);
+
         const codeIdentifier = strings.bin2hex(crypto.randomBytes(30));
         const codeChallenge = crypto.createHash('sha256').update(codeIdentifier + process.env.CLIENT_SECRET).digest('hex');
 
@@ -50,6 +53,11 @@ let doAppCallback = function({
                     res.render('access_token');
                 }
             });
+
+            response.on('error', function (e) {
+               console.log(e);
+            });
+
         });
 
         httpreq.write(data);

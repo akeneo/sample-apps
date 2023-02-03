@@ -7,6 +7,9 @@ const cons = require('consolidate');
 
 const indexRouter = require('./routes/index.js');
 
+// Dealing with self-signed certificate
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+
 const app = express();
 
 // view engine setup

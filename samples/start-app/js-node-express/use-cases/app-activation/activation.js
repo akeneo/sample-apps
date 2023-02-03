@@ -14,6 +14,7 @@ let doAppActivate = function({
         const requestUrl = url.parse(url.format({
             protocol: pimUrl.protocol,
             hostname: pimUrl.hostname,
+            port: pimUrl.port,
             pathname: config.get('akeneo.authorize_url'),
             query: {
                 response_type: "code",
