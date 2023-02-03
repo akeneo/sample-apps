@@ -6,7 +6,7 @@ let doAppCallback = function({
     https,
     tokenDb
 }) {
-    return async function appCallback ({req, res, next}, randomString) {
+    return async function appCallback ({req, res, next}) {
 
         const pimUrl = new URL(process.env.AKENEO_PIM_URL);
 
