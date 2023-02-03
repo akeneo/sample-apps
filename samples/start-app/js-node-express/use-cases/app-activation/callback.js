@@ -6,12 +6,17 @@ let doAppCallback = function({
     https,
     tokenDb
 }) {
-    return async function appCallback ({req, res, next}) {
+    return async function appCallback ({req, res, next}, randomString) {
 
         const pimUrl = new URL(process.env.AKENEO_PIM_URL);
 
         console.log('hostname : ' + pimUrl.hostname);
         console.log('port : ' + pimUrl.port);
+
+        if (!req.query.hasOwnProperty('state') || req.query.state !== randomString) {
+            console.error("Invalid state");
+            res.render('error');
+        }
 
         const codeIdentifier = strings.bin2hex(crypto.randomBytes(30));
         const codeChallenge = crypto.createHash('sha256').update(codeIdentifier + process.env.CLIENT_SECRET).digest('hex');

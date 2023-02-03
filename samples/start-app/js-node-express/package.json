@@ -21,8 +21,7 @@
     "morgan": "^1.9.1",
     "sqlite3": "^5.1.4",
     "swig": "^1.4.2",
-    "url": "^0.11.0",
-    "uuidv4": "^6.2.13"
+    "url": "^0.11.0"
   },
   "devDependencies": {
     "prisma": "^4.9.0"
