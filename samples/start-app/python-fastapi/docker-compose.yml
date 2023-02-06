@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+    app:
+        build: 
+            context: ../python-fastapi
+            args:
+                USER: "${DOCKER_UID:-1000}"
+        command: uvicorn app.main:app --host 0.0.0.0 --reload
+        volumes:
+            - "./:/srv/app:rw"
+        ports:
+            - 8008:8000
