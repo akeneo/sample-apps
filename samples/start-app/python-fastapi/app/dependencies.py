@@ -1,7 +1,7 @@
 from dotenv import dotenv_values
-from .database import SessionLocal
+from .persistence.database import SessionLocal
+import requests
 
-config = dotenv_values('.env')
 session = requests.Session()
 
 def get_db():
@@ -10,3 +10,9 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def get_config(name):
+    return dotenv_values('.env')[name]
+    
+def get_session():
+    return session;

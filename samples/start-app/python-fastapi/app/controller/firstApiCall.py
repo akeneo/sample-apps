@@ -1,17 +1,14 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Depends
+from sqlalchemy.orm import Session
+from ..dependencies import get_db
+from ..usecase.firstApiCall import first_api_call_usecase
+
 
 router = APIRouter()
 
 @router.get("/first-api-call")
-def read_root(request: Request, db: Session = Depends(get_db)):
+def first_api_call(request: Request, db: Session = Depends(get_db)):
 
-    # Replace by the API endpoint you want to call. Here an example with channels
-    # https://api.akeneo.com/api-reference.html#get_channels
-    apiUrl = config['PIM_URL'] + '/api/rest/v1/channels'
-    token = tokenRepository.get_token(db)
-    response = requests.get(apiUrl,  headers={
-        'Authorization': 'Bearer %s' % token.access_token,
-        'X-APP-SOURCE':  'startApp-python',
-    })
+    response = first_api_call_usecase(db)
 
     return response.json()

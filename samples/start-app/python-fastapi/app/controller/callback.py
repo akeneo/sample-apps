@@ -1,42 +1,13 @@
 from fastapi import APIRouter, Request, Depends
-from .. import tokenRepository, models, schemas
+from sqlalchemy.orm import Session
+from ..dependencies import get_db, get_session
+from ..usecase.callback import callback_usecase
+
 
 router = APIRouter()
 
-get_app_token_url = '/connect/apps/v1/oauth2/token'
-
 @router.get("/callback")
-def read_item(request: Request, db: Session = Depends(get_db)):
-    session_state = session.headers['oauth2_state']
-    state = request.query_params['state'] or ''
-    if (state == '' or state != session_state):
-        exit('Invalide state')
-
-    authorization_code = request.query_params['code'] or ''
-    if (authorization_code == ''):
-        exit('Missing authorization code')
-
-    pim_url = session.headers['pim_url']
-    if (pim_url == ''):
-        exit('No PIM url in session')
-
-    code_identifier = secrets.token_hex(30)
-    code_challenge = hashlib.sha256((code_identifier + config['CLIENT_SECRET']).encode('utf-8')).hexdigest()
-
-    access_token_url = pim_url+'%s' % get_app_token_url;
-
-    access_token_request_payload = {
-        'client_id': config['CLIENT_ID'],
-        'code_identifier': code_identifier,
-        'code_challenge': code_challenge,
-        'code': authorization_code,
-        'grant_type': 'authorization_code'
-    }
-
-    response = requests.post(access_token_url, data=access_token_request_payload)
-
-    token = schemas.TokenCreate(access_token = response.json()['access_token'])
-
-    tokenRepository.create_token(db=db, token=token)
+def callback(request: Request, db: Session = Depends(get_db), session: object = Depends(get_session)):
+    response = callback_usecase(request, db, session)
 
     return response.json()
