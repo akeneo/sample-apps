@@ -31,3 +31,4 @@ def activate_usecase(request, session):
     );
 
     return  get_authorization_url % (pim_url, authorize_url_params)
+    
