@@ -3,7 +3,7 @@ Welcome to the Akeneo sample Apps repository!
 
 The goal of this repository is to provide you with bootstraps of Apps in your favorite technologies so that you can easily start your App projects.
 
-More info about Apps [here]([https://api.akeneo.com/apps/overview.html](https://api.akeneo.com/apps/overview.html))
+More info about Apps [here](https://api.akeneo.com/apps/overview.html)
 
 ## How to use this repository?
 
@@ -22,7 +22,7 @@ Don’t hesitate to help us complete this list!
 ### Get the code
 Get the whole repository
 ```
-git clone https://github.com/akeneo/sample-apps
+git clone git@github.com:akeneo/sample-apps.git
 ```
 Or, if you only want to retrieve a specific directory (just the App you are interested in), use [gitzip](https://kinolien.github.io/gitzip/) and specify the path.
 
@@ -31,7 +31,7 @@ Every App comes with its own README file: just follow it!
 
 ## Developer resources
 ---
-- [Apps overview](https://api.akeneo.com/apps/overview.html])
+- [Apps overview](https://api.akeneo.com/apps/overview.html)
 - [Start building your App](https://api.akeneo.com/apps/homepage.html)
 - [Guided tutorials](https://api.akeneo.com/tutorials/homepage.html)
 - [Postman Collection](https://api.akeneo.com/apps/app-developer-tools.html)

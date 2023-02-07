@@ -31,7 +31,7 @@ The App generates the credentials. Copy them for later.
 ### Step 4: Launch your App
 Open a terminal at the root of the folder of your App, enter the following command and let us guide you
 ```
-make php-install
+make install
 ```
 
 ### Step 5: Activate your test App for your sandbox
