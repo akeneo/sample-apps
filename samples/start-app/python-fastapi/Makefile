@@ -8,7 +8,7 @@ APP_ADDRESS = http://localhost:8081/
 
 install: ## Install Python sample App
 	@$(MAKE) requirements
-	@$(MAKE) post-requirements
+	@$(MAKE) build
 	@$(MAKE) _display
 
 requirements: ## Check all requirements before building and starting the App
