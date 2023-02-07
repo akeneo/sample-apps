@@ -10,4 +10,4 @@ services:
         volumes:
             - "./:/srv/app:rw"
         ports:
-            - 8008:8000
+            - "8081:8000"
