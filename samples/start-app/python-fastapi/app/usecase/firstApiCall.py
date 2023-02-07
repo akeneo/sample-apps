@@ -14,4 +14,3 @@ def first_api_call_usecase(db):
     })
     
     return response
-    
