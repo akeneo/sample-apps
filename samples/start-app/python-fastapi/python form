@@ -1,3 +1,0 @@
-command pour lancer le serveur uvicorn 
-uvicorn app.main:app --host 0.0.0.0
-
