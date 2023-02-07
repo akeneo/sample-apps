@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from .persistence.database import engine
-from .controller import activate, callback, firstApiCall
+from .controller import activate, callback, firstApiCall, homepage
 from .persistence import models
 from .dependencies import get_session
 
@@ -11,4 +11,5 @@ models.Base.metadata.create_all(bind=engine)
 app.include_router(activate.router, dependencies=[Depends(get_session)])
 app.include_router(callback.router, dependencies=[Depends(get_session)])
 app.include_router(firstApiCall.router)
+app.include_router(homepage.router)
 
