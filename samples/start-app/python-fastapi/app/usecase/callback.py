@@ -21,7 +21,7 @@ def callback_usecase(request, db, session):
     code_identifier = secrets.token_hex(30)
     code_challenge = hashlib.sha256((code_identifier + get_config('CLIENT_SECRET')).encode('utf-8')).hexdigest()
 
-    access_token_url = pim_url+'%s' % get_app_token_url;
+    access_token_url = pim_url+'%s' % get_app_token_url
 
     access_token_request_payload = {
         'client_id': get_config('CLIENT_ID'),
