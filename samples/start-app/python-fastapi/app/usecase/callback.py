@@ -8,7 +8,7 @@ get_app_token_url = '/connect/apps/v1/oauth2/token'
 def callback_usecase(request, db, session):
     session_state = session.headers['oauth2_state']
     state = request.query_params['state'] or ''
-    if (state == '' or state != session_state):
+    if state == '' or state != session_state:
         exit('Invalide state')
 
     authorization_code = request.query_params['code'] or ''
