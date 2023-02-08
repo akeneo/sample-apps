@@ -28,7 +28,7 @@ def activate_usecase(request, session):
             'scope': ' '.join(oauth_scopes),
             'state': state
         }
-    );
+    )
 
     return  get_authorization_url % (pim_url, authorize_url_params)
     
