@@ -14,4 +14,4 @@ app.include_router(callback.router, dependencies=[Depends(get_session)])
 app.include_router(firstApiCall.router)
 app.include_router(homepage.router)
 
-logging.basicConfig(filename='var/app.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='var/app.log', filemode='a', format='%(name)s - %(levelname)s - %(message)s')
