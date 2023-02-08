@@ -15,7 +15,7 @@ def callback_usecase(request, db, session):
         exit('Missing authorization code')
 
     pim_url = session.headers['pim_url']
-    if (pim_url == ''):
+    if pim_url == '':
         exit('No PIM url in session')
 
     code_identifier = secrets.token_hex(30)
