@@ -15,8 +15,8 @@ ngrok http 8081
 ```
 
 ### Step 3: Declare your local App as a test App in your sandbox to generate credentials
-In your sandbox go to Connect > App store > Create a test App
-Paste your callback & activation URLs
+1. In your sandbox go to Connect > App store > Create a test App
+2. Paste your callback & activation URLs
 ```
 Name: [My App]
 Activate URL: [your-ngrok-url]/activate

@@ -1,7 +1,7 @@
 # Akeneo Sample Apps
 Welcome to the Akeneo sample Apps repository!
 
-The goal of this repository is to provide you with bootstraps of Apps in your favorite technologies so that you can easily start your App projects.
+The goal of this repository is to provide you with bootstraps of Apps in your favorite technology so that you can easily start your App projects.
 
 More info about Apps [here]([https://api.akeneo.com/apps/overview.html](https://api.akeneo.com/apps/overview.html))
 
@@ -17,7 +17,7 @@ So far, you will find the following use cases
 |-------------|-------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------|
 | start-app   | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI |
 
-Don’t hesitate to help us complete this list!
+[Don’t hesitate to help us complete this list!](https://github.com/akeneo/sample-apps/blob/main/CONTRIBUTING.md)
 
 ### Get the code
 Get the whole repository
@@ -27,7 +27,7 @@ git clone https://github.com/akeneo/sample-apps
 Or, if you only want to retrieve a specific directory (just the App you are interested in), use [gitzip](https://kinolien.github.io/gitzip/) and specify the path.
 
 ### Launch the App
-Every App comes with its own README file: just follow it!
+Every App comes with its own README file.
 
 ## Developer resources
 ---
