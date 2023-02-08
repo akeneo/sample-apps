@@ -12,7 +12,7 @@ def get_db():
         db.close()
 
 def get_config(name):
-    return dotenv_values('.env')[name]
+    return dotenv_values('.env.local')[name]
     
 def get_session():
     return session;

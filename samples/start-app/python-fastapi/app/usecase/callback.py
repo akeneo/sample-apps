@@ -1,4 +1,5 @@
-from ..persistence import tokenRepository, schemas
+from ..persistence import tokenRepository
+from ..model import schemas
 from ..dependencies import get_config
 import secrets, requests, hashlib
 

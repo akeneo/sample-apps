@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 
-from . import models, schemas
+from . import models
+from ..model import schemas
 
 def get_token(db: Session):
     return db.query(models.Token).order_by(models.Token.id.desc()).first()
