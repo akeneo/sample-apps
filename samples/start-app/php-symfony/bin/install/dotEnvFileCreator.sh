@@ -9,10 +9,10 @@
 
 source $( dirname -- "${BASH_SOURCE[0]}" )/terminalColorsDefinition.sh
 
-DIR="$(pwd)/"
+DIR="`$(pwd)/`"
 ENV_FILE=$DIR".env"
 ENV_LOCAL_FILE=$DIR".env.local"
-PARENT_DIR=$(builtin cd $DIR; pwd)
+PARENT_DIR=$(builtin cd "$DIR"; pwd)
 CHECK_ERASE="yes"
 CHECK_WRITE="no"
 
