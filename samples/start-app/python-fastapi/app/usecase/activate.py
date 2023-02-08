@@ -9,7 +9,7 @@ oauth_scopes = [
 get_authorization_url = '%s/connect/apps/v1/authorize?%s'
 
 def activate_usecase(request, session):
-    if('pim_url' not in request.query_params or request.query_params['pim_url'] == ''):
+    if 'pim_url' not in request.query_params or request.query_params['pim_url'] == '':
         exit('Missing PIM URL in the query')
 
     pim_url = request.query_params['pim_url']
