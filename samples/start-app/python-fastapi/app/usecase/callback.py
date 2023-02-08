@@ -11,7 +11,7 @@ def callback_usecase(request, db, session):
         exit('Invalide state')
 
     authorization_code = request.query_params['code'] or ''
-    if (authorization_code == ''):
+    if authorization_code == '':
         exit('Missing authorization code')
 
     pim_url = session.headers['pim_url']
