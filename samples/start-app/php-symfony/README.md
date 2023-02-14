@@ -33,7 +33,10 @@ Open a terminal at the root of the folder of your App, enter the following comma
 ```
 make install
 ```
-For information, this command launch scripts locate into `bin/install`
+For information, this command launch scripts locate into `bin/install`:
+
+- [checkRequirements.sh](https://github.com/akeneo/sample-apps/blob/main/samples/start-app/php-symfony/bin/install/checkRequirements.sh)
+- [dotEnvFileCreator.sh](https://github.com/akeneo/sample-apps/blob/main/samples/start-app/php-symfony/bin/install/dotEnvFileCreator.sh)
 
 ### Step 5: Activate your test App for your sandbox
 1. Back in your sandbox go to Connect > App store
