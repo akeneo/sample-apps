@@ -8,8 +8,9 @@
 Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/akeneo/sample-apps/samples/start-app/js-node-express](https://github.com/akeneo/sample-apps/samples/start-app/js-node-express) in the form at the top right.
 ![img.png](images/step1-1.png)
 
-### Step 2: Create a tunnel to expose your local App
+### Step 2 (optional): Create a tunnel to expose your local App
 Use [ngrok]([https://ngrok.com/](https://ngrok.com/)) to create a tunnel that allows your App to be accessed using a unique HTTPS URL. You need to create a ngrok account and auth token to preview your App.
+We recommend to generate an [authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) too, if you don't do it at the beginning, you need to restart the installation and connection process.
 ```
 ngrok http 8081
 ```
@@ -19,8 +20,8 @@ ngrok http 8081
 2. Paste your callback & activation URLs
 ```
 Name: [My App]
-Activate URL: [your-ngrok-url]/activate
-Callback: [your-ngrok-url]/callback
+Activate URL: [your-url]/activate
+Callback: [your-url]/callback
 ```
 ![img.png](images/step3-1.png)
 
