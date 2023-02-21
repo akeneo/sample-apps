@@ -1,11 +1,11 @@
 APP_NAME = app
-DOCKER_COMPOSE = docker-compose
-DOCKER_BUILD = $(DOCKER_COMPOSE) build
-DOCKER_UP = $(DOCKER_COMPOSE) up -d
-DOCKER_DOWN = $(DOCKER_COMPOSE) down
 UID = $(shell id -u)
 GID = $(shell id -g)
-DOCKER_EXEC = UID=${UID} GID=${GID} $(DOCKER_COMPOSE) run
+DOCKER_COMPOSE = docker-compose
+DOCKER_BUILD = $(DOCKER_COMPOSE) --user "$(UID):$(GID)" build
+DOCKER_UP = $(DOCKER_COMPOSE) up -d
+DOCKER_DOWN = $(DOCKER_COMPOSE) down
+DOCKER_EXEC = $(DOCKER_COMPOSE) --user "$(UID):$(GID)" run
 APP_ADDRESS = http://localhost:8081/
 
 install: ## Install PHP sample App
