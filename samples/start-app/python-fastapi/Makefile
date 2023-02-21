@@ -1,9 +1,10 @@
 APP_NAME = app
-DOCKER_COMPOSE = docker-compose
+UID = $(shell id -u)
+GID = $(shell id -g)
+DOCKER_COMPOSE = UID=${UID} GID=${GID} docker-compose
 DOCKER_BUILD = $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
-DOCKER_EXEC = $(DOCKER_COMPOSE) run
 APP_ADDRESS = http://localhost:8081/
 
 install: ## Install Python sample App
