@@ -9,9 +9,9 @@
 
 source $( dirname -- "${BASH_SOURCE[0]}" )/terminalColorsDefinition.sh
 
-DIR="`$(pwd)/`"
-ENV_FILE=$DIR".env"
-ENV_LOCAL_FILE=$DIR".env.local"
+DIR="$(pwd)"
+ENV_FILE="$DIR"/.env
+ENV_LOCAL_FILE="$DIR"/.env.local
 PARENT_DIR=$(builtin cd "$DIR"; pwd)
 CHECK_ERASE="yes"
 CHECK_WRITE="no"
@@ -43,17 +43,17 @@ read -p "Client secret : " CLIENT_SECRET
 read -p "PIM url : " PIM_URL
 
 if [[ ($CHECK_ERASE == "yes" || $CHECK_ERASE == "y") && ("$CHECK_WRITE" != "yes" && "$CHECK_WRITE" != "y") ]]; then
-  cat $ENV_FILE > $ENV_LOCAL_FILE
+  cat "$ENV_FILE" > "$ENV_LOCAL_FILE"
 fi
 
-printf "\n###> Akeneo's OAuth2 environment variables ###\n" >> $ENV_LOCAL_FILE
-printf "CLIENT_ID=%s\n" $CLIENT_ID >> $ENV_LOCAL_FILE
-printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >> $ENV_LOCAL_FILE
-printf "AKENEO_PIM_URL=%s\n" $PIM_URL >> $ENV_LOCAL_FILE
-printf "###< Akeneo's OAauth2 environment variables ###\n" >> $ENV_LOCAL_FILE
+printf "\n###> Akeneo's OAuth2 environment variables ###\n" >> "$ENV_LOCAL_FILE"
+printf "CLIENT_ID=%s\n" $CLIENT_ID >> "$ENV_LOCAL_FILE"
+printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >> "$ENV_LOCAL_FILE"
+printf "AKENEO_PIM_URL=%s\n" $PIM_URL >> "$ENV_LOCAL_FILE"
+printf "###< Akeneo's OAauth2 environment variables ###" >> "$ENV_LOCAL_FILE"
 
-printf "\n###> Docker version ###\n" >> $ENV_LOCAL_FILE
-printf "DOCKER_VERSION=%s\n" $DOCKER_VERSION >> $ENV_LOCAL_FILE
-printf "###< Docker version ###\n" >> $ENV_LOCAL_FILE
+printf "\n###> Docker version ###\n" >> "$ENV_LOCAL_FILE"
+printf "DOCKER_VERSION=%s\n" $DOCKER_VERSION >> "$ENV_LOCAL_FILE"
+printf "###< Docker version ###\n" >> "$ENV_LOCAL_FILE"
 
 echo -e $(printf "${SUCCESS}.env file has been written to $PARENT_DIR/$(basename -- "$ENV_LOCAL_FILE")${ENDCOLOR}")
