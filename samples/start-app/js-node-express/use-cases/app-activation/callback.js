@@ -3,15 +3,10 @@ let doAppCallback = function({
     crypto,
     querystring,
     config,
-    https,
+    httpsClient,
     tokenDb
 }) {
     return async function appCallback ({req, res, next}, randomString) {
-
-        const pimUrl = new URL(process.env.AKENEO_PIM_URL);
-
-        console.log('hostname : ' + pimUrl.hostname);
-        console.log('port : ' + pimUrl.port);
 
         if (!req.query.hasOwnProperty('state') || req.query.state !== randomString) {
             console.error("Invalid state");
@@ -30,8 +25,6 @@ let doAppCallback = function({
         });
 
         const options = {
-            host: pimUrl.hostname,
-            port: pimUrl.port,
             path: config.get('akeneo.token_request_url'),
             method: 'POST',
             headers: {
@@ -39,7 +32,7 @@ let doAppCallback = function({
             }
         };
 
-        const httpreq = https.request(options, function (response) {
+        const httpreq = httpsClient.request(options, function (response) {
 
             response.setEncoding('utf8');
             response.body = "";
