@@ -15,6 +15,7 @@ ENV_LOCAL_FILE=$DIR".env.local"
 PARENT_DIR=$(builtin cd "$DIR"; pwd)
 CHECK_ERASE="yes"
 CHECK_WRITE="no"
+DOCKER_VERSION="$(docker -v | cut -d ' ' -f3 |  cut -d',' -f1)"
 
 echo -e $(printf "${INTRO}Welcome to .env file creation script${ENDCOLOR}")
 
@@ -49,6 +50,10 @@ printf "\n###> Akeneo's OAuth2 environment variables ###\n" >> $ENV_LOCAL_FILE
 printf "CLIENT_ID=%s\n" $CLIENT_ID >> $ENV_LOCAL_FILE
 printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >> $ENV_LOCAL_FILE
 printf "AKENEO_PIM_URL=%s\n" $PIM_URL >> $ENV_LOCAL_FILE
-printf "###< Akeneo's OAauth2 environment variables ###" >> $ENV_LOCAL_FILE
+printf "###< Akeneo's OAauth2 environment variables ###\n" >> $ENV_LOCAL_FILE
+
+printf "\n###> Docker version ###\n" >> $ENV_LOCAL_FILE
+printf "DOCKER_VERSION=%s\n" $DOCKER_VERSION >> $ENV_LOCAL_FILE
+printf "###< Docker version ###\n" >> $ENV_LOCAL_FILE
 
 echo -e $(printf "${SUCCESS}.env file has been written to $PARENT_DIR/$(basename -- "$ENV_LOCAL_FILE")${ENDCOLOR}")
