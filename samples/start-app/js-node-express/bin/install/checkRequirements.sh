@@ -29,5 +29,15 @@ if ! [ $DOCKER_COMPOSE_STATUS -eq 0 ]; then
     exit 1
 fi
 
+SERVER_VERSION=$(docker-compose version --short)
+SERVER_VERSION_MINOR=$(echo "$SERVER_VERSION"| cut -d'.' -f 2)
+SERVER_VERSION_BUILD=$(echo "$SERVER_VERSION"| cut -d'.' -f 3)
+
+if [ "${SERVER_VERSION_MINOR}" -lt 27 ] || \
+   [[ "${SERVER_VERSION_MINOR}" -eq 27  && "${SERVER_VERSION_BUILD}" -lt 1 ]]  ; then
+    echo -e $(printf "${WARNING}docker-compose version should be 1.27.1 or higher(${WARNING}current version is ${SERVER_VERSION})${ENDCOLOR}.")
+    exit 1
+fi
+
 echo -e $(printf "${SUCCESS}All requirements are correctly filled${ENDCOLOR}")
 exit 0
