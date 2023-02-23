@@ -13,7 +13,7 @@ Use [ngrok]([https://ngrok.com/](https://ngrok.com/)) to create a tunnel that al
 ```
 ngrok http 8081
 ```
-We recommend to generate an [authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) too, if you don't do it at the beginning, you need to restart the installation and connection process.
+We recommend to generate an [authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) too. If you do not, you may need to restart the installation and connection process.
 
 ### Step 3: Declare your local App as a test App in your sandbox to generate credentials
 1. In your sandbox go to Connect > App store > Create a test App
