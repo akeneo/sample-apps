@@ -8,19 +8,20 @@
 Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/akeneo/sample-apps/samples/start-app/php-symfony](https://github.com/akeneo/sample-apps/samples/start-app/php-symfony) in the form at the top right.
 ![img.png](images/step1-1.png)
 
-### Step 2: Create a tunnel to expose your local App
+### Step 2 (optional): Create a tunnel to expose your local App
 Use [ngrok]([https://ngrok.com/](https://ngrok.com/)) to create a tunnel that allows your App to be accessed using a unique HTTPS URL. You need to create a ngrok account and auth token to preview your App.
 ```
 ngrok http 8081
 ```
+We recommend to generate an [authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) too. If you do not, you may need to restart the installation and connection process.
 
 ### Step 3: Declare your local App as a test App in your sandbox to generate credentials
 1. In your sandbox go to Connect > App store > Create a test App
 2. Paste your callback & activation URLs
 ```
 Name: [My App]
-Activate URL: [your-ngrok-url]/activate
-Callback: [your-ngrok-url]/callback
+Activate URL: [your-url]/activate
+Callback: [your-url]/callback
 ```
 ![img.png](images/step3-1.png)
 
