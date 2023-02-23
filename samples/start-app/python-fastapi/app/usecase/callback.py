@@ -32,9 +32,20 @@ def callback_usecase(request, db, session):
         'grant_type': 'authorization_code'
     }
 
-    response = requests.post(access_token_url, data=access_token_request_payload)
+    user_agent = 'AkeneoSampleApp/python-fastapi'
+    user_agent = user_agent + ' Version/' + get_config('APPLICATION_VERSION') if get_config(
+        'APPLICATION_VERSION') else user_agent + ''
+    user_agent = user_agent + ' Docker/' + get_config('DOCKER_VERSION') if get_config(
+        'DOCKER_VERSION') else user_agent + ''
 
-    token = schemas.TokenCreate(access_token = response.json()['access_token'])
+    access_token_request_headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent':  user_agent
+    }
+
+    response = requests.post(access_token_url, data=access_token_request_payload, headers=access_token_request_headers)
+
+    token = schemas.TokenCreate(access_token=response.json()['access_token'])
 
     tokenRepository.create_token(db=db, token=token)
     

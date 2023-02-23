@@ -12,7 +12,7 @@ def get_db():
         db.close()
 
 def get_config(name):
-    return dotenv_values('.env.local')[name]
+    return dotenv_values('.env.local')[name] if name in dotenv_values('.env.local') else False
     
 def get_session():
-    return session;
+    return session
