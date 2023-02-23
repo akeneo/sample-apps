@@ -1,7 +1,7 @@
 APP_NAME = app
 UID = $(shell id -u)
 GID = $(shell id -g)
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = docker compose
 DOCKER_BUILD = $(DOCKER_COMPOSE) --user "$(UID):$(GID)" build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
