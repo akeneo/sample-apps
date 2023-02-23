@@ -3,11 +3,12 @@ class TokenDb{
         this.prisma = prisma
     }
 
-    async upsert ({access_token, id=undefined}) {
+    async upsert ({access_token}) {
         try {
+            const token = await this.prisma.token.findFirst();
             return await this.prisma.token.upsert({
                 where: {
-                    id : id ? id : 0
+                    id : token != null ? token.id : 0
                 },
                 update: {
                     accessToken: access_token
