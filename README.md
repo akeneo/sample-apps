@@ -15,7 +15,7 @@ So far, you will find the following use cases
 
 | Folder name | Use case                            | Description                                                          | Technologies                                             |
 |-------------|-------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------|
-| start-app   | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI |
+| [start-app](https://github.com/akeneo/sample-apps/tree/main/samples/start-app) | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI |
 
 [Don’t hesitate to help us complete this list!](https://github.com/akeneo/sample-apps/blob/main/CONTRIBUTING.md)
 
