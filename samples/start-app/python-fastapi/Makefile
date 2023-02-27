@@ -14,8 +14,8 @@ install: ## Install Python sample App
 	@$(MAKE) _display
 
 requirements: ## Check all requirements before building and starting the App
-	@bin/install/checkRequirements.sh
-	@bin/install/dotEnvFileCreator.sh
+	@../../../bin/install/checkRequirements.sh
+	@../../../bin/install/dotEnvFileCreator.sh
 
 build: ## build docker image
 	$(DOCKER_BUILD)
