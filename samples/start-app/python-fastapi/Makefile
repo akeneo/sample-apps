@@ -1,8 +1,8 @@
 APP_NAME = app
-UID = $(shell id -u)
-GID = $(shell id -g)
+export UID = $(shell id -u)
+export GID = $(shell id -g)
 DOCKER_COMPOSE = docker compose
-DOCKER_BUILD = $(DOCKER_COMPOSE) --user "$(UID):$(GID)" build
+DOCKER_BUILD = $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
 APP_ADDRESS = http://localhost:8081/

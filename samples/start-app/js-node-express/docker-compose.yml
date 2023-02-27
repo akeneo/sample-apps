@@ -6,7 +6,6 @@ services:
       context: ../js-node-express
       target: development
       args:
-        USER: "${DOCKER_UID:-1000}"
         NODE_ENV: local
     environment:
       - HOME=/tmp
@@ -14,7 +13,7 @@ services:
       - NODE_ENV=local
     volumes:
       - "./:/srv/app:rw"
-    user: "${DOCKER_UID:-1000}"
+    user: "${UID:GID}"
     restart: unless-stopped
     ports:
       - "8081:80"
@@ -23,4 +22,3 @@ services:
 
 networks:
   default: ~
-  

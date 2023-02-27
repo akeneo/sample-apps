@@ -5,7 +5,7 @@ services:
         build: 
             context: ../python-fastapi
             args:
-                USER: "${DOCKER_UID:-1000}"
+                USER: "${UID:GID}"
         command: uvicorn app.main:app --host 0.0.0.0 --reload
         volumes:
             - "./:/srv/app:rw"
