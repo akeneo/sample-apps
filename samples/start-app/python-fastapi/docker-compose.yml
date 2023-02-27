@@ -4,9 +4,8 @@ services:
     app:
         build: 
             context: ../python-fastapi
-            args:
-                USER: "${UID:GID}"
         command: uvicorn app.main:app --host 0.0.0.0 --reload
+        user: "${DEV_UID:-1000}:${DEV_GID:-1000}"
         volumes:
             - "./:/srv/app:rw"
         ports:

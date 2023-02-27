@@ -1,6 +1,6 @@
 APP_NAME = app
-export UID = $(shell id -u)
-export GID = $(shell id -g)
+export DEV_UID = $(shell id -u)
+export DEV_GID = $(shell id -g)
 DOCKER_COMPOSE = docker compose
 DOCKER_BUILD = $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d

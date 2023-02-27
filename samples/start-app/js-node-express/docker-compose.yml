@@ -13,7 +13,7 @@ services:
       - NODE_ENV=local
     volumes:
       - "./:/srv/app:rw"
-    user: "${UID:GID}"
+    user: "${DEV_UID:-1000}:${DEV_GID:-1000}"
     restart: unless-stopped
     ports:
       - "8081:80"
