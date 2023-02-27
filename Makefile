@@ -2,10 +2,10 @@ APPS_DIR=samples/start-app
 PHP_SYMFONY_DIR=$(APPS_DIR)/php-symfony/
 JS_NODE_EXPRESS_DIR=$(APPS_DIR)/js-node-express/
 PYTHON_FASTAPI_DIR=$(APPS_DIR)/python-fastapi/
-BIN_INSTALL_DIR=bin/install/
+BIN_INSTALL_DIR=common/bin/install/
 
 install: ## Install and start project
-	@bin/install/install.sh
+	@$(BIN_INSTALL_DIR)install.sh
 
 php-install: ## Install PHP sample App
 	@echo "Using PHP install script"

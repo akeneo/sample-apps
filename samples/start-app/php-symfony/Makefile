@@ -14,8 +14,8 @@ install: ## Install PHP sample App
 	@$(MAKE) _display
 
 requirements: ## Check all requirements before building and starting the App
-	@../../../bin/install/checkRequirements.sh
-	@../../../bin/install/dotEnvFileCreator.sh
+	@../../../common/bin/install/checkRequirements.sh
+	@../../../common/bin/install/dotEnvFileCreator.sh
 
 post-requirements: build
 	@$(MAKE) start
