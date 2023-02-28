@@ -8,7 +8,7 @@
 
 ### Step 1: Get this App on your local machine
 Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/akeneo/sample-apps/samples/start-app/js-node-express](https://github.com/akeneo/sample-apps/samples/start-app/js-node-express) in the form at the top right.
-![img.png](images/step1-1.png)
+![img.png](../../../common/images/step1-1.png)
 
 ### Step 2 (optional): Create a tunnel to expose your local App
 Use [ngrok]([https://ngrok.com/](https://ngrok.com/)) to create a tunnel that allows your App to be accessed using a unique HTTPS URL. You need to create a ngrok account and auth token to preview your App.
@@ -25,11 +25,11 @@ Name: [My App]
 Activate URL: [your-url]/activate
 Callback: [your-url]/callback
 ```
-![img.png](images/step3-1.png)
+![img.png](../../../common/images/step3-1.png)
 
 The App generates the credentials. Copy them for later.
 
-![img.png](images/step3-2.png)
+![img.png](../../../common/images/step3-2.png)
 
 ### Step 4: Launch your App
 Open a terminal at the root of the folder of your App, enter the following command and let us guide you
@@ -44,13 +44,13 @@ For information, this command launch scripts locate into `bin/install`:
 ### Step 5: Activate your test App for your sandbox
 1. Back in your sandbox go to Connect > App store
 2. You see your App in the section “My App”
-   ![img.png](images/step5-1.png)
+   ![img.png](../../../common/images/step5-1.png)
 
 3. Click on CONNECT
 4. Follow the activation process steps until the end
 
 If everything is good, you should see
-![img.png](images/step5-2.png)
+![img.png](../../../common/images/step5-2_python-fastapi.png)
 
 It means your App is connected. Well done!
 
@@ -60,7 +60,7 @@ Last but not least, let’s call the PIM API!
 Simply go [here](http://localhost:8081/first-api-call).
 
 You should see
-![img.png](images/step6-1.png)
+![img.png](../../../common/images/step6-1.png)
 
 
 Voilà! You are ready for developing your App!

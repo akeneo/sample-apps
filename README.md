@@ -24,7 +24,6 @@ Get the whole repository
 ```
 git clone git@github.com:akeneo/sample-apps.git
 ```
-Or, if you only want to retrieve a specific directory (just the App you are interested in), use [gitzip](https://kinolien.github.io/gitzip/) and specify the path.
 
 ### Launch the App
 Every App comes with its own README file.
