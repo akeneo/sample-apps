@@ -3,6 +3,8 @@
 ## Requirements
 - You’ve got a PIM developer sandbox. If not, please contact us ([https://www.akeneo.com/contact/](https://www.akeneo.com/contact/))
 - You’ve installed Docker (20.10.22 or higher)
+- You’ve installed Docker Compose V2 plugin (see the official installation tutorial [here](https://docs.docker.com/compose/install/))
+
 
 ### Step 1: Get this App on your local machine
 Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/akeneo/sample-apps/samples/start-app/js-node-express](https://github.com/akeneo/sample-apps/samples/start-app/js-node-express) in the form at the top right.
