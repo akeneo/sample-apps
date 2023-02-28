@@ -6,8 +6,11 @@
 - You’ve installed Docker Compose V2 plugin (see the official installation tutorial [here](https://docs.docker.com/compose/install/))
 
 ### Step 1: Get this App on your local machine
-Use [GitZip](https://kinolien.github.io/gitzip/): enter [https://github.com/akeneo/sample-apps/samples/start-app/js-node-express](https://github.com/akeneo/sample-apps/samples/start-app/js-node-express) in the form at the top right.
-![img.png](../../../common/images/step1-1.png)
+Get the whole Sample-Apps repository and navigate to the Node JS Express start app folder
+```
+git clone git@github.com:akeneo/sample-apps.git
+cd samples/start-app/js-node-express
+```
 
 ### Step 2 (optional): Create a tunnel to expose your local App
 Use [ngrok]([https://ngrok.com/](https://ngrok.com/)) to create a tunnel that allows your App to be accessed using a unique HTTPS URL. You need to create a ngrok account and auth token to preview your App.
@@ -35,10 +38,10 @@ Open a terminal at the root of the folder of your App, enter the following comma
 ```
 make install
 ```
-For information, this command launch scripts locate into `bin/install`:
+For information, this command launch scripts locate into `common/bin/install` in the root folder:
 
-- [checkRequirements.sh](https://github.com/akeneo/sample-apps/blob/main/samples/start-app/js-node-express/bin/install/checkRequirements.sh)
-- [dotEnvFileCreator.sh](https://github.com/akeneo/sample-apps/blob/main/samples/start-app/js-node-express/bin/install/dotEnvFileCreator.sh)
+- [checkRequirements.sh](https://github.com/akeneo/sample-apps/blob/main/common/bin/install/checkRequirements.sh)
+- [dotEnvFileCreator.sh](https://github.com/akeneo/sample-apps/blob/main/common/bin/install/dotEnvFileCreator.sh)
 
 ### Step 5: Activate your test App for your sandbox
 1. Back in your sandbox go to Connect > App store
