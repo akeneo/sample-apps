@@ -20,6 +20,10 @@ ngrok http 8081
 ```
 We recommend to generate an [authtoken](https://dashboard.ngrok.com/get-started/your-authtoken) too. If you do not, you may need to restart the installation and connection process.
 
+If everything goes well the command will output your public URL for your local App :
+
+![img.png](../../../common/images/step2-1.png)
+
 ### Step 3: Declare your local App as a test App in your sandbox to generate credentials
 1. In your sandbox go to Connect > App store > Create a test App
 2. Paste your callback & activation URLs
