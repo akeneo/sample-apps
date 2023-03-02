@@ -27,7 +27,14 @@ COPY docker/composer/php.ini /usr/local/etc/php/conf.d/custom.ini
 FROM dev-tools as development
 
 ARG USER=www-data
+ARG UID=1000
+ARG GID=1000
 
-RUN mkdir -p /srv/app && chown $USER /srv/app
+RUN usermod --uid $UID $USER && groupmod --gid $GID $USER && \
+    mkdir -p /srv/app/ && \
+    chown -R $USER:$USER /srv/app && \
+    usermod -d /srv/app $USER
+
+#RUN mkdir -p /srv/app && chown -R $USER /srv/app
 WORKDIR /srv/app
 USER $USER
