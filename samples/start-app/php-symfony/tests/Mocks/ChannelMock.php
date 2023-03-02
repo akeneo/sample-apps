@@ -5,7 +5,7 @@ namespace App\Tests\Mocks;
 
 final class ChannelMock
 {
-    const API_URL = '/api/rest/v1/channels/ecommerce';
+    const API_URL = '/api/rest/v1/channels';
 
     public static array $response = [
         'code' => 'ecommerce',

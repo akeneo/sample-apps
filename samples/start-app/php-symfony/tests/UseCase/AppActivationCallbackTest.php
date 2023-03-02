@@ -1,17 +1,17 @@
 <?php
 
-namespace UseCase;
+namespace App\Tests\UseCase;
 
 use App\Entity\Token;
-use App\Exception\InvalidStateException;
 use App\Exception\AuthorizationCodeException;
+use App\Exception\InvalidStateException;
 use App\Exception\SessionInformationException;
 use App\Repository\TokenRepository;
 use App\Tests\MockApiTrait;
 use App\Tests\Mocks\Oauth2Mock;
 use App\UseCase\AppActivationCallback;
 use GuzzleHttp\Client;
-use \GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -51,13 +51,17 @@ class AppActivationCallbackTest extends TestCase
     }
 
     /**
-     * @test execute() : Empty State Case
+     * @test
+     *
+     * execute() with empty state
+     *
      * @dataProvider getDataStateException
+     * @param $state
      * @return void
-     * @throws InvalidStateException
      * @throws AuthorizationCodeException
-     * @throws SessionInformationException
      * @throws GuzzleException
+     * @throws InvalidStateException
+     * @throws SessionInformationException
      */
     public function testExecuteWithEmptyState($state) : void
     {
@@ -74,7 +78,10 @@ class AppActivationCallbackTest extends TestCase
     }
 
     /**
-     * @test execute() : Empty PIM URL Case
+     * @test
+     *
+     * execute() with empty authorization code
+     *
      * @return void
      * @throws InvalidStateException
      * @throws AuthorizationCodeException
@@ -97,7 +104,10 @@ class AppActivationCallbackTest extends TestCase
     }
 
     /**
-     * @test execute() : Empty PIM URL Case
+     * @test
+     *
+     * execute() with empty PIM URL
+     *
      * @return void
      * @throws InvalidStateException
      * @throws AuthorizationCodeException
@@ -117,6 +127,10 @@ class AppActivationCallbackTest extends TestCase
     }
 
     /**
+     * @test
+     *
+     * execute() valid case
+     *
      * @return void
      * @throws GuzzleException
      * @throws InvalidStateException

@@ -1,6 +1,6 @@
 <?php
 
-namespace UseCase;
+namespace App\Tests\UseCase;
 
 use App\Exception\QueryParametersException;
 use App\UseCase\AppActivation;
@@ -17,6 +17,10 @@ class AppActivationTest extends TestCase
     }
 
     /**
+     * @test
+     *
+     * execute() with empty PIM URL
+     *
      * @return void
      * @throws QueryParametersException
      */
@@ -32,6 +36,10 @@ class AppActivationTest extends TestCase
     }
 
     /**
+     * @test
+     *
+     * execute() valid case
+     *
      * @return void
      * @throws QueryParametersException
      */
