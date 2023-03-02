@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UseCase;
 
+use App\Exception\QueryParametersException;
+
 final class AppActivation
 {
     // Find the complete list of available authorization scopes at the link below
@@ -18,10 +20,16 @@ final class AppActivation
     {
     }
 
+    /**
+     * @param $session
+     * @param $pimUrl
+     * @return string
+     * @throws QueryParametersException
+     */
     public function execute(&$session, $pimUrl): string
     {
         if (empty($pimUrl)) {
-            exit('Missing PIM URL in the query');
+            throw new QueryParametersException(QueryParametersException::MISSING_PIM_URL);
         }
 
         // create a random state for preventing cross-site request forgery
