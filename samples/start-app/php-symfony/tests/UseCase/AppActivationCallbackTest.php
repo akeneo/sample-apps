@@ -2,10 +2,10 @@
 
 namespace App\Tests\UseCase;
 
+use App\Entity\Exception\AuthorizationCodeException;
+use App\Entity\Exception\InvalidStateException;
+use App\Entity\Exception\SessionInformationException;
 use App\Entity\Token;
-use App\Exception\AuthorizationCodeException;
-use App\Exception\InvalidStateException;
-use App\Exception\SessionInformationException;
 use App\Repository\TokenRepository;
 use App\Tests\MockApiTrait;
 use App\Tests\Mocks\Oauth2Mock;

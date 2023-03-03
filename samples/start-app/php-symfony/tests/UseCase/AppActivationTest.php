@@ -2,7 +2,7 @@
 
 namespace App\Tests\UseCase;
 
-use App\Exception\QueryParametersException;
+use App\Entity\Exception\QueryParametersException;
 use App\UseCase\AppActivation;
 use PHPUnit\Framework\TestCase;
 
