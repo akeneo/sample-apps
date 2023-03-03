@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace App\Entity\Exception;
 
 class SessionInformationException extends \Exception
 {

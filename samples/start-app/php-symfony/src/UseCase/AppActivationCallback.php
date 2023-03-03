@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\UseCase;
 
+use App\Entity\Exception\AuthorizationCodeException;
+use App\Entity\Exception\InvalidStateException;
+use App\Entity\Exception\SessionInformationException;
 use App\Entity\Token;
-use App\Exception\InvalidStateException;
-use App\Exception\AuthorizationCodeException;
-use App\Exception\SessionInformationException;
 use App\Repository\TokenRepository;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;

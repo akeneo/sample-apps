@@ -56,8 +56,8 @@ class TokenRepository extends ServiceEntityRepository implements TokenRepository
                 ->setMaxResults(1)
                 ->getQuery()
                 ->getSingleResult();
-        } catch (NoResultException $e) {
-            throw new AccessTokenNotFoundException();
+        } catch (NoResultException) {
+            throw new AccessTokenNotFoundException(AccessTokenNotFoundException::ACCESS_TOKEN_NOT_FOUND);
         } catch (NonUniqueResultException) {
             return null;
         }

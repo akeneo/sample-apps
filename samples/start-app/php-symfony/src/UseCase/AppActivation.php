@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UseCase;
 
-use App\Exception\QueryParametersException;
+use App\Entity\Exception\QueryParametersException;
 
 final class AppActivation
 {
