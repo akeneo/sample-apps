@@ -34,6 +34,9 @@ start: ## start docker image
 stop: ## stop docker image
 	$(DOCKER_DOWN)
 
+test: ## run phpunit tests
+	@$(DOCKER_EXEC) $(APP_NAME) php bin/phpunit
+
 _display: ##
 	@echo ""
 	@echo "**** PHP Symfony Sample App ****"
