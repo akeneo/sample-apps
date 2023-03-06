@@ -1,7 +1,0 @@
-{
-  "akeneo": {
-    "authorize_url": "/connect/apps/v1/authorize",
-    "token_request_url": "/connect/apps/v1/oauth2/token",
-    "first-call-api-url": "/api/rest/v1/channels"
-  }
-}
