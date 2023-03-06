@@ -1,5 +1,4 @@
 let doFirstApiCall = function({
-    config,
     httpsClient,
     tokenDb
  }) {
@@ -13,7 +12,7 @@ let doFirstApiCall = function({
             httpsClient.setToken(token);
 
             const options = {
-                path: config.get('akeneo.first-call-api-url'),
+                path: "/api/rest/v1/channels",
                 method: 'GET'
             };
 

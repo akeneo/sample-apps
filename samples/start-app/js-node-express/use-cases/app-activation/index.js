@@ -1,4 +1,3 @@
-const config = require('config');
 const url = require('url');
 const strings = require('locutus/php/strings');
 const crypto = require('crypto');
@@ -10,7 +9,6 @@ const doAppActivation = require('./activation');
 const doAppCallback = require("./callback");
 
 const appActivate = doAppActivation({
-    config,
     url,
 });
 
@@ -18,7 +16,6 @@ const appCallback = doAppCallback({
     strings,
     crypto,
     querystring,
-    config,
     httpsClient,
     tokenDb
 });

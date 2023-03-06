@@ -1,5 +1,4 @@
 let doAppActivate = function({
-    config,
     url
 }) {
     return async function appActivate ({req, res, next}, randomString) {
@@ -15,7 +14,7 @@ let doAppActivate = function({
             protocol: pimUrl.protocol,
             hostname: pimUrl.hostname,
             port: pimUrl.port,
-            pathname: config.get('akeneo.authorize_url'),
+            pathname: "/connect/apps/v1/authorize",
             query: {
                 response_type: "code",
                 client_id: process.env.CLIENT_ID,

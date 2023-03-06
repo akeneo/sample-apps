@@ -2,7 +2,6 @@ let doAppCallback = function({
     strings,
     crypto,
     querystring,
-    config,
     httpsClient,
     tokenDb
 }) {
@@ -25,7 +24,7 @@ let doAppCallback = function({
         });
 
         const options = {
-            path: config.get('akeneo.token_request_url'),
+            path: "/connect/apps/v1/oauth2/token",
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
