@@ -22,4 +22,4 @@ ARG USER=www-data
 WORKDIR /srv/app
 USER $USER
 
-CMD nodemon
+CMD npm start
