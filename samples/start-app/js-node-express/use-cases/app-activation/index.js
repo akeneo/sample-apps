@@ -4,12 +4,14 @@ const crypto = require('crypto');
 const querystring = require('querystring');
 const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
+const LogicErrorException = require("../../exceptions/logicError.exception");
 
 const doAppActivation = require('./activation');
 const doAppCallback = require("./callback");
 
 const appActivate = doAppActivation({
     url,
+    LogicErrorException
 });
 
 const appCallback = doAppCallback({
