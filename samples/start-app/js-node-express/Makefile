@@ -34,6 +34,10 @@ start: ## start docker image
 stop: ## stop docker image
 	$(DOCKER_DOWN)
 
+unit-tests:
+	@../../../common/bin/install/dotEnvFileCreator.sh test
+	@$(DOCKER_EXEC) $(APP_NAME) npm test
+
 _display: ##
 	@echo ""
 	@echo "**** NodeJS + Express Sample App ****"
