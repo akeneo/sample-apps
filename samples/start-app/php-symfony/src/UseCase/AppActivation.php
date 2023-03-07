@@ -21,9 +21,6 @@ final class AppActivation
     }
 
     /**
-     * @param $session
-     * @param $pimUrl
-     * @return string
      * @throws QueryParametersException
      */
     public function execute(&$session, $pimUrl): string

@@ -41,12 +41,8 @@ class AppActivationCallbackTest extends TestCase
     public function getDataStateException() : array
     {
         return [
-            array(
-                'state' => ''
-            ),
-            array(
-                'state' => 'badState'
-            )
+            [ 'state' => '' ],
+            [ 'state' => 'badState' ]
         ];
     }
 
