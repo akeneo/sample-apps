@@ -19,7 +19,8 @@ const appCallback = doAppCallback({
     crypto,
     querystring,
     httpsClient,
-    tokenDb
+    tokenDb,
+    LogicErrorException
 });
 
 module.exports = {appActivate, appCallback};

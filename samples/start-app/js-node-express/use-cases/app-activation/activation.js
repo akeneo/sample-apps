@@ -31,9 +31,8 @@ let doAppActivate = function({
                 throw new LogicErrorException(
                     "Can't retrieve PIM url, please restart the authorization process."
                 );
-            }
-            else {
-                console.error(e.message);
+            } else {
+                res.render('error');
             }
         }
     };

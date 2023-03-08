@@ -26,9 +26,6 @@ class HttpsClient{
 
         const merged_options = {...this.options, ...options}
 
-        console.log("END : " + this.options)
-        console.log(merged_options);
-
         return https.request(merged_options, callback);
     }
 

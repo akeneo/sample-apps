@@ -31,6 +31,7 @@ test("It throws an error when there is no PIM URL in the request.", async () => 
         session: jest.fn(),
     };
     const res = {
+        render: jest.fn(),
         redirect: jest.fn(),
     };
     const next = jest.fn();

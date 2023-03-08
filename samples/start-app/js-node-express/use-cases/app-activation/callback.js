@@ -3,13 +3,14 @@ let doAppCallback = function({
     crypto,
     querystring,
     httpsClient,
-    tokenDb
+    tokenDb,
+    LogicErrorException
 }) {
     return async function appCallback ({req, res, next}, randomString) {
 
         if (!req.query.hasOwnProperty('state') || req.query.state !== randomString) {
-            console.error("Invalid state");
             res.render('error');
+            throw new LogicErrorException('Invalid state');
         }
 
         const codeIdentifier = strings.bin2hex(crypto.randomBytes(30));
@@ -42,17 +43,26 @@ let doAppCallback = function({
 
             response.on('end', function() {
                 const access_token = JSON.parse(response.body).access_token;
-                tokenDb.upsert({access_token});
 
-                if (!tokenDb.hasToken()) {
-                    res.render('no_access_token');
+                if (access_token !== undefined) {
+                    tokenDb.upsert({access_token});
+
+                    if (!tokenDb.hasToken()) {
+                        res.render('no_access_token');
+                        throw new LogicErrorException('Missing access token in database');
+                    } else {
+                        res.render('access_token');
+                    }
                 } else {
-                    res.render('access_token');
+                    res.render('no_access_token');
+                    throw new LogicErrorException('Missing access token in response');
                 }
+
+
             });
 
             response.on('error', function (e) {
-               console.log(e);
+               res.render('error');
             });
 
         });
