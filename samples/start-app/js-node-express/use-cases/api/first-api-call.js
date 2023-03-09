@@ -1,11 +1,13 @@
 let doFirstApiCall = function({
     httpsClient,
-    tokenDb
+    tokenDb,
+    LogicErrorException
  }) {
     return async function firstApiCall ({req, res, next}) {
 
         if (!await tokenDb.hasToken()) {
             res.render('no_access_token');
+            throw new LogicErrorException('Missing access token in database');
         } else {
             const token = await tokenDb.getToken();
 
