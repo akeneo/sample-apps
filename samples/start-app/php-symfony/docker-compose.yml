@@ -3,7 +3,7 @@ version: "3.9"
 services:
     app:
         build:
-            context: ../php-symfony
+            context: .
             target: development
         environment:
             - HOME=/tmp

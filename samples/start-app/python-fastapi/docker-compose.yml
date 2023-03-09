@@ -3,7 +3,7 @@ version: "3.9"
 services:
     app:
         build: 
-            context: ../python-fastapi
+            context: .
         command: uvicorn app.main:app --host 0.0.0.0 --reload
         user: "${DEV_UID:-1000}:${DEV_GID:-1000}"
         volumes:
