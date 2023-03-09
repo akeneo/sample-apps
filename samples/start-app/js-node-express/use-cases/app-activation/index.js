@@ -1,26 +1,26 @@
-const config = require('config');
 const url = require('url');
 const strings = require('locutus/php/strings');
 const crypto = require('crypto');
 const querystring = require('querystring');
 const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
+const LogicErrorException = require("../../exceptions/logicError.exception");
 
 const doAppActivation = require('./activation');
 const doAppCallback = require("./callback");
 
 const appActivate = doAppActivation({
-    config,
     url,
+    LogicErrorException
 });
 
 const appCallback = doAppCallback({
     strings,
     crypto,
     querystring,
-    config,
     httpsClient,
-    tokenDb
+    tokenDb,
+    LogicErrorException
 });
 
 module.exports = {appActivate, appCallback};

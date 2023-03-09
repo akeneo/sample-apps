@@ -1,19 +1,20 @@
 let doFirstApiCall = function({
-    config,
     httpsClient,
-    tokenDb
+    tokenDb,
+    LogicErrorException
  }) {
     return async function firstApiCall ({req, res, next}) {
 
         if (!await tokenDb.hasToken()) {
             res.render('no_access_token');
+            throw new LogicErrorException('Missing access token in database');
         } else {
             const token = await tokenDb.getToken();
 
             httpsClient.setToken(token);
 
             const options = {
-                path: config.get('akeneo.first-call-api-url'),
+                path: "/api/rest/v1/channels",
                 method: 'GET'
             };
 
