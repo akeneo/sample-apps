@@ -8,7 +8,7 @@ use App\Repository\TokenRepository;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 
-final class ClientFactory
+class ClientFactory implements ClientFactoryInterface
 {
     public function __construct(
         private readonly string $pimUrl,

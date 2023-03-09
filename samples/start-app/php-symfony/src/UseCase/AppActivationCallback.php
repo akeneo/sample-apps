@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\UseCase;
 
+use App\Entity\Exception\AuthorizationCodeException;
+use App\Entity\Exception\InvalidStateException;
+use App\Entity\Exception\SessionInformationException;
 use App\Entity\Token;
 use App\Repository\TokenRepository;
 use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 
 
 final class AppActivationCallback
@@ -21,23 +25,29 @@ final class AppActivationCallback
     {
     }
 
+    /**
+     * @throws InvalidStateException
+     * @throws AuthorizationCodeException
+     * @throws SessionInformationException
+     * @throws GuzzleException
+     */
     public function execute(array $session, string $state, string $code): void
     {
         // We check if the received state is the same as in the session, for security.
         $sessionState = $session['oauth2_state'] ?? '';
         $state = $state ?? '';
         if (empty($state) || $state !== $sessionState) {
-            exit('Invalid state');
+            throw new InvalidStateException(InvalidStateException::INVALID_STATE);
         }
 
         $authorizationCode = $code ?? '';
         if (empty($authorizationCode)) {
-            exit('Missing authorization code');
+            throw new AuthorizationCodeException(AuthorizationCodeException::MISSING_AUTH_CODE);
         }
 
         $pimUrl = $session['pim_url'] ?? '';
         if (empty($pimUrl)) {
-            exit('No PIM url in session');
+            throw new SessionInformationException(SessionInformationException::MISSING_PIM_URL);
         }
 
         $codeIdentifier = bin2hex(random_bytes(30));
