@@ -34,7 +34,8 @@ start: ## start docker image
 stop: ## stop docker image
 	$(DOCKER_DOWN)
 
-unit-tests: ## run phpunit tests
+.PHONY: all tests clean
+tests: ## run phpunit tests
 	@$(DOCKER_EXEC) $(APP_NAME) php bin/phpunit
 
 _display: ##
