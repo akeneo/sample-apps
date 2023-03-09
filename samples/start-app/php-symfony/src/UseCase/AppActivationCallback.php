@@ -26,10 +26,6 @@ final class AppActivationCallback
     }
 
     /**
-     * @param array $session
-     * @param string $state
-     * @param string $code
-     * @return void
      * @throws InvalidStateException
      * @throws AuthorizationCodeException
      * @throws SessionInformationException
