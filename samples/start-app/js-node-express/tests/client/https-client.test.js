@@ -19,16 +19,16 @@ test("It constructs an HttpsClient object", async () => {
 
 test("It sets an acceptable userAgent", async () => {
 
-    let userAgent = httpsClient.setUserAgent();
+    let userAgent = httpsClient.buildUserAgent();
     expect(userAgent).toBe('AkeneoSampleApp/js-node-express');
 
-    userAgent = httpsClient.setUserAgent(process.env.APPLICATION_VERSION);
+    userAgent = httpsClient.buildUserAgent(process.env.APPLICATION_VERSION);
     expect(userAgent).toBe(
         'AkeneoSampleApp/js-node-express Version/'
         + process.env.APPLICATION_VERSION
     );
 
-    userAgent = httpsClient.setUserAgent(process.env.APPLICATION_VERSION, process.env.DOCKER_VERSION);
+    userAgent = httpsClient.buildUserAgent(process.env.APPLICATION_VERSION, process.env.DOCKER_VERSION);
     expect(userAgent).toBe(
         'AkeneoSampleApp/js-node-express'
         + ' Version/' + process.env.APPLICATION_VERSION

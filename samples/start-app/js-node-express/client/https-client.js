@@ -5,7 +5,7 @@ class HttpsClient{
 
         const pimUrl = new URL(process.env.AKENEO_PIM_URL);
 
-        let userAgent = this.setUserAgent(process.env.APPLICATION_VERSION, process.env.DOCKER_VERSION);
+        let userAgent = this.buildUserAgent(process.env.APPLICATION_VERSION, process.env.DOCKER_VERSION);
 
         this.options = {
             host: pimUrl.hostname,
@@ -27,7 +27,7 @@ class HttpsClient{
         return https.request(merged_options, callback);
     }
 
-    setUserAgent(app_version = undefined, docker_version = undefined) {
+    buildUserAgent(app_version = undefined, docker_version = undefined) {
 
         let ret = 'AkeneoSampleApp/js-node-express';
         ret += (app_version)? ' Version/' + app_version : '';
