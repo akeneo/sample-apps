@@ -3,7 +3,7 @@ version: "3.9"
 services:
   app:
     build:
-      context: ../js-node-express
+      context: .
       target: development
       args:
         NODE_ENV: local
