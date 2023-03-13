@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Request, Depends
 from sqlalchemy.orm import Session
-from ..dependencies import get_db, get_session
+from app.dependencies import get_db, get_session
+from app.persistence import tokenRepository
 from fastapi.responses import HTMLResponse
-from ..persistence import tokenRepository
 from pathlib import Path
 
 
