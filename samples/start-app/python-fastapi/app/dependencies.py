@@ -16,3 +16,13 @@ def get_config(name):
     
 def get_session():
     return session
+
+def build_user_agent():
+    user_agent = 'AkeneoSampleApp/python-fastapi'
+    user_agent = user_agent + ' Version/' + get_config('APPLICATION_VERSION') if get_config('APPLICATION_VERSION') else user_agent + ''
+    return user_agent + ' Docker/' + get_config('DOCKER_VERSION') if get_config('DOCKER_VERSION') else user_agent + ''
+
+def create_requests():
+    s = requests.Session()
+    s.headers.update({'User-Agent': build_user_agent()})
+    return s
