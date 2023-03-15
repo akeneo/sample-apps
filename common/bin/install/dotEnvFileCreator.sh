@@ -44,6 +44,10 @@ FillLocalValues() {
     read -p "Client secret : " CLIENT_SECRET
     read -p "PIM url : " PIM_URL
 
+    echo -e $(printf "${NOTE}Apps created in the Akeneo App Store can use the OpenID Connect protocol to authenticate users coming from an Akeneo PXM Studio. ${ENDCOLOR}")
+    echo -e $(printf "${NOTE}Akeneo's documentation about OpenID Connect authentication : https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect${ENDCOLOR}")
+    read -p "Would you like to activate OpenID Connect authentication : (default : yes)" OPENID_AUTHENTICATION_USAGE
+
     return 1
 }
 
@@ -54,6 +58,7 @@ FillTestValues() {
   CLIENT_ID=test_client_id
   CLIENT_SECRET=test_client_secret
   PIM_URL=http://a_random_pim_url.com
+  OPENID_AUTHENTICATION_USAGE=1
 
   return 1
 }
@@ -63,6 +68,16 @@ CreateDotEnvFile() {
   if [[ ($CHECK_ERASE == "yes" || $CHECK_ERASE == "y") && ("$CHECK_WRITE" != "yes" && "$CHECK_WRITE" != "y") ]]; then
     cat "$ENV_FILE" >"$FILE"
   fi
+
+  OPENID_AUTHENTICATION=1
+  if [[ "$OPENID_AUTHENTICATION_USAGE" != "yes" && "$OPENID_AUTHENTICATION_USAGE" != "y" ]]; then
+    OPENID_AUTHENTICATION=0
+  fi
+
+  printf "\n###> Use of OpenID Connect protocol to authenticate from a PXM ###\n" >>"$FILE"
+  printf "### https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect\n" >>"$FILE"
+  printf "OPENID_AUTHENTICATION=%s\n" $OPENID_AUTHENTICATION >>"$FILE"
+  printf "###< Use of OpenID Connect protocol to authenticate from a PXM ###\n" >>"$FILE"
 
   printf "\n###> Akeneo's OAuth2 environment variables ###\n" >>"$FILE"
   printf "CLIENT_ID=%s\n" $CLIENT_ID >>"$FILE"
