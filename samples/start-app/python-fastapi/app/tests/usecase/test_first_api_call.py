@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import MagicMock
 from app.persistence import tokenRepository
-from app.dependencies import get_config
+from app.dependencies import get_config, build_user_agent
 from urllib.parse import urljoin
 from app.usecase.firstApiCall import first_api_call_usecase
 import requests
@@ -70,7 +70,7 @@ class TestApiCalls(unittest.TestCase):
             api_url,
             headers={
                 'Authorization': 'Bearer test_token',
-                'User-Agent': 'AkeneoSampleApp/python-fastapi Version/1.0.0'
+                'User-Agent': build_user_agent()
             }
         )
 

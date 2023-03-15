@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 from fastapi import Request
 from sqlalchemy.orm import Session
 from app.usecase.callback import callback_usecase
-from app.dependencies import get_config
+from app.dependencies import get_config, build_user_agent
 
 class TestCallbackUsecase(unittest.TestCase):
 
@@ -37,7 +37,7 @@ class TestCallbackUsecase(unittest.TestCase):
             },
             headers={
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'User-Agent': 'AkeneoSampleApp/python-fastapi Version/1.0.0'
+                'User-Agent': build_user_agent()
             }
         )
         mock_create_token.assert_called_once_with(
