@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import RedirectResponse
-from ..dependencies import get_session
-from ..usecase.activate import activate_usecase
+from app.dependencies import get_session
+from app.usecase.activate import activate_usecase
 
 router = APIRouter()
 
