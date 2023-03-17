@@ -17,6 +17,7 @@ services:
             string $projectDir: '%kernel.project_dir%'
             string $dockerVersion: '%env(string:DOCKER_VERSION)%'
             string $applicationVersion: '%env(string:APPLICATION_VERSION)%'
+            string $openIdAuthentication: '%env(string:OPENID_AUTHENTICATION)%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
