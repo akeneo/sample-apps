@@ -16,5 +16,10 @@ interface UserRepositoryInterface
     /**
      * @throws UserNotFoundException
      */
-    public function getUser(): ?User;
+    public function getUser(string $sub): ?User;
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function getUserFromCookies(array $cookies): ?User;
 }

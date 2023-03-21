@@ -11,8 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 class User
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?string $id = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -23,9 +24,12 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    public static function create(string $id, string $email, string $firstname, string $lastname): self
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $sub = null;
+
+    public static function create(string $email, string $firstname, string $lastname, string $sub): self
     {
-        return (new self())->setId($id)->setEmail($email)->setFirstname($firstname)->setLastname($lastname);
+        return (new self())->setEmail($email)->setFirstname($firstname)->setLastname($lastname)->setSub($sub);
     }
 
     public function getId(): ?string
@@ -72,6 +76,18 @@ class User
     protected function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getSub(): ?string
+    {
+        return $this->sub;
+    }
+
+    public function setSub(?string $sub): self
+    {
+        $this->sub = $sub;
 
         return $this;
     }

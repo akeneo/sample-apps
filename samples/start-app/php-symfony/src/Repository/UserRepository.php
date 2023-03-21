@@ -6,9 +6,8 @@ namespace App\Repository;
 
 use App\Entity\Exception\UserNotFoundException;
 use App\Entity\User;
+use App\UseCase\Codec;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,14 +20,16 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class UserRepository extends ServiceEntityRepository implements UserRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private readonly string                   $subHashKey)
     {
         parent::__construct($registry, User::class);
     }
 
     public function upsert(User $user, bool $flush = false): void
     {
-        $user = $this->findOneBy(['id' => $user->getId()]) ?? $user;
+        $user = $this->findOneBy(['sub' => $user->getSub()]) ?? $user;
         $this->getEntityManager()->persist($user);
 
         if ($flush) {
@@ -48,18 +49,44 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
     /**
      * @throws UserNotFoundException
      */
-    public function getUser(): ?User
+    public function getUser(string $sub): ?User
     {
-        try {
-            return $this->createQueryBuilder('u')
-                ->orderBy('u.id', 'DESC')
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getSingleResult();
-        } catch (NoResultException) {
+        $user = $this->findOneBy(['sub' => $sub]);
+
+        if (is_null($user)) {
             throw new UserNotFoundException(UserNotFoundException::USER_NOT_FOUND);
-        } catch (NonUniqueResultException) {
-            return null;
         }
+
+        return $user;
+    }
+
+    /**
+     * @throws UserNotFoundException
+     */
+    public function getUserFromCookies(array $cookies): User
+    {
+        $sub = '';
+        $encodedSub = '';
+        $iv = '';
+
+        foreach ($cookies as $cookie) {
+            switch ($cookie->getName()) {
+                case 'sub':
+                    $encodedSub = $cookie->getValue();
+                    break;
+                case 'vector':
+                    $iv = $cookie->getValue();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        if ($encodedSub != '' && $iv != '') {
+            $sub = Codec::decode($encodedSub, $this->subHashKey, $iv);
+        }
+
+        return $this->getUser($sub);
     }
 }
