@@ -1,11 +1,10 @@
 APP_NAME = app
-export DEV_UID = $(shell id -u)
-export DEV_GID = $(shell id -g)
 DOCKER_COMPOSE = docker compose
 DOCKER_BUILD = $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
 DOCKER_EXEC = $(DOCKER_COMPOSE) run
+DOCKER_LOGS = $(DOCKER_COMPOSE) logs
 APP_ADDRESS = http://localhost:8081/
 
 install: ## Install PHP sample App
@@ -33,6 +32,9 @@ start: ## start docker image
 
 stop: ## stop docker image
 	$(DOCKER_DOWN)
+
+logs: ## output apache logs
+	$(DOCKER_LOGS) -f --no-log-prefix --tail 20
 
 .PHONY: all tests clean
 tests: ## run phpunit tests
