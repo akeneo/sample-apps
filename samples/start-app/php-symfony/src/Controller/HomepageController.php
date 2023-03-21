@@ -8,6 +8,8 @@ use App\Entity\Exception\UserNotFoundException;
 use App\Repository\TokenRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,16 +24,27 @@ final class HomepageController extends AbstractController
     }
 
     #[Route('/', name: 'homepage', methods: ['GET'])]
-    public function __invoke(): Response
+    public function __invoke(Request $request): Response
     {
-        if (!$this->tokenRepository->hasToken()) {
-            return new Response(file_get_contents($this->projectDir . '/templates/no_access_token.html'));
-        }
-
-        $divToReplace="<div>UserInformation</div>";
-        $divUserInformation="";
         try {
-            $user = $this->userRepository->getUser();
+            $divToReplace = "<div>UserInformation</div>";
+            $divUserInformation = "";
+
+            if (!$this->tokenRepository->hasToken()) {
+                return new Response(
+                    str_replace(
+                        $divToReplace,
+                        $divUserInformation,
+                        file_get_contents($this->projectDir . '/templates/no_access_token.html')
+                    )
+                );
+            }
+
+            $user = $this->userRepository->getUserFromCookies([
+                new Cookie('sub', $request->cookies->get('sub')),
+                new Cookie('vector', $request->cookies->get('vector')),
+            ]);
+
             $divUserInformation = "<div class='userInformation'>"
                 . "<div>User : " . $user->getFirstname() . " " . $user->getLastname() . "</div>"
                 . "<div>Email : " . $user->getEmail() . "</div>"
