@@ -25,15 +25,14 @@ class OpenIdConnectTest extends TestCase
 
     use MockApiTrait;
 
-    private MockObject $userRepository;
     private OpenIdConnect $openIdConnect;
     const PRIVATE_KEY = 'private_key';
 
     protected function setUp(): void
     {
         $client = new Client(['handler' => $this->mockApi()]);
-        $this->userRepository = $this->createMock(UserRepository::class);
-        $this->openIdConnect = new OpenIdConnect($client, $this->userRepository, self::PRIVATE_KEY);
+        $userRepository = $this->createMock(UserRepository::class);
+        $this->openIdConnect = new OpenIdConnect($client, $userRepository, self::PRIVATE_KEY);
     }
 
     /**
