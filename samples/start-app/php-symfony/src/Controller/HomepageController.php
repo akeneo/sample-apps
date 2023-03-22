@@ -18,7 +18,8 @@ final class HomepageController extends AbstractController
     public function __construct(
         private readonly TokenRepositoryInterface $tokenRepository,
         private readonly UserRepositoryInterface  $userRepository,
-        private readonly string                   $projectDir
+        private readonly string                   $projectDir,
+        private readonly string                   $openIdAuthentication
     )
     {
     }
@@ -40,15 +41,20 @@ final class HomepageController extends AbstractController
                 );
             }
 
-            $user = $this->userRepository->getUserFromCookies([
-                new Cookie('sub', $request->cookies->get('sub')),
-                new Cookie('vector', $request->cookies->get('vector')),
-            ]);
+            if ($this->openIdAuthentication
+                && $request->cookies->get('sub') != ''
+                && $request->cookies->get('vector') != ''
+            ) {
+                $user = $this->userRepository->getUserFromCookies([
+                    new Cookie('sub', $request->cookies->get('sub')),
+                    new Cookie('vector', $request->cookies->get('vector')),
+                ]);
 
-            $divUserInformation = "<div class='userInformation'>"
-                . "<div>User : " . $user->getFirstname() . " " . $user->getLastname() . "</div>"
-                . "<div>Email : " . $user->getEmail() . "</div>"
-                . "</div>";
+                $divUserInformation = "<div class='userInformation'>"
+                    . "<div>User : " . $user->getFirstname() . " " . $user->getLastname() . "</div>"
+                    . "<div>Email : " . $user->getEmail() . "</div>"
+                    . "</div>";
+            }
         } catch (UserNotFoundException) {
             $divUserInformation = "<div class='userInformation'><div>Not connected</div></div>";
         }
