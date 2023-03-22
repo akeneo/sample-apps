@@ -6,11 +6,11 @@ final class Codec
 {
     const CYPHER = "AES-256-CTR";
 
-    public static function encode($text, $key)
+    public static function encode($payload, $key)
     {
         $iv_length = openssl_cipher_iv_length(self::CYPHER);
         $iv = random_bytes($iv_length);
-        $data = openssl_encrypt($text, self::CYPHER, $key, 0, $iv);
+        $data = openssl_encrypt($payload, self::CYPHER, $key, 0, $iv);
 
         return [$data, bin2hex($iv)];
     }

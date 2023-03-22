@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Exception\OpenIdConnectException;
 use App\UseCase\OpenIdConnect;
 use App\Entity\Exception\SessionInformationException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -18,8 +19,9 @@ class OpenIdController extends AbstractController
     }
 
     /**
-     * @throws SessionInformationException
      * @throws GuzzleException
+     * @throws SessionInformationException
+     * @throws OpenIdConnectException
      */
     public function extractUserInformation(string $idToken): Response
     {
