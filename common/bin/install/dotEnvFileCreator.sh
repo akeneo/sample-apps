@@ -85,7 +85,7 @@ CheckAndFillLocalValues() {
     # File already exists with at least one needed variable
     read -p "Do you want to erase and rewrite this file ? (yes) : " CHECK_ERASE
 
-    if [ "$CHECK_ERASE" != "yes" ] && [ "$CHECK_ERASE" != "y" ] && [ ! -z $CHECK_ERASE ]; then
+    if [ "$CHECK_ERASE" != "yes" ] && [ "$CHECK_ERASE" != "y" ] && [ ! -z "$CHECK_ERASE" ]; then
       # User wants to keep file
       echo -e $(printf "${NOTE}Make sure that CLIENT_ID, CLIENT_SECRET and AKENEO_PIM_URL are included in this file${ENDCOLOR}")
       read -p "Some variables may not be included, do you want to add them through this script ? (yes) : " CHECK_WRITE
@@ -100,6 +100,7 @@ CheckAndFillLocalValues() {
       echo -e $(printf "${NOTE}Note that this script will erase any .env.local file already existing in $PARENT_DIR${ENDCOLOR}")
       sleep 5
       InitFile "$ENV_LOCAL_FILE" 1
+      EXISTING_VARIABLES=()
       CheckValues "$ENV_LOCAL_FILE"
     fi
   fi
