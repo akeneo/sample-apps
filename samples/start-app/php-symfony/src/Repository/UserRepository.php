@@ -22,7 +22,7 @@ class UserRepository extends ServiceEntityRepository implements UserRepositoryIn
 {
     public function __construct(
         ManagerRegistry $registry,
-        private readonly string                   $subHashKey)
+        private readonly string $subHashKey)
     {
         parent::__construct($registry, User::class);
     }

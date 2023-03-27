@@ -16,7 +16,7 @@ use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Psr\Log\LoggerInterface;
 
-class OpenIdConnect
+final class OpenIdConnect
 {
     const OPENID_PUBLIC_KEY = '/connect/apps/v1/openid/public-key';
 
@@ -49,8 +49,6 @@ class OpenIdConnect
     }
 
     /**
-     * @param string $pimUrl
-     * @return string
      * @throws GuzzleException
      * @throws OpenIdConnectException
      */

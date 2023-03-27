@@ -22,7 +22,6 @@ use Symfony\Component\HttpKernel\Log\Logger;
 
 class OpenIdConnectTest extends TestCase
 {
-
     use MockApiTrait;
 
     private OpenIdConnect $openIdConnect;
