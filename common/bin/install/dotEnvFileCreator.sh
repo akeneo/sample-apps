@@ -52,9 +52,6 @@ CheckValues() {
   if grep -q "DOCKER_VERSION" "$FILE"; then
     EXISTING_VARIABLES+=("DOCKER_VERSION")
   fi
-  if grep -q "SUB_HASH_KEY" "$FILE"; then
-    EXISTING_VARIABLES+=("SUB_HASH_KEY")
-  fi
 }
 
 ## Input from user for authentication information, when at least one of them is missing
@@ -74,7 +71,6 @@ ReadLocalOpenId() {
     echo -e $(printf "${NOTE}Akeneo's documentation about OpenID Connect authentication : https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect${ENDCOLOR}")
     read -p "Would you like to activate OpenID Connect authentication ? (yes) : " OPENID_AUTHENTICATION_USAGE
     OPENID_AUTHENTICATION=1
-    RANDOM_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 15 ; echo '')
     if [[ "$OPENID_AUTHENTICATION_USAGE" != "yes" && "$OPENID_AUTHENTICATION_USAGE" != "y" ]] && [ ! -z $OPENID_AUTHENTICATION_USAGE ]; then
       OPENID_AUTHENTICATION=0
     fi
@@ -89,7 +85,7 @@ CheckAndFillLocalValues() {
     # File already exists with at least one needed variable
     read -p "Do you want to erase and rewrite this file ? (yes) : " CHECK_ERASE
 
-    if [ "$CHECK_ERASE" != "yes" ] && [ "$CHECK_ERASE" != "y" ] && [ ! -z $CHECK_ERASE ]; then
+    if [ "$CHECK_ERASE" != "yes" ] && [ "$CHECK_ERASE" != "y" ] && [ ! -z "$CHECK_ERASE" ]; then
       # User wants to keep file
       echo -e $(printf "${NOTE}Make sure that CLIENT_ID, CLIENT_SECRET and AKENEO_PIM_URL are included in this file${ENDCOLOR}")
       read -p "Some variables may not be included, do you want to add them through this script ? (yes) : " CHECK_WRITE
@@ -104,6 +100,7 @@ CheckAndFillLocalValues() {
       echo -e $(printf "${NOTE}Note that this script will erase any .env.local file already existing in $PARENT_DIR${ENDCOLOR}")
       sleep 5
       InitFile "$ENV_LOCAL_FILE" 1
+      EXISTING_VARIABLES=()
       CheckValues "$ENV_LOCAL_FILE"
     fi
   fi
@@ -130,9 +127,6 @@ CheckAndFillTestValues() {
   if [[ ! "${EXISTING_VARIABLES[*]}" =~ "OPENID_AUTHENTICATION" ]]; then
     OPENID_AUTHENTICATION=1
   fi
-  if [[ ! "${EXISTING_VARIABLES[*]}" =~ "SUB_HASH_KEY" ]]; then
-    RANDOM_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 15 ; echo '')
-  fi
 
   return 1
 }
@@ -145,7 +139,6 @@ WriteDotEnvFile() {
     printf "\n###> Use of OpenID Connect protocol to authenticate from a PXM ###\n" >>"$FILE"
     printf "### https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect\n" >>"$FILE"
     printf "OPENID_AUTHENTICATION=%s\n" $OPENID_AUTHENTICATION >>"$FILE"
-    printf "SUB_HASH_KEY=%s\n" $RANDOM_KEY >>"$FILE"
     printf "###< Use of OpenID Connect protocol to authenticate from a PXM ###\n" >>"$FILE"
   fi
 
@@ -153,7 +146,7 @@ WriteDotEnvFile() {
     printf "\n###> Akeneo's OAuth2 environment variables ###\n" >>"$FILE"
     printf "CLIENT_ID=%s\n" $CLIENT_ID >>"$FILE"
     printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >>"$FILE"
-    printf "PIM_URL=%s\n" $PIM_URL >>"$FILE"
+    printf "AKENEO_PIM_URL=%s\n" $PIM_URL >>"$FILE"
     printf "###< Akeneo's OAauth2 environment variables ###\n" >>"$FILE"
   fi
 
