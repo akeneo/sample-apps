@@ -8,16 +8,21 @@ use App\Entity\Exception\UserNotFoundException;
 use App\Repository\TokenRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\UseCase\AppActivationCallback;
+use App\UseCase\OpenIdConnect;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class AppActivationCallbackController extends AbstractController
 {
+    use ResponseTrait;
+
     public function __construct(
         private readonly AppActivationCallback    $callback,
+        private readonly OpenIdConnect            $openId,
         private readonly TokenRepositoryInterface $tokenRepository,
         private readonly UserRepositoryInterface  $userRepository,
         private readonly LoggerInterface          $logger,
@@ -36,49 +41,39 @@ final class AppActivationCallbackController extends AbstractController
 
             $response = new Response();
 
-            $divToReplace = "<div>UserInformation</div>";
-            $divUserInformation = "";
+            $user = null;
 
             if (!$this->tokenRepository->hasToken()) {
                 return $response->setContent(
-                    str_replace(
-                        $divToReplace,
-                        $divUserInformation,
-                        file_get_contents($this->projectDir . '/templates/no_access_token.html')
-                    )
+                    file_get_contents($this->projectDir . '/templates/no_access_token.html')
                 );
             }
 
             if ($this->openIdAuthentication && isset($data['id_token'])) {
-                $response = $this->forward('App\Controller\OpenIdController::extractUserInformation', [
-                        'idToken' => $data['id_token']
-                    ]
-                );
+
+                list($sub, $vector) = $this->openId->execute($_SESSION, $data['id_token']);
+
+                // Cookies are available for 90 days
+                $subCookie = new Cookie('sub', $sub, time() + ( 90 * 24 * 60 *60));
+                $vectorCookie = new Cookie('vector', $vector, time() + ( 90 * 24 * 60 *60));
+
+                $response->headers->setCookie($subCookie);
+                $response->headers->setCookie($vectorCookie);
 
                 $user = $this->userRepository->getUserFromCookies($response->headers->getCookies());
-
-                $divUserInformation = "<div class='userInformation'>"
-                    . "<div>User : " . $user->getFirstname() . " " . $user->getLastname() . "</div>"
-                    . "<div>Email : " . $user->getEmail() . "</div>"
-                    . "</div>";
             }
 
             return $response->setContent(
-                str_replace(
-                    $divToReplace,
-                    $divUserInformation,
-                    file_get_contents($this->projectDir . '/templates/access_token.html')
+                $this->getResponseContent(
+                    $this->projectDir . '/templates/access_token.html',
+                    $user
                 )
             );
 
         } catch (UserNotFoundException) {
-            $divToReplace = "<div>UserInformation</div>";
-            $divUserInformation = "<div class='userInformation'><div>Not connected</div></div>";
             return new Response(
-                str_replace(
-                    $divToReplace,
-                    $divUserInformation,
-                    file_get_contents($this->projectDir . '/templates/access_token.html')
+                $this->getResponseContent(
+                    $this->projectDir . '/templates/access_token.html'
                 )
             );
         } catch (\Exception $e) {
