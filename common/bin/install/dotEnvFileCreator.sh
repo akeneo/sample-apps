@@ -146,7 +146,7 @@ WriteDotEnvFile() {
     printf "\n###> Akeneo's OAuth2 environment variables ###\n" >>"$FILE"
     printf "CLIENT_ID=%s\n" $CLIENT_ID >>"$FILE"
     printf "CLIENT_SECRET=%s\n" $CLIENT_SECRET >>"$FILE"
-    printf "PIM_URL=%s\n" $PIM_URL >>"$FILE"
+    printf "AKENEO_PIM_URL=%s\n" $PIM_URL >>"$FILE"
     printf "###< Akeneo's OAauth2 environment variables ###\n" >>"$FILE"
   fi
 
