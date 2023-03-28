@@ -4,3 +4,6 @@ uvicorn>=0.15.0,<0.16.0
 requests>=2.28.0,<=2.29.0
 python-dotenv>=0.21.1,<=0.22.0
 sqlalchemy>=2.0.0,<=2.0.1
+pyjwt==2.6.0
+cryptography==39.0.2
+pycryptodome==3.17

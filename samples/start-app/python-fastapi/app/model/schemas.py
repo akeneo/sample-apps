@@ -14,3 +14,19 @@ class Token(TokenBase):
 
     class Config:
         orm_mode = True
+
+class UserBase(BaseModel):
+    email: str
+    firstname: str
+    lastname: str
+    sub: str
+
+class UserCreate(UserBase):
+    pass
+
+
+class User(UserBase):
+    id: int
+
+    class Config:
+        orm_mode = True

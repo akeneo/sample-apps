@@ -31,6 +31,9 @@ stop: ## stop docker image
 tests:
 	$(DOCKER_EXEC) $(APP_NAME) python -m unittest discover
 
+bash:
+	$(DOCKER_EXEC) $(APP_NAME) bash
+
 _display: ##
 	@echo ""
 	@echo "**** Python + FastApi Sample App ****"
