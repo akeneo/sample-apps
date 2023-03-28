@@ -38,10 +38,15 @@ def callback(request: Request,response: Response, db: Session = Depends(get_db),
 def access_token_status(request: Request,response: Response, db: Session = Depends(get_db), session: object = Depends(get_session)):
     sub = request.cookies.get("sub")
     vector = request.cookies.get("vector")
-    sub_decoded = decoder(sub, get_config('SUB_HASH_KEY'), vector)
 
-    token = tokenRepository.get_token(db)
-    user = userRepository.get_user_by_sub(db, sub_decoded);
+    user = None
+    if sub != None and vector != None:
+        sub_decoded = decoder(sub, get_config('SUB_HASH_KEY'), vector)
+        token = tokenRepository.get_token(db)
+        # user = userRepository.get_user_by_sub(db, sub_decoded)
+
+    if user is None:
+        raise Exception('User not found')
 
     if token is None:
         return HTMLResponse(content=Path('app/templates/openid/no_access_token.html'), status_code=200)
