@@ -8,15 +8,12 @@ import requests
 import jwt
 from jwt import decode, get_unverified_header
 from jwt.algorithms import get_default_algorithms
-from jwt.algorithms import get_default_algorithms
+
 
 openid_public_key = '/connect/apps/v1/openid/public-key';
 
 def callback_usecase_with_openid(request, db, session):
     response = callback_usecase(request, db, session)
-
-    print(response)
-    exit()
 
     pim_url = session.headers['pim_url']
     if pim_url == '':
@@ -47,7 +44,6 @@ def fetch_openid_public_key(pim_url):
     })
 
     contents = response.json()
-    print('public_key' in contents)
     if not 'public_key' in contents:
        raise Exception('Failed to retrieve openid public key')
     
