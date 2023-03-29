@@ -12,6 +12,9 @@ RUN apt-get update \
 
 FROM core AS dev-tools
 
+##Update npm
+RUN npm install -g npm
+##Install nodemon
 RUN npm install -g nodemon
 
 ###############################################################################
@@ -22,4 +25,4 @@ ARG USER=www-data
 WORKDIR /srv/app
 USER $USER
 
-CMD npm start
+CMD nodemon
