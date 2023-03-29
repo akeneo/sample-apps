@@ -52,6 +52,9 @@ CheckValues() {
   if grep -q "DOCKER_VERSION" "$FILE"; then
     EXISTING_VARIABLES+=("DOCKER_VERSION")
   fi
+  if grep -q "SUB_HASH_KEY" "$FILE"; then
+    EXISTING_VARIABLES+=("SUB_HASH_KEY")
+  fi
 }
 
 ## Input from user for authentication information, when at least one of them is missing
@@ -71,6 +74,7 @@ ReadLocalOpenId() {
     echo -e $(printf "${NOTE}Akeneo's documentation about OpenID Connect authentication : https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect${ENDCOLOR}")
     read -p "Would you like to activate OpenID Connect authentication ? (yes) : " OPENID_AUTHENTICATION_USAGE
     OPENID_AUTHENTICATION=1
+    RANDOM_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 15 ; echo '')
     if [[ "$OPENID_AUTHENTICATION_USAGE" != "yes" && "$OPENID_AUTHENTICATION_USAGE" != "y" ]] && [ ! -z $OPENID_AUTHENTICATION_USAGE ]; then
       OPENID_AUTHENTICATION=0
     fi
@@ -127,6 +131,9 @@ CheckAndFillTestValues() {
   if [[ ! "${EXISTING_VARIABLES[*]}" =~ "OPENID_AUTHENTICATION" ]]; then
     OPENID_AUTHENTICATION=1
   fi
+  if [[ ! "${EXISTING_VARIABLES[*]}" =~ "SUB_HASH_KEY" ]]; then
+    RANDOM_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 15 ; echo '')
+  fi
 
   return 1
 }
@@ -139,6 +146,7 @@ WriteDotEnvFile() {
     printf "\n###> Use of OpenID Connect protocol to authenticate from a PXM ###\n" >>"$FILE"
     printf "### https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect\n" >>"$FILE"
     printf "OPENID_AUTHENTICATION=%s\n" $OPENID_AUTHENTICATION >>"$FILE"
+    printf "SUB_HASH_KEY=%s\n" $RANDOM_KEY >>"$FILE"
     printf "###< Use of OpenID Connect protocol to authenticate from a PXM ###\n" >>"$FILE"
   fi
 
