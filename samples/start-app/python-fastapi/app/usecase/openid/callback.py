@@ -10,7 +10,7 @@ from jwt import decode, get_unverified_header
 from jwt.algorithms import get_default_algorithms
 
 
-openid_public_key = '/connect/apps/v1/openid/public-key';
+openid_public_key = '/connect/apps/v1/openid/public-key'
 
 def callback_usecase_with_openid(request, db, session):
     response = callback_usecase(request, db, session)
