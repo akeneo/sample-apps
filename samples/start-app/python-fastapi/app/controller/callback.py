@@ -24,7 +24,7 @@ def callback(request: Request,response: Response, db: Session = Depends(get_db),
         response.set_cookie(key="sub", value=json['data'])
         response.set_cookie(key="vector", value=json['iv'])
 
-        return response;
+        return response
 
 
     callback_usecase(request, db, session)
