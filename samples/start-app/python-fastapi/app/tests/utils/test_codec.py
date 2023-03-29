@@ -25,3 +25,4 @@ class TestCodec(unittest.TestCase):
         encrypted['iv'] = 'invalid'  # invalid iv format
         with self.assertRaises(binascii.Error):
             decrypted = decoder(encrypted['data'], key, encrypted['iv'])
+            
