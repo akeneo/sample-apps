@@ -13,6 +13,9 @@ final class AppActivation
     const OAUTH_SCOPES = [
         'read_channel_localization',
         'read_channel_settings',
+        'openid',
+        'email',
+        'profile'
     ];
     const GET_AUTHORIZATION_URL = '%s/connect/apps/v1/authorize?%s';
 
