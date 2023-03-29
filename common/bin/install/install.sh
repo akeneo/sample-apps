@@ -6,7 +6,7 @@
 #  $ ./install.sh
 #
 
-source samples/start-app/php-symfony/bin/install/terminalColorsDefinition.sh
+source $(dirname -- "${BASH_SOURCE[0]}")/terminalColorsDefinition.sh
 
 echo -e $(printf "${INTRO}Welcome to Akeneo's Sample Apps intallation process :${ENDCOLOR}")
 echo "1 - Use make php-install for PHP / Symfony sample app"

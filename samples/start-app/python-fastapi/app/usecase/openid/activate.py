@@ -1,15 +1,11 @@
-from app.dependencies import get_config
-from app.usecase.activate import activate_usecase
-import secrets, urllib.parse
+from app.usecase.activate import activate_usecase, oauth_scopes
 
-oauth_scopes = [
-    'read_channel_localization',
-    'read_channel_settings',
+oauth_scopes_openid = oauth_scopes + [
     'openid',
     'email',
     'profile'
 ];
 
 def activate_usecase_with_openid(request, session):
-    return activate_usecase(request,session, oauth_scopes)
+    return activate_usecase(request,session, oauth_scopes_openid)
     
