@@ -16,3 +16,4 @@ class User(Base):
     firstname = Column(String, unique=True, index=True)
     lastname = Column(String, unique=True, index=True)
     sub = Column(String, unique=True, index=True)
+    
