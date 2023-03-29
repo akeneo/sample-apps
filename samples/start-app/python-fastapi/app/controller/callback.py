@@ -18,7 +18,7 @@ def callback(request: Request,response: Response, db: Session = Depends(get_db),
     token = tokenRepository.get_token(db)
 
     # You can remove the following condition if you're not using the OpenID protocol
-    if openid_authentication() == 'true' or openid_authentication() == '1' or openid_authentication() == True:
+    if openid_authentication():
         json = callback_usecase_with_openid(request, db, session)
         response = RedirectResponse("/access-oid")
         response.set_cookie(key="sub", value=json['data'])
@@ -39,14 +39,15 @@ def access_token_status(request: Request,response: Response, db: Session = Depen
     sub = request.cookies.get("sub")
     vector = request.cookies.get("vector")
 
+    token = tokenRepository.get_token(db)
+
     user = None
     if sub != None and vector != None:
         sub_decoded = decoder(sub, get_config('SUB_HASH_KEY'), vector)
-        token = tokenRepository.get_token(db)
         user = userRepository.get_user_by_sub(db, sub_decoded)
 
     if token is None:
-        return HTMLResponse(content=Path('app/templates/openid/no_access_token.html'), status_code=200)
+        return HTMLResponse(content=Path('app/templates/openid/no_access_token.html').read_text(), status_code=200)
 
     if user is None:
         return HTMLResponse(content=Path('app/templates/access_token.html').read_text(), status_code=200)

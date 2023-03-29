@@ -10,7 +10,7 @@ router = APIRouter()
 def activate(request: Request, session: object = Depends(get_session)):
 
     # You can remove the following condition if you're not using the OpenID protocol
-    if openid_authentication() == 'true' or openid_authentication() == '1' or openid_authentication() == True:
+    if openid_authentication():
         return RedirectResponse(activate_usecase_with_openid(request, session))
 
     return RedirectResponse(activate_usecase(request, session))
