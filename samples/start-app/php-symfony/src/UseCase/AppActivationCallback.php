@@ -31,7 +31,7 @@ final class AppActivationCallback
      * @throws SessionInformationException
      * @throws GuzzleException
      */
-    public function execute(array $session, string $state, string $code): void
+    public function execute(array $session, string $state, string $code): array
     {
         // We check if the received state is the same as in the session, for security.
         $sessionState = $session['oauth2_state'] ?? '';
@@ -67,5 +67,7 @@ final class AppActivationCallback
         $contents = json_decode($response->getBody()->getContents(), true);
 
         $this->tokenRepository->upsert(Token::create($contents['access_token']), true);
+
+        return $contents;
     }
 }
