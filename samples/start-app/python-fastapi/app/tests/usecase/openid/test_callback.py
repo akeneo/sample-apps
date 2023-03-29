@@ -93,3 +93,4 @@ class TestCallbackUseCase(unittest.TestCase):
         self.assertEqual(result['iss'], 'DinoChiesa.github.io')
         self.assertEqual(result['sub'], 'sheniqua')
         self.assertEqual(result['aud'], 'anna')
+        
