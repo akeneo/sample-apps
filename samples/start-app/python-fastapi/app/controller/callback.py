@@ -43,13 +43,13 @@ def access_token_status(request: Request,response: Response, db: Session = Depen
     if sub != None and vector != None:
         sub_decoded = decoder(sub, get_config('SUB_HASH_KEY'), vector)
         token = tokenRepository.get_token(db)
-        # user = userRepository.get_user_by_sub(db, sub_decoded)
-
-    if user is None:
-        raise Exception('User not found')
+        user = userRepository.get_user_by_sub(db, sub_decoded)
 
     if token is None:
         return HTMLResponse(content=Path('app/templates/openid/no_access_token.html'), status_code=200)
+
+    if user is None:
+        return HTMLResponse(content=Path('app/templates/access_token.html').read_text(), status_code=200)
 
     return HTMLResponse(content=Path('app/templates/openid/access_token.html')
                         .read_text()
