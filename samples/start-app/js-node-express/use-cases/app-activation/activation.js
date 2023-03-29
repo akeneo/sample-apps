@@ -7,6 +7,9 @@ let doAppActivate = function({
         const oauth_scopes = [
             'read_channel_localization',
             'read_channel_settings',
+            'openid',
+            'email',
+            'profile'
         ];
 
         try {

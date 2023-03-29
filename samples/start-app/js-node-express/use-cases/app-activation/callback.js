@@ -6,7 +6,7 @@ let doAppCallback = function({
     tokenDb,
     LogicErrorException
 }) {
-    return async function appCallback ({req, res, next}, randomString) {
+    return async function appCallback ({req, res, next}, randomString, openIdCallback) {
 
         if (!req.query.hasOwnProperty('state') || req.query.state !== randomString) {
             res.render('error');
@@ -44,6 +44,12 @@ let doAppCallback = function({
             response.on('end', function() {
                 const access_token = JSON.parse(response.body).access_token;
 
+                const id_token = JSON.parse(response.body).id_token;
+
+                if (process.env.OPENID_AUTHENTICATION === "1") {
+                    openIdCallback(id_token);
+                }
+
                 if (access_token !== undefined) {
                     tokenDb.upsert({access_token});
 
@@ -57,8 +63,6 @@ let doAppCallback = function({
                     res.render('no_access_token');
                     throw new LogicErrorException('Missing access token in response');
                 }
-
-
             });
 
             response.on('error', function (e) {
