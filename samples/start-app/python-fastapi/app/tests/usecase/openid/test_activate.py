@@ -23,3 +23,4 @@ class TestActivateUsecaseWithOpenid(unittest.TestCase):
             'profile'
         ]
         mock_activate_usecase.assert_called_once_with(self.request, self.session, expected_scopes)
+        
