@@ -57,3 +57,4 @@ def access_token_status(request: Request,response: Response, db: Session = Depen
                         .replace('{{user}}', user.firstname + ' ' + user.lastname)
                         .replace('{{email}}', user.email)
                         , status_code=200)
+                        
