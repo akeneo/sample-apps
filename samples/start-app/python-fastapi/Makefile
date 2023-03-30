@@ -2,7 +2,7 @@ APP_NAME = app
 export DEV_UID = $(shell id -u)
 export DEV_GID = $(shell id -g)
 DOCKER_COMPOSE = docker compose
-DOCKER_BUILD = $(DOCKER_COMPOSE) build
+DOCKER_BUILD = BUILDKIT=1 $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
 DOCKER_EXEC = $(DOCKER_COMPOSE) run
