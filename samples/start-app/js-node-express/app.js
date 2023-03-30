@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const cons = require('consolidate');
 
 const indexRouter = require('./routes/index.js');
 
@@ -13,9 +12,9 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 const app = express();
 
 // view engine setup
-app.engine('html', cons.swig)
+app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());

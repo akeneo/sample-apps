@@ -1,6 +1,6 @@
 const { httpsClient } = require('../../client/index');
+const { userDb } = require('../../data-access/index');
 const jwt = require('jsonwebtoken');
-const { userDb } = require('../../data-access/index')
 
 const doOpenIdConnect = require('./openId-connect');
 

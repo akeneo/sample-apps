@@ -3,8 +3,9 @@ let doAppCallback = function({
     crypto,
     querystring,
     httpsClient,
+    Codec,
     tokenDb,
-    LogicErrorException
+    LogicErrorException,
 }) {
     return async function appCallback ({req, res, next}, randomString, openIdCallback) {
 
@@ -41,23 +42,26 @@ let doAppCallback = function({
                 response.body += chunk;
             });
 
-            response.on('end', function() {
+            response.on('end', async function() {
                 const access_token = JSON.parse(response.body).access_token;
-
-                const id_token = JSON.parse(response.body).id_token;
-
-                if (process.env.OPENID_AUTHENTICATION === "1") {
-                    openIdCallback(id_token);
-                }
 
                 if (access_token !== undefined) {
                     tokenDb.upsert({access_token});
 
-                    if (!tokenDb.hasToken()) {
+                    if (!await tokenDb.hasToken()) {
                         res.render('no_access_token');
                         throw new LogicErrorException('Missing access token in database');
                     } else {
-                        res.render('access_token');
+                        if (process.env.OPENID_AUTHENTICATION === "1") {
+                            const id_token = JSON.parse(response.body).id_token;
+                            const user = await openIdCallback(id_token);
+                            const encodedCookie = Codec.encoder(user.sub)
+                            res.cookie('sub', encodedCookie.sub);
+                            res.cookie('vector', encodedCookie.vector);
+                            res.render('access_token', {user: user});
+                        } else {
+                            res.render('access_token');
+                        }
                     }
                 } else {
                     res.render('no_access_token');

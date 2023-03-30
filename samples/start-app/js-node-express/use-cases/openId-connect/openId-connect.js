@@ -35,7 +35,7 @@ let doOpenIdConnect = function({
 
                 response.on('end', () => {
                     const body = JSON.parse(data);
-                    resolve(body.public_key)
+                    resolve(body.public_key);
                 });
             });
 

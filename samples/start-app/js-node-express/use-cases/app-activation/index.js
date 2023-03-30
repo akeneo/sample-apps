@@ -2,6 +2,7 @@ const url = require('url');
 const strings = require('locutus/php/strings');
 const crypto = require('crypto');
 const querystring = require('querystring');
+const Codec = require('../../utils/codec.utils');
 const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
 const LogicErrorException = require("../../exceptions/logicError.exception");
@@ -19,6 +20,7 @@ const appCallback = doAppCallback({
     crypto,
     querystring,
     httpsClient,
+    Codec,
     tokenDb,
     LogicErrorException
 });
