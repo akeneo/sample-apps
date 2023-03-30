@@ -18,27 +18,13 @@ let doFirstApiCall = function({
                 method: 'GET'
             };
 
-            const httpreq = httpsClient.request(options, function (response) {
-                let data = '';
-                response.on('data', (chunk) => {
-                    data = data + chunk.toString();
-                });
+            const response = await httpsClient.request(options);
 
-                response.on('end', () => {
-                    const body = JSON.parse(data);
-
-                    if (body.hasOwnProperty('code')) {
-                        res.status(body.code).json({ message: body.message });
-                    } else {
-                        res.status(200).json(body);
-                    }
-                });
-            });
-
-            httpreq.on('error', (e) => {
-                console.error(e);
-            });
-            httpreq.end();
+            if (response.hasOwnProperty('code')) {
+                res.status(response.code).json({ message: response.message });
+            } else {
+                res.status(200).json(response);
+            }
         }
     };
 }

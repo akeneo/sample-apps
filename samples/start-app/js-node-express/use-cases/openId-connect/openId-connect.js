@@ -23,28 +23,8 @@ let doOpenIdConnect = function({
             }
         };
 
-        return new Promise((resolve, reject) => {
-            const httpreq = httpsClient.request(options, function (response) {
-
-                response.setEncoding('utf8');
-                let data = "";
-
-                response.on('data', (chunk) => {
-                    data += chunk;
-                });
-
-                response.on('end', () => {
-                    const body = JSON.parse(data);
-                    resolve(body.public_key);
-                });
-            });
-
-            httpreq.on('error', (error) => {
-                reject(error);
-            });
-
-            httpreq.end();
-        });
+        const response = await httpsClient.request(options);
+        return response.public_key;
     }
 
     async function extractClaimsFromSignedToken(token_id, signature, issuer) {
