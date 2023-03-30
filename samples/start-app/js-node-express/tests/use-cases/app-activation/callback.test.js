@@ -1,11 +1,11 @@
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
 
 const {appCallback} = require("../../../use-cases/app-activation");
-const LogicErrorException = require("../../../exceptions/logicError.exception");
+const LogicError = require("../../../exceptions/logicError.exception");
 const {tokenDb} = require("../../../data-access");
 const http = require('http');
 const https = require("https");
-jest.mock('https')
+jest.mock('https');
 
 let testData = '{ "access_token": "an_access_token"}';
 
@@ -44,7 +44,7 @@ test("It throws an error when there is no state in query", async () => {
         await appCallback({req, res, next}, randomString);
     } catch (e) {
         expect(res.render).toHaveBeenCalled();
-        expect(e).toBeInstanceOf(LogicErrorException);
+        expect(e).toBeInstanceOf(LogicError);
         expect(e.message).toBe("Invalid state");
     }
 });
@@ -69,7 +69,7 @@ test("It throws an error when there is a bad state in query", async () => {
         await appCallback({req, res, next}, randomString);
     } catch (e) {
         expect(res.render).toHaveBeenCalled();
-        expect(e).toBeInstanceOf(LogicErrorException);
+        expect(e).toBeInstanceOf(LogicError);
         expect(e.message).toBe("Invalid state");
     }
 });
@@ -129,7 +129,7 @@ test("It throws an error when token has not been upsert due to database issue", 
         expect(tokenDb.upsert).toHaveBeenCalled();
         expect(res.render).toHaveBeenCalled();
         expect(res.render).toHaveBeenCalledWith('no_access_token');
-        expect(e).toBeInstanceOf(LogicErrorException);
+        expect(e).toBeInstanceOf(LogicError);
         expect(e.message).toBe("Missing access token in database");
     }
 
@@ -163,7 +163,7 @@ test("It throws an error when no token has been retrieved in response", async ()
     } catch(e) {
         expect(res.render).toHaveBeenCalled();
         expect(res.render).toHaveBeenCalledWith('no_access_token');
-        expect(e).toBeInstanceOf(LogicErrorException);
+        expect(e).toBeInstanceOf(LogicError);
         expect(e.message).toBe("Missing access token in response");
     }
 

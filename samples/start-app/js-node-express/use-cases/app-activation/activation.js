@@ -1,6 +1,6 @@
 let doAppActivate = function({
     url,
-    LogicErrorException
+    LogicError
 }) {
     return async function appActivate ({req, res, next}, randomString) {
 
@@ -31,7 +31,7 @@ let doAppActivate = function({
             res.redirect(requestUrl.href);
         } catch(e) {
             if (e instanceof TypeError) {
-                throw new LogicErrorException(
+                throw new LogicError(
                     "Can't retrieve PIM url, please restart the authorization process."
                 );
             } else {

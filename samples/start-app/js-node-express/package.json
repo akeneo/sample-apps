@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www >> var/error.log",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",

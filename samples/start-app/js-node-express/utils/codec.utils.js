@@ -4,8 +4,7 @@ class Codec {
 
     static algorithm = "aes-256-ctr";
 
-    static encoder(payload) {
-        const key = process.env.SUB_HASH_KEY;
+    static encoder(payload, key) {
         const iv_length = crypto.getCipherInfo(Codec.algorithm).ivLength;
         const iv = crypto.randomBytes(iv_length);
         const cipher = crypto.createCipheriv(Codec.algorithm, key, iv)
@@ -14,8 +13,7 @@ class Codec {
         return { sub: encodedSub, vector: encodedIv };
     }
 
-    static decoder(data, encodedIv) {
-        const key = process.env.SUB_HASH_KEY;
+    static decoder(data, encodedIv, key) {
         const iv = Buffer.from(encodedIv, "hex");
         const decipher = crypto.createDecipheriv(Codec.algorithm, key, iv);
         return decipher.update(data, 'hex', 'utf8') + decipher.final('utf8');

@@ -1,9 +1,15 @@
 let doOpenIdConnect = function({
     httpsClient,
     jwt,
-    userDb
+    userDb,
+   LogicError
 }) {
     return async function openIdConnect(token_id) {
+
+        if (typeof token_id === undefined || token_id === null) {
+            throw new LogicError('Token is not supposed to be null or undefined');
+        }
+
         const pim_url = new URL(process.env.AKENEO_PIM_URL);
 
         const public_key = await fetchOpenIdPublicKey();
@@ -24,6 +30,7 @@ let doOpenIdConnect = function({
         };
 
         const response = await httpsClient.request(options);
+
         return response.public_key;
     }
 

@@ -5,14 +5,14 @@ const querystring = require('querystring');
 const Codec = require('../../utils/codec.utils');
 const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
-const LogicErrorException = require("../../exceptions/logicError.exception");
+const LogicError = require("../../exceptions/logicError.exception");
 
 const doAppActivation = require('./activation');
 const doAppCallback = require("./callback");
 
 const appActivate = doAppActivation({
     url,
-    LogicErrorException
+    LogicError
 });
 
 const appCallback = doAppCallback({
@@ -22,7 +22,7 @@ const appCallback = doAppCallback({
     httpsClient,
     Codec,
     tokenDb,
-    LogicErrorException
+    LogicError
 });
 
 module.exports = {appActivate, appCallback};
