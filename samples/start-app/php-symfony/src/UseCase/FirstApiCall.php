@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\UseCase;
 
-use App\Client\ClientFactory;
+use App\Client\ClientFactoryInterface;
 
 class FirstApiCall
 {
-    public function __construct(private readonly ClientFactory $clientFactory)
+    public function __construct(private readonly ClientFactoryInterface $clientFactory)
     {
     }
 

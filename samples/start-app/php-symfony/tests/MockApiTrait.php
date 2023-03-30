@@ -3,8 +3,10 @@
 namespace App\Tests;
 
 use App\Tests\Mocks\ChannelMock;
+use App\Tests\Mocks\NotifyAuthorizationUpdateMock;
 use App\Tests\Mocks\Oauth2Mock;
 use App\Tests\Mocks\OpenIdPublicKeyMock;
+use App\UseCase\NotifyAuthorizationUpdate;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 
@@ -27,6 +29,7 @@ trait MockApiTrait
             ChannelMock::API_URL => json_encode(ChannelMock::$response),
             Oauth2Mock::API_URL => json_encode(Oauth2Mock::$response),
             OpenIdPublicKeyMock::API_URL => json_encode(OpenIdPublicKeyMock::$response),
+            NotifyAuthorizationUpdateMock::API_URL => json_encode(NotifyAuthorizationUpdateMock::$response),
             default => throw new \LogicException(),
         };
     }

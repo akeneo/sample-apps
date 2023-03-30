@@ -6,15 +6,17 @@ use App\Client\ClientFactory;
 use App\Client\ClientFactoryInterface;
 use App\Tests\MockApiTrait;
 use App\Tests\Mocks\ChannelMock;
+use App\Tests\Mocks\NotifyAuthorizationUpdateMock;
 use App\UseCase\FirstApiCall;
+use App\UseCase\NotifyAuthorizationUpdate;
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
-class FirstApiCallTest extends TestCase
+class NotifyAuthorizationUpdateTest extends TestCase
 {
     use MockApiTrait;
 
-    private FirstApiCall $firstApiCall;
+    private NotifyAuthorizationUpdate $notifyAuthorizationUpdate;
 
     protected function setUp(): void
     {
@@ -22,7 +24,7 @@ class FirstApiCallTest extends TestCase
         $clientFactory->expects($this->once())
             ->method('create')
             ->willReturn(new Client(['handler' => $this->mockApi()]));
-        $this->firstApiCall = new FirstApiCall(
+        $this->notifyAuthorizationUpdate = new NotifyAuthorizationUpdate(
             $clientFactory
         );
     }
@@ -36,13 +38,9 @@ class FirstApiCallTest extends TestCase
      */
     public function testExecute(): void
     {
-        $result = $this->firstApiCall->execute();
+        $result = $this->notifyAuthorizationUpdate->execute();
 
-        $this->assertEquals(ChannelMock::$response['code'], $result['code']);
-        $this->assertEquals(ChannelMock::$response['currencies'], $result['currencies']);
-        $this->assertEquals(ChannelMock::$response['locales'], $result['locales']);
-        $this->assertEquals(ChannelMock::$response['category_tree'], $result['category_tree']);
-        $this->assertEquals(ChannelMock::$response['labels'], $result['labels']);
+        $this->assertEquals(NotifyAuthorizationUpdateMock::$response, json_decode($result->getBody()->getContents()));
     }
 
 }
