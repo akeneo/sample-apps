@@ -1,3 +1,10 @@
+const oauth_scopes = [
+    'read_channel_localization',
+    'read_channel_settings',
+    'write_catalog_structure',
+    'write_categories',
+];
+
 let doAppActivate = function({
     url,
     LogicError
@@ -41,4 +48,5 @@ let doAppActivate = function({
     };
 }
 
-module.exports = doAppActivate;
+module.exports = { doAppActivate, oauth_scopes };
+

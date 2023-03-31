@@ -7,10 +7,11 @@ const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
 const LogicError = require("../../exceptions/logicError.exception");
 
-const doAppActivation = require('./activation');
+const { doAppActivate } = require('./activation');
 const doAppCallback = require("./callback");
+const doNotifyAuthorizationUpdate = require('../app-activation/notify-authorization-update');
 
-const appActivate = doAppActivation({
+const appActivate = doAppActivate({
     url,
     LogicError
 });
@@ -25,4 +26,10 @@ const appCallback = doAppCallback({
     LogicError
 });
 
-module.exports = {appActivate, appCallback};
+const notifyAuthorizationUpdate = doNotifyAuthorizationUpdate({
+    httpsClient,
+    tokenDb,
+    LogicErrorException
+});
+
+module.exports = {appActivate, appCallback, notifyAuthorizationUpdate};
