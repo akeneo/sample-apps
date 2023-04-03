@@ -4,6 +4,8 @@ import secrets, urllib.parse
 oauth_scopes = [
     'read_channel_localization',
     'read_channel_settings',
+    'write_catalog_structure',
+    'write_categories',
 ];
 
 get_authorization_url = '%s/connect/apps/v1/authorize?%s'
