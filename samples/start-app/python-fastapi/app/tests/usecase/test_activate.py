@@ -28,8 +28,8 @@ class TestCallbackUsecase(unittest.TestCase):
             'state': 'test_state'
         })
         mock_token_hex.assert_called_once_with(10)
-        excepted = 'http://example.com/connect/apps/v1/authorize?response_type=code&client_id=test_client_id&scope='+' '.join(oauth_scopes) +'&state=test_state'
-        self.assertEqual(result,excepted)
+        expected = 'http://example.com/connect/apps/v1/authorize?response_type=code&client_id=test_client_id&scope='+' '.join(oauth_scopes) +'&state=test_state'
+        self.assertEqual(result, expected)
         self.assertEqual(self.session.headers['oauth2_state'], 'test_state')
         self.assertEqual(self.session.headers['pim_url'], 'http://example.com')
 

@@ -7,7 +7,6 @@ let doNotifyAuthorizationUpdate = function({
  }) {
     return async function notifyAuthorizationUpdate({req, res, next}) {
         if (!await tokenDb.hasToken()) {
-            console.log('ici');
             res.render('no_access_token');
             throw new LogicErrorException('Missing access token in database');
         } else {
