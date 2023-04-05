@@ -38,7 +38,7 @@ let doAppCallback = function({
         const access_token = response.access_token;
 
         if (access_token !== undefined) {
-            tokenDb.upsert({access_token});
+            await tokenDb.upsert({access_token});
 
             if (!await tokenDb.hasToken()) {
                 res.render('no_access_token');
