@@ -43,7 +43,8 @@ The App generates the credentials. Copy them for later.
 OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, implemented in Akeneo PXM Studio to authenticate users.
 This is an optional feature in Apps, you can also use your own Authentication. To learn more, check the complete [documentation](https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect).
 
-The client will let you choose whether you want to use this feature in your app, or not.
+Next step will let you choose whether you want to use this feature in your app, or not.
+OpenId related code is clearly identified within the app to allow a fast and easy modification.
 
 
 ### Step 5: Launch your App
