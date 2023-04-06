@@ -3,14 +3,15 @@ let doAppCallback = function({
     crypto,
     querystring,
     httpsClient,
+    Codec,
     tokenDb,
-    LogicErrorException
+    LogicError,
 }) {
-    return async function appCallback ({req, res, next}, randomString) {
+    return async function appCallback ({req, res, next}, randomString, openIdCallback=null) {
 
         if (!req.query.hasOwnProperty('state') || req.query.state !== randomString) {
             res.render('error');
-            throw new LogicErrorException('Invalid state');
+            throw new LogicError('Invalid state');
         }
 
         const codeIdentifier = strings.bin2hex(crypto.randomBytes(30));
@@ -32,43 +33,32 @@ let doAppCallback = function({
             }
         };
 
-        const httpreq = httpsClient.request(options, function (response) {
+        const response = await httpsClient.request(options, data);
 
-            response.setEncoding('utf8');
-            response.body = "";
+        const access_token = response.access_token;
 
-            response.on('data', function (chunk) {
-                response.body += chunk;
-            });
+        if (access_token !== undefined) {
+            await tokenDb.upsert({access_token});
 
-            response.on('end', function() {
-                const access_token = JSON.parse(response.body).access_token;
-
-                if (access_token !== undefined) {
-                    tokenDb.upsert({access_token});
-
-                    if (!tokenDb.hasToken()) {
-                        res.render('no_access_token');
-                        throw new LogicErrorException('Missing access token in database');
-                    } else {
-                        res.render('access_token');
-                    }
+            if (!await tokenDb.hasToken()) {
+                res.render('no_access_token');
+                throw new LogicError('Missing access token in database');
+            } else {
+                if (process.env.OPENID_AUTHENTICATION === "1" && openIdCallback instanceof Function) {
+                    const id_token = response.id_token;
+                    const user = await openIdCallback(id_token);
+                    const encodedCookie = Codec.encoder(user.sub, process.env.SUB_HASH_KEY)
+                    res.cookie('sub', encodedCookie.sub);
+                    res.cookie('vector', encodedCookie.vector);
+                    res.render('access_token', {user: user});
                 } else {
-                    res.render('no_access_token');
-                    throw new LogicErrorException('Missing access token in response');
+                    res.render('access_token');
                 }
-
-
-            });
-
-            response.on('error', function (e) {
-               res.render('error');
-            });
-
-        });
-
-        httpreq.write(data);
-        httpreq.end();
+            }
+        } else {
+            res.render('no_access_token');
+            throw new LogicError('Missing access token in response');
+        }
     };
 }
 

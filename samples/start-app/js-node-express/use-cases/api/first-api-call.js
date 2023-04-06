@@ -1,13 +1,13 @@
 let doFirstApiCall = function({
     httpsClient,
     tokenDb,
-    LogicErrorException
+    LogicError
  }) {
     return async function firstApiCall ({req, res, next}) {
 
         if (!await tokenDb.hasToken()) {
             res.render('no_access_token');
-            throw new LogicErrorException('Missing access token in database');
+            throw new LogicError('Missing access token in database');
         } else {
             const token = await tokenDb.getToken();
 
@@ -18,27 +18,13 @@ let doFirstApiCall = function({
                 method: 'GET'
             };
 
-            const httpreq = httpsClient.request(options, function (response) {
-                let data = '';
-                response.on('data', (chunk) => {
-                    data = data + chunk.toString();
-                });
+            const response = await httpsClient.request(options);
 
-                response.on('end', () => {
-                    const body = JSON.parse(data);
-
-                    if (body.hasOwnProperty('code')) {
-                        res.status(body.code).json({ message: body.message });
-                    } else {
-                        res.status(200).json(body);
-                    }
-                });
-            });
-
-            httpreq.on('error', (e) => {
-                console.error(e);
-            });
-            httpreq.end();
+            if (response.hasOwnProperty('code')) {
+                res.status(response.code).json({ message: response.message });
+            } else {
+                res.status(200).json(response);
+            }
         }
     };
 }

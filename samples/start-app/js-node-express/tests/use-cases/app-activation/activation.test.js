@@ -1,7 +1,7 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const {appActivate} = require("../../../use-cases/app-activation");
-const LogicErrorException = require("../../../exceptions/logicError.exception");
+const LogicError = require("../../../exceptions/logicError.exception");
 
 test("It redirects to activate", async () => {
 
@@ -40,7 +40,7 @@ test("It throws an error when there is no PIM URL in the request.", async () => 
     try {
         await appActivate({req, res, next}, randomString);
     } catch (e) {
-        expect(e).toBeInstanceOf(LogicErrorException);
+        expect(e).toBeInstanceOf(LogicError);
         expect(e.message).toBe("Can't retrieve PIM url, please restart the authorization process.");
     }
 });

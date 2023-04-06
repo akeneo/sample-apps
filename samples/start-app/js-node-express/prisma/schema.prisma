@@ -14,3 +14,11 @@ model token {
     id Int @id @default(autoincrement())
     accessToken String @map("access_token")
 }
+
+model user {
+    id Int @id @default(autoincrement())
+    sub String @unique
+    firstname String?
+    lastname String?
+    email String?
+}

@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Node JS sample app</title>
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <style>
         body{
-            position: absolute;
-            left: 100px;
-            top: 100px;
+            position: relative;
         }
         h1 {
 
@@ -35,12 +31,25 @@
             color: #4CA8E0;
             text-decoration: none;
         }
+        .header {
+            position: sticky;
+            border-bottom: 1px solid #9452BA;
+            height: 60px;
+        }
+        .content {
+            position: relative;
+            left: 100px;
+            top: 100px;
+        }
     </style>
 </head>
 <body>
-<h1>Welcome to Akeneo NodeJS Start App</h1>
 
-<p>You’ve successfully installed the NodeJS and Express Start App and now, <b>&nbspyou’re ready to connect to the PIM API.</b></p>
+<div class="content">
 
+    <h1>It seems that you haven’t got your App token yet.</h1>
+
+    <p>Please, get it by following our <i><a href="https://api.akeneo.com/tutorials/how-to-get-your-app-token.html" target="_blank">How to get your App token</a></i>&nbsptutorial.</p>
+
+</div>
 </body>
-</html>

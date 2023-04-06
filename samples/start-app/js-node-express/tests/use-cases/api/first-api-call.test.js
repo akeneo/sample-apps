@@ -1,7 +1,7 @@
 require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const {firstApiCall} = require("../../../use-cases/api");
-const LogicErrorException = require("../../../exceptions/logicError.exception");
+const LogicError = require("../../../exceptions/logicError.exception");
 const {tokenDb} = require("../../../data-access");
 const http = require('http');
 const https = require("https");
@@ -80,7 +80,7 @@ test("It throws an error when no token exists in database", async () => {
     } catch(e) {
         expect(res.render).toHaveBeenCalled();
         expect(res.render).toHaveBeenCalledWith('no_access_token');
-        expect(e).toBeInstanceOf(LogicErrorException);
+        expect(e).toBeInstanceOf(LogicError);
         expect(e.message).toBe("Missing access token in database");
     }
 

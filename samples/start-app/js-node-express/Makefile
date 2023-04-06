@@ -1,12 +1,10 @@
 APP_NAME = app
-export DEV_UID = $(shell id -u)
-export DEV_GID = $(shell id -g)
 DOCKER_COMPOSE = docker compose
-DOCKER_BUILD = $(DOCKER_COMPOSE) build
+DOCKER_BUILD = BUILDKIT=1 $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
 DOCKER_EXEC = $(DOCKER_COMPOSE) run
-LOG_FILE = /srv/app/var/error.log
+LOG_FILE = ./var/error.log
 APP_ADDRESS = http://localhost:8081/
 
 install: ## Install NodeJS sample App
@@ -36,7 +34,7 @@ stop: ## stop docker image
 	$(DOCKER_DOWN)
 
 logs: ## displays logs
-	$(DOCKER_EXEC) $(APP_NAME) tail -f $(LOG_FILE)
+	tail -f $(LOG_FILE)
 
 .PHONY: all tests clean
 tests:

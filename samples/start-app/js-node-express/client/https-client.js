@@ -20,11 +20,33 @@ class HttpsClient{
         this.options.headers = {...this.options.headers, "Authorization": `Bearer ${token.accessToken}`}
     }
 
-    request(options={}, callback) {
+    request(options={}, data=null) {
 
         const merged_options = {...this.options, ...options}
 
-        return https.request(merged_options, callback);
+        return new Promise((resolve, reject) => {
+            const req = https.request(merged_options, (response) => {
+                response.setEncoding('utf8');
+                response.body = "";
+
+                response.on('data', function (chunk) {
+                    response.body += chunk;
+                });
+
+                response.on('end', function () {
+                    resolve(JSON.parse(response.body));
+                });
+            });
+
+            req.on('error', (err) => {
+                reject(err);
+            });
+
+            if (data !== null) {
+                req.write(data);
+            }
+            req.end();
+        });
     }
 
     buildUserAgent(app_version = undefined, docker_version = undefined) {

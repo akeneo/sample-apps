@@ -2,7 +2,24 @@ require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 
 const {httpsClient} = require("../../client");
 const https = require("https");
-jest.mock('https')
+const http = require("http");
+jest.mock('https');
+
+let testData = '{ "test": "test"}';
+
+const mockedRequest = {
+    write: () => null,
+    end: () => null,
+    on: () => jest.fn(done => done())
+}
+
+const mockedResponse = (options, callback) => {
+    const response = new http.IncomingMessage();
+    callback(response);
+    response.emit('data', testData);
+    response.emit('end');
+    return mockedRequest;
+}
 
 test("It constructs an HttpsClient object", async () => {
 
@@ -46,9 +63,9 @@ test("It sets a token", async () => {
 
 test("It sends a request", async () => {
 
-    let spyRequest = jest.spyOn(https, 'request').mockImplementation(() => false);
+    let spyRequest = jest.spyOn(https, 'request').mockImplementation(mockedResponse);
 
-    httpsClient.request(undefined, undefined);
+    await httpsClient.request({}, null);
 
     expect(https.request).toHaveBeenCalled();
 
