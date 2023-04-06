@@ -3,7 +3,7 @@ require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 const { oauth_scopes } = require('../../../use-cases/app-activation/activation');
 const doNotifyAuthorizationUpdate = require('../../../use-cases/app-activation/notify-authorization-update');
 const {appCallback} = require("../../../use-cases/app-activation");
-const LogicErrorException = require("../../../exceptions/logicError.exception");
+const LogicError = require("../../../exceptions/logicError.exception");
 
 describe('doNotifyAuthorizationUpdate', () => {
     let mockHttpsClient;
@@ -24,39 +24,43 @@ describe('doNotifyAuthorizationUpdate', () => {
         mockReq = {};
         mockRes = {
             render: jest.fn(),
+            status: jest.fn().mockReturnThis(),
+            json: jest.fn()
         };
         mockNext = jest.fn();
     });
 
-    it('should render "no_access_token" and throw LogicErrorException if token is missing from the database', async () => {
+    it('should render "no_access_token" and throw LogicError if token is missing from the database', async () => {
         mockTokenDb.hasToken.mockResolvedValue(false);
 
         try {
             await doNotifyAuthorizationUpdate({
                 httpsClient: mockHttpsClient,
                 tokenDb: mockTokenDb,
-                LogicErrorException: LogicErrorException,
+                LogicError: LogicError,
             });
         } catch (e) {
             expect(mockRes.render).toHaveBeenCalledWith('no_access_token');
-            expect(e).toBeInstanceOf(LogicErrorException);
+            expect(e).toBeInstanceOf(LogicError);
             expect(e.message).toBe('Missing access token in database');
         }
     });
 
     it('should send a POST request to the API with the correct options and render "access_token" on success', async () => {
         const mockToken = 'mockToken';
+        const apiUrl = '/connect/apps/v1/scopes/update?scopes=';
+        const options = {
+            path: apiUrl + encodeURIComponent(oauth_scopes.join(' ')),
+            method: 'POST'
+        };
         mockTokenDb.hasToken.mockResolvedValue(true);
         mockTokenDb.getToken.mockResolvedValue(mockToken);
-        mockHttpsClient.request.mockImplementation((options, callback) => {
-            callback({ on: jest.fn() }); // simulate response object
-            return { on: jest.fn(), end: jest.fn() }; // return request object
-        });
+        mockHttpsClient.request.mockResolvedValueOnce({ status: 200, data: { message: 'Success' } });
 
         await doNotifyAuthorizationUpdate({
             httpsClient: mockHttpsClient,
             tokenDb: mockTokenDb,
-            LogicErrorException: LogicErrorException,
+            LogicError: LogicError,
         })({
             req: mockReq,
             res: mockRes,
@@ -64,9 +68,7 @@ describe('doNotifyAuthorizationUpdate', () => {
         });
 
         expect(mockHttpsClient.setToken).toHaveBeenCalledWith(mockToken);
-        expect(mockHttpsClient.request).toHaveBeenCalledWith({
-            path: '/connect/apps/v1/scopes/update?scopes=' + encodeURIComponent(oauth_scopes.join(' ')),
-            method: 'POST',
-        }, expect.any(Function));
+        expect(mockHttpsClient.request).toHaveBeenCalledWith(options);
+        expect(mockRes.status).toHaveBeenCalledWith(200);
     });
 });

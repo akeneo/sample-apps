@@ -29,7 +29,7 @@ const appCallback = doAppCallback({
 const notifyAuthorizationUpdate = doNotifyAuthorizationUpdate({
     httpsClient,
     tokenDb,
-    LogicErrorException
+    LogicError
 });
 
 module.exports = {appActivate, appCallback, notifyAuthorizationUpdate};
