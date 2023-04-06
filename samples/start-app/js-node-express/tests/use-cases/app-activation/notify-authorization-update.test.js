@@ -25,7 +25,8 @@ describe('doNotifyAuthorizationUpdate', () => {
         mockRes = {
             render: jest.fn(),
             status: jest.fn().mockReturnThis(),
-            json: jest.fn()
+            json: jest.fn(),
+            redirect: jest.fn()
         };
         mockNext = jest.fn();
     });
@@ -69,6 +70,5 @@ describe('doNotifyAuthorizationUpdate', () => {
 
         expect(mockHttpsClient.setToken).toHaveBeenCalledWith(mockToken);
         expect(mockHttpsClient.request).toHaveBeenCalledWith(options);
-        expect(mockRes.status).toHaveBeenCalledWith(200);
     });
 });

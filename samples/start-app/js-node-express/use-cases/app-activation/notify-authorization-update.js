@@ -25,7 +25,7 @@ let doNotifyAuthorizationUpdate = function({
             if (response.hasOwnProperty('code')) {
                 res.status(response.code).json({ message: response.message });
             } else {
-                res.status(200).json(response);
+                res.redirect('/');
             }
         }
     };

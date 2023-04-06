@@ -3,6 +3,9 @@ const oauth_scopes = [
     'read_channel_settings',
     'write_catalog_structure',
     'write_categories',
+    'openid',
+    'email',
+    'profile'
 ];
 
 let doAppActivate = function({
@@ -10,15 +13,6 @@ let doAppActivate = function({
     LogicError
 }) {
     return async function appActivate ({req, res, next}, randomString) {
-
-        const oauth_scopes = [
-            'read_channel_localization',
-            'read_channel_settings',
-            'openid',
-            'email',
-            'profile'
-        ];
-
         try {
             const pimUrl = new URL(req.query.pim_url);
 
