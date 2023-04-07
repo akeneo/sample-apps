@@ -22,7 +22,8 @@ let doNotifyAuthorizationUpdate = function({
             const response = await httpsClient.request(options);
 
             if (response.hasOwnProperty('code')) {
-                res.status(response.code).json({ message: response.message });
+                res.render('error');
+                throw new LogicError(response.message);
             } else {
                 res.redirect('/');
             }
