@@ -38,7 +38,16 @@ The App generates the credentials. Copy them for later.
 
 ![img.png](../../../common/images/step3-2.png)
 
-### Step 4: Launch your App
+### Step 4: OpenID Connect
+
+OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, implemented in Akeneo PXM Studio to authenticate users.
+This is an optional feature in Apps, you can also use your own Authentication. To learn more, check the complete [documentation](https://api.akeneo.com/apps/authentication-and-authorization.html#getting-started-with-openid-connect).
+
+Next step will let you choose whether you want to use this feature in your app, or not.
+OpenId related code is clearly identified within the app to allow a fast and easy modification.
+
+
+### Step 5: Launch your App
 Open a terminal at the root of the folder of your App, enter the following command and let us guide you
 ```
 make install
@@ -48,7 +57,7 @@ For information, this command launch scripts locate into `common/bin/install` in
 - [checkRequirements.sh](https://github.com/akeneo/sample-apps/blob/main/common/bin/install/checkRequirements.sh)
 - [dotEnvFileCreator.sh](https://github.com/akeneo/sample-apps/blob/main/common/bin/install/dotEnvFileCreator.sh)
 
-### Step 5: Activate your test App for your sandbox
+### Step 6: Activate your test App for your sandbox
 1. Back in your sandbox go to Connect > App store
 2. You see your App in the section “My App”
    ![img.png](../../../common/images/step5-1.png)
@@ -61,7 +70,7 @@ If everything is good, you should see
 
 It means your App is connected. Well done!
 
-### Step 6: Call your first API endpoint
+### Step 7: Call your first API endpoint
 
 Last but not least, let’s call the PIM API!
 Simply go [here](http://localhost:8081/first-api-call).
