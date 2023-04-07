@@ -62,6 +62,34 @@ describe('doNotifyAuthorizationUpdate', () => {
             httpsClient: mockHttpsClient,
             tokenDb: mockTokenDb,
             LogicError: LogicError,
+            oauth_scopes: oauth_scopes,
+        })({
+            req: mockReq,
+            res: mockRes,
+            next: mockNext,
+        });
+
+        expect(mockHttpsClient.setToken).toHaveBeenCalledWith(mockToken);
+        expect(mockHttpsClient.request).toHaveBeenCalledWith(options);
+    });
+
+
+    it('should send a POST request to the API with bad scopes', async () => {
+        const mockToken = 'mockToken';
+        const apiUrl = '/connect/apps/v1/scopes/update?scopes=';
+        const options = {
+            path: apiUrl,
+            method: 'POST'
+        };
+        mockTokenDb.hasToken.mockResolvedValue(true);
+        mockTokenDb.getToken.mockResolvedValue(mockToken);
+        mockHttpsClient.request.mockResolvedValueOnce({ status: 403, data: { message: 'Forbidden' } });
+
+        await doNotifyAuthorizationUpdate({
+            httpsClient: mockHttpsClient,
+            tokenDb: mockTokenDb,
+            LogicError: LogicError,
+            oauth_scopes: [],
         })({
             req: mockReq,
             res: mockRes,

@@ -15,12 +15,12 @@ final class NotifyAuthorizationUpdate
     {
     }
 
-    public function execute(): Response
+    public function execute(array $oauthScopes): Response
     {
         // Create instance of client with 'base_uri' configured in .env file and access token stored in database
         $client = $this->clientFactory->create();
 
-        $apiUrl = self::GET_APP_SCOPES_UPDATE . implode(' ', AppActivation::OAUTH_SCOPES);
+        $apiUrl = self::GET_APP_SCOPES_UPDATE . implode(' ', $oauthScopes);
 
         return $client->post($apiUrl, []);
     }

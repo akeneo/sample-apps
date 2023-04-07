@@ -3,11 +3,21 @@ declare(strict_types=1);
 
 namespace App\Tests\Mocks;
 
+use App\UseCase\AppActivation;
 use App\UseCase\NotifyAuthorizationUpdate;
 
 final class NotifyAuthorizationUpdateMock
 {
-    const API_URL = NotifyAuthorizationUpdate::GET_APP_SCOPES_UPDATE . 'read_channel_localization read_channel_settings write_catalog_structure write_categories openid email profile';
-
     public static string $response = 'ok';
+    public static array $badResponse = ["code" => "403", "message" => "Forbidden"];
+
+    public static function getApiUrl(): string
+    {
+        return NotifyAuthorizationUpdate::GET_APP_SCOPES_UPDATE . implode(' ', AppActivation::OAUTH_SCOPES);
+    }
+
+    public static function getBadUrl(): string
+    {
+        return NotifyAuthorizationUpdate::GET_APP_SCOPES_UPDATE;
+    }
 }

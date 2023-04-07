@@ -7,7 +7,7 @@ const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
 const LogicError = require("../../exceptions/logicError.exception");
 
-const { doAppActivate } = require('./activation');
+const { doAppActivate, oauth_scopes } = require('./activation');
 const doAppCallback = require("./callback");
 const doNotifyAuthorizationUpdate = require('../app-activation/notify-authorization-update');
 
@@ -29,7 +29,8 @@ const appCallback = doAppCallback({
 const notifyAuthorizationUpdate = doNotifyAuthorizationUpdate({
     httpsClient,
     tokenDb,
-    LogicError
+    LogicError,
+    oauth_scopes
 });
 
 module.exports = {appActivate, appCallback, notifyAuthorizationUpdate};

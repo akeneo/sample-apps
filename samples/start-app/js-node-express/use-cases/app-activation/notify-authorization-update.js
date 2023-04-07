@@ -1,9 +1,8 @@
-const { oauth_scopes } = require('./activation');
-
 let doNotifyAuthorizationUpdate = function({
     httpsClient,
     tokenDb,
-    LogicError
+    LogicError,
+    oauth_scopes
  }) {
     return async function notifyAuthorizationUpdate({req, res, next}) {
         if (!await tokenDb.hasToken()) {
@@ -20,7 +19,7 @@ let doNotifyAuthorizationUpdate = function({
                 method: 'POST'
             };
 
-            const response = httpsClient.request(options);
+            const response = await httpsClient.request(options);
 
             if (response.hasOwnProperty('code')) {
                 res.status(response.code).json({ message: response.message });

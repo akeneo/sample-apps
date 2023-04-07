@@ -7,6 +7,7 @@ use App\Client\ClientFactoryInterface;
 use App\Tests\MockApiTrait;
 use App\Tests\Mocks\ChannelMock;
 use App\Tests\Mocks\NotifyAuthorizationUpdateMock;
+use App\UseCase\AppActivation;
 use App\UseCase\FirstApiCall;
 use App\UseCase\NotifyAuthorizationUpdate;
 use GuzzleHttp\Client;
@@ -38,9 +39,23 @@ class NotifyAuthorizationUpdateTest extends TestCase
      */
     public function testExecute(): void
     {
-        $result = $this->notifyAuthorizationUpdate->execute();
+        $result = $this->notifyAuthorizationUpdate->execute(AppActivation::OAUTH_SCOPES);
 
-        $this->assertEquals(NotifyAuthorizationUpdateMock::$response, json_decode($result->getBody()->getContents()));
+        $this->assertEquals(NotifyAuthorizationUpdateMock::$response, json_decode($result->getBody()->getContents(), true));
+    }
+
+    /**
+     * @test
+     *
+     * execute() error case
+     *
+     * @return void
+     */
+    public function testExecuteReturnForbidden(): void
+    {
+        $result = $this->notifyAuthorizationUpdate->execute([]);
+
+        $this->assertEquals(NotifyAuthorizationUpdateMock::$badResponse, json_decode($result->getBody()->getContents(), true));
     }
 
 }

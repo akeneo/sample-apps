@@ -4,8 +4,6 @@ import secrets, urllib.parse
 oauth_scopes = [
     'read_channel_localization',
     'read_channel_settings',
-    'write_catalog_structure',
-    'write_categories',
 ];
 
 get_authorization_url = '%s/connect/apps/v1/authorize?%s'
@@ -33,4 +31,3 @@ def activate_usecase(request, session):
     )
 
     return  get_authorization_url % (pim_url, authorize_url_params)
-    
