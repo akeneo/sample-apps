@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Response, Depends,Cookie
+from fastapi import APIRouter, Request, Response, Depends
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 from app.dependencies import get_db, get_session, openid_authentication, get_config

@@ -6,6 +6,7 @@ WORKDIR /srv/app
 # set env variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV TZ=Europe/Paris 
  
 COPY ./requirements.txt /app/requirements.txt
 

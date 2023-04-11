@@ -67,22 +67,12 @@ class TestCallbackUseCase(unittest.TestCase):
 
         mock_get.assert_called_once_with('https://pim.com/connect/apps/v1/openid/public-key', headers={'User-Agent': build_user_agent()})
 
-    @patch('jwt.decode')
-    @patch('jwt.get_unverified_header')
-    def test_extract_claims_from_signed_token(self, mock_get_unverified_header, mock_decode):
+    def test_extract_claims_from_signed_token(self):
         # Setup
-        id_token = 'eyJhbGciOiJSUzI1NiIsImFscGhhIjp0cnVlfQ.eyJpc3MiOiJEaW5vQ2hpZXNhLmdpdGh1Yi5pbyIsInN1YiI6InNoZW5pcXVhIiwiYXVkIjoiYW5uYSIsImlhdCI6MTY4MDAxMzc0OSwiZXhwIjoxNjgwMDE0MzQ5LCJwcm9wWCI6dHJ1ZX0.gbk8edWfu3hwVuvULTVAovqVnqaxm9EgJACOwdwOXuZAlwlpzsf8NeQkBcTlUzA5u5B1oRZThbx368xqcBE8O2an8J-rMKYjRKASbPWXJwE9KAh2BRMGsFLBDibpgmOo_LY_IOOvlmAMTxLR3GtgG8cM2kiWr0MoEdI1VXbgBOdj2sQ06Jz2zzs1rNsvBGV3BZw0lv_RAUAVdiSGAIPq0MqPK_47_FCM1fvHifphqmJvbhGGvx4apRLCmFdHLJyeddNYWKtaSW5PyfJIAgpJS01YU4_H71DV56useZu_KWVW73xJX0GV_LXotXm_2bADp7hL0ouYYIIjVonBhqYp5Q'
+        id_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL21hcnN1cy5zYW5kYm94LmNsb3VkLmFrZW5lby5jb20iLCJqdGkiOiJmZDAyNDA0OS01NGQ3LTQ2NDgtYTYxZS0zNmFkMGMyNjBmN2MiLCJzdWIiOiJhOGJiMDEyMy1lNjhkLTQzN2UtYjU5My0wZmUxN2MxYmQ1MzgiLCJhdWQiOiJiYWFkZTQ0MC05MjI3LTQzYWMtYjg1MC1kNTZkNzM0OGIzNGUiLCJpYXQiOjE2ODEyMDI2OTMuODQxMjE3LCJleHAiOjE2ODEyMDYyOTMuODQxMjE3LCJmaXJzdG5hbWUiOiJTYW11ZWwiLCJsYXN0bmFtZSI6IkdvbWlzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJlbWFpbCI6InNhbXVlbC5nb21pc0BnZXRha2VuZW8uY29tIn0.oTblZvdyh8RV6gcnP3CCE79ucK8A8gFBDFIjo1H3rl_DQfmw6nVTMV682ihnN-WusMPw7dJZWnnid5et1Wq2EPxp1mtwOzGA_F15hMs_Ie_IFGjQnwVTPoJRH59HADbe30-ZwjloCxOfRPFhrK5d7W38CkSPaxlf0wdU7ZqPAMEW5oFFNsC-5NT1WRvHHPSvNTt1vsc5ZmAKH-FIksMiB2IwGQtGzYvrH1UTptZxrDk3r3cwVYNoVWndcgeUSQ0djXwzsgfzZwfifpnrLEw1UyBsjZhjKAPWQoTf0ddkk3VaGgU53axLHyD8F22sx_ycxV3UQx6Tv5buMzZj_MbqsQ'
         
-        signature = 'test_signature'
-        issuer = 'DinoChiesa.github.io'
-        mock_get_unverified_header.return_value={'alg': 'RS256'}
-        mock_decode.return_value={
-            "iss": "DinoChiesa.github.io",
-            "sub": "sheniqua",
-            "aud": "anna",
-            "iat": 1680013775,
-            "exp": 1680014375
-        }
+        signature = '-----BEGIN CERTIFICATE-----\r\nMIIC7zCCAdegAwIBAgIUXaYsmjjYO0r4B3bW5ULJLCNRoVgwDQYJKoZIhvcNAQEL\r\nBQAwETEPMA0GA1UECgwGQWtlbmVvMB4XDTIzMDEyOTIxMDQxOFoXDTI0MDEyOTIx\r\nMDQxOFowETEPMA0GA1UECgwGQWtlbmVvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A\r\nMIIBCgKCAQEA2tk0QrRYRPsMSetxiMwleifpC9BMq3rmsNIsFl6f9xYqG/TU/1NW\r\nnYvIzu/Ad9552eJa6k1qoU4d17ulWkZnGJxBoQhOtVSnXVAavyE6IhkC0fJ01Pd9\r\nWlFafcudHHbtgDERQQbSbWrWq5B1UQYpOqTvGUOmjV4i7/hZDFBWY2jsWFAKxLm+\r\nnbpV59yT4n85hA5Kt/swrh5dnYf/nXhAqxjE0sf5aFEA5C/KMlNYErVa821taeKL\r\nEy0/uEWtkxHU3i0/dqB9mL0OC1etkHdMU7uLVaadlFYVcFDDYkMu0Ix5Xb6j3Q9B\r\nF/22nZlesCUqtLEhR7oy0/gPJt8uUHwhqwIDAQABoz8wPTALBgNVHQ8EBAMCAQYw\r\nDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQURGKmWPRSE/Kf1rs0+dBkC6aV6LUw\r\nDQYJKoZIhvcNAQELBQADggEBAIYx0Bz+MiCjSTk/wp1KsL0SVtv1GupiRv3BqYhG\r\nlEIeVo/fmBQOuBmt1fbje6+OD2VaM0KJ4VTt/UrkyzE+VpmavrFynh/oWmkoospN\r\nU+rNfVP2JwombcYLQAyqurR5VAKea/uatnxwqL7TUMG+v9G1ImeBM4hRUWUD0Nce\r\nWybalg6AZeGGjZ0uaSM2v5IKG+8MoZaXuoiPzWJ6teo2CCEkoFBJZlLXOK6X9OSv\r\nO9yFEd9PVU4BrbAxHf9q9HHrh6SMKcdWTfpjL6LbydVIZYXdr2JC/aRF5hO9lxTj\r\nc5PKdB9GCPt3S0ad0n2jdRJy0j1Q2rMFaTJEWoR7SPeFxas=\r\n-----END CERTIFICATE-----'
+        issuer = 'https://marsus.sandbox.cloud.akeneo.com'
 
         # Exercise
         result = extract_claims_from_signed_token(id_token, signature, issuer)
@@ -90,7 +80,16 @@ class TestCallbackUseCase(unittest.TestCase):
         # Verify
         self.assertIsNotNone(result)
         self.assertIsInstance(result, dict)
-        self.assertEqual(result['iss'], 'DinoChiesa.github.io')
-        self.assertEqual(result['sub'], 'sheniqua')
-        self.assertEqual(result['aud'], 'anna')
+        self.assertEqual(result['iss'], issuer)
+        self.assertEqual(result['sub'], 'a8bb0123-e68d-437e-b593-0fe17c1bd538')
+
+    
+    def test_extract_claims_from_signed_token_with_bad_issuer_raise_exception(self):
+        # Setup
+        id_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL21hcnN1cy5zYW5kYm94LmNsb3VkLmFrZW5lby5jb20iLCJqdGkiOiJmZDAyNDA0OS01NGQ3LTQ2NDgtYTYxZS0zNmFkMGMyNjBmN2MiLCJzdWIiOiJhOGJiMDEyMy1lNjhkLTQzN2UtYjU5My0wZmUxN2MxYmQ1MzgiLCJhdWQiOiJiYWFkZTQ0MC05MjI3LTQzYWMtYjg1MC1kNTZkNzM0OGIzNGUiLCJpYXQiOjE2ODEyMDI2OTMuODQxMjE3LCJleHAiOjE2ODEyMDYyOTMuODQxMjE3LCJmaXJzdG5hbWUiOiJTYW11ZWwiLCJsYXN0bmFtZSI6IkdvbWlzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJlbWFpbCI6InNhbXVlbC5nb21pc0BnZXRha2VuZW8uY29tIn0.oTblZvdyh8RV6gcnP3CCE79ucK8A8gFBDFIjo1H3rl_DQfmw6nVTMV682ihnN-WusMPw7dJZWnnid5et1Wq2EPxp1mtwOzGA_F15hMs_Ie_IFGjQnwVTPoJRH59HADbe30-ZwjloCxOfRPFhrK5d7W38CkSPaxlf0wdU7ZqPAMEW5oFFNsC-5NT1WRvHHPSvNTt1vsc5ZmAKH-FIksMiB2IwGQtGzYvrH1UTptZxrDk3r3cwVYNoVWndcgeUSQ0djXwzsgfzZwfifpnrLEw1UyBsjZhjKAPWQoTf0ddkk3VaGgU53axLHyD8F22sx_ycxV3UQx6Tv5buMzZj_MbqsQ'
         
+        signature = '-----BEGIN CERTIFICATE-----\r\nMIIC7zCCAdegAwIBAgIUXaYsmjjYO0r4B3bW5ULJLCNRoVgwDQYJKoZIhvcNAQEL\r\nBQAwETEPMA0GA1UECgwGQWtlbmVvMB4XDTIzMDEyOTIxMDQxOFoXDTI0MDEyOTIx\r\nMDQxOFowETEPMA0GA1UECgwGQWtlbmVvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A\r\nMIIBCgKCAQEA2tk0QrRYRPsMSetxiMwleifpC9BMq3rmsNIsFl6f9xYqG/TU/1NW\r\nnYvIzu/Ad9552eJa6k1qoU4d17ulWkZnGJxBoQhOtVSnXVAavyE6IhkC0fJ01Pd9\r\nWlFafcudHHbtgDERQQbSbWrWq5B1UQYpOqTvGUOmjV4i7/hZDFBWY2jsWFAKxLm+\r\nnbpV59yT4n85hA5Kt/swrh5dnYf/nXhAqxjE0sf5aFEA5C/KMlNYErVa821taeKL\r\nEy0/uEWtkxHU3i0/dqB9mL0OC1etkHdMU7uLVaadlFYVcFDDYkMu0Ix5Xb6j3Q9B\r\nF/22nZlesCUqtLEhR7oy0/gPJt8uUHwhqwIDAQABoz8wPTALBgNVHQ8EBAMCAQYw\r\nDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQURGKmWPRSE/Kf1rs0+dBkC6aV6LUw\r\nDQYJKoZIhvcNAQELBQADggEBAIYx0Bz+MiCjSTk/wp1KsL0SVtv1GupiRv3BqYhG\r\nlEIeVo/fmBQOuBmt1fbje6+OD2VaM0KJ4VTt/UrkyzE+VpmavrFynh/oWmkoospN\r\nU+rNfVP2JwombcYLQAyqurR5VAKea/uatnxwqL7TUMG+v9G1ImeBM4hRUWUD0Nce\r\nWybalg6AZeGGjZ0uaSM2v5IKG+8MoZaXuoiPzWJ6teo2CCEkoFBJZlLXOK6X9OSv\r\nO9yFEd9PVU4BrbAxHf9q9HHrh6SMKcdWTfpjL6LbydVIZYXdr2JC/aRF5hO9lxTj\r\nc5PKdB9GCPt3S0ad0n2jdRJy0j1Q2rMFaTJEWoR7SPeFxas=\r\n-----END CERTIFICATE-----'
+        issuer = 'bad issuer'
+        
+        with self.assertRaises(ValueError):
+            result = extract_claims_from_signed_token(id_token, signature, issuer)

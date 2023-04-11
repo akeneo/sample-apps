@@ -2,15 +2,12 @@ from app.persistence import userRepository
 from app.model import schemas
 from app.dependencies import get_config, build_user_agent
 from app.usecase.callback import callback_usecase
-from app.utils.codec import encoder, decoder
+from app.utils.codec import encoder
 from urllib.parse import urljoin
-import requests
 from cryptography.x509 import load_pem_x509_certificate
-from jwt import decode, get_unverified_header
-from jwt.algorithms import get_default_algorithms
-
-
+from jwt import decode
 from cryptography.hazmat.backends import default_backend
+import requests
 
 
 openid_public_key = '/connect/apps/v1/openid/public-key'
@@ -56,20 +53,13 @@ def fetch_openid_public_key(pim_url):
     return contents['public_key']
 
 def extract_claims_from_signed_token(id_token: str, signature: str, issuer: str):
-    algorithm = 'RS256'  # assuming the algorithm used is RSA with SHA-256
-    jwt_header = get_unverified_header(id_token)
-    jwt_payload = decode(id_token, algorithms=[algorithm], options={"verify_signature": False})
+    
+    cert = load_pem_x509_certificate(signature.encode('utf-8'), default_backend())
+
+    jwt_payload =  decode(id_token, key=cert.public_key(), algorithms=['RS256'], options={"verify_signature": True, "verify_iat": False, "verify_aud": False})
 
     # Verify the issuer
     if jwt_payload.get('iss') != issuer:
         raise ValueError('Invalid issuer')
-
-    # # Verify the signature
-    # pem_cert = signature.encode('utf-8')
-    # cert = load_pem_x509_certificate(pem_cert, default_backend())
-    # public_key = cert.public_key()
-
-    # if not signer.verify(id_token.encode('utf-8'), public_key, jwt_header):
-    #     raise ValueError('Invalid signature')
 
     return jwt_payload

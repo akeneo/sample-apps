@@ -6,8 +6,6 @@ from urllib.parse import urljoin
 from app.usecase.firstApiCall import first_api_call_usecase
 import requests
 
-
-
 class TestApiCalls(unittest.TestCase):
 
     def setUp(self):
