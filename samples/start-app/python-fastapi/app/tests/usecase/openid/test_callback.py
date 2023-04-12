@@ -24,7 +24,8 @@ class TestCallbackUseCase(unittest.TestCase):
     @patch('app.usecase.openid.callback.extract_claims_from_signed_token')
     @patch('app.usecase.openid.callback.fetch_openid_public_key')
     @patch('app.usecase.openid.callback.callback_usecase')
-    def test_callback_usecase_with_openid(self, mock_callback_usecase, mock_fetch_openid_public_key, mock_extract_claims, mock_create_user):
+    @patch('app.usecase.openid.callback.get_config')
+    def test_callback_usecase_with_openid(self, mock_get_config, mock_callback_usecase, mock_fetch_openid_public_key, mock_extract_claims, mock_create_user):
         mock_callback_usecase.return_value.json.return_value = {'id_token': 'test_token'}
         mock_fetch_openid_public_key.return_value = 'test_public_key'
         mock_extract_claims.return_value = {
@@ -34,6 +35,7 @@ class TestCallbackUseCase(unittest.TestCase):
             'sub': 'test_sub'
         }
         mock_create_user.return_value = None
+        mock_get_config.return_value = '3UtNbWGUHsJXlD6e4vT5fucvYUe2P9S1'
 
         # Exercise
         result = callback_usecase_with_openid(self.request, self.db, self.session)
