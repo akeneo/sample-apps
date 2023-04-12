@@ -3,6 +3,7 @@
 namespace App\Tests\UseCase;
 
 use App\Client\ClientFactory;
+use App\Client\ClientFactoryInterface;
 use App\Tests\MockApiTrait;
 use App\Tests\Mocks\ChannelMock;
 use App\UseCase\FirstApiCall;
@@ -17,7 +18,7 @@ class FirstApiCallTest extends TestCase
 
     protected function setUp(): void
     {
-        $clientFactory = $this->createMock(ClientFactory::class);
+        $clientFactory = $this->createMock(ClientFactoryInterface::class);
         $clientFactory->expects($this->once())
             ->method('create')
             ->willReturn(new Client(['handler' => $this->mockApi()]));

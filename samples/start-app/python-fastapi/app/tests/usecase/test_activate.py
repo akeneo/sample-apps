@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from app.usecase.activate import activate_usecase
+from app.usecase.activate import activate_usecase, oauth_scopes
 from fastapi import Request
 from app.dependencies import get_config
 
@@ -16,7 +16,7 @@ class TestCallbackUsecase(unittest.TestCase):
     @patch('secrets.token_hex')
     @patch('urllib.parse.urlencode')
     def test_activate_usecase(self, mock_urlencode, mock_token_hex):
-        mock_urlencode.return_value = 'response_type=code&client_id=test_client_id&scope=read_channel_localization read_channel_settings&state=test_state'
+        mock_urlencode.return_value = 'response_type=code&client_id=test_client_id&scope='+ ' '.join(oauth_scopes) +'&state=test_state'
         mock_token_hex.return_value = 'test_state'
 
         result = activate_usecase(self.request, self.session)
@@ -24,12 +24,12 @@ class TestCallbackUsecase(unittest.TestCase):
         mock_urlencode.assert_called_once_with({
             'response_type': 'code',
             'client_id': get_config('CLIENT_ID'),
-            'scope': 'read_channel_localization read_channel_settings',
+            'scope': ' '.join(oauth_scopes),
             'state': 'test_state'
         })
         mock_token_hex.assert_called_once_with(10)
-
-        self.assertEqual(result, 'http://example.com/connect/apps/v1/authorize?response_type=code&client_id=test_client_id&scope=read_channel_localization read_channel_settings&state=test_state')
+        expected = 'http://example.com/connect/apps/v1/authorize?response_type=code&client_id=test_client_id&scope='+' '.join(oauth_scopes) +'&state=test_state'
+        self.assertEqual(result, expected)
         self.assertEqual(self.session.headers['oauth2_state'], 'test_state')
         self.assertEqual(self.session.headers['pim_url'], 'http://example.com')
 

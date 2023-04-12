@@ -82,6 +82,14 @@ You will find a pre-configured HTTP client [here](https://github.com/akeneo/samp
 
 Voilà! You are ready for developing your App!
 
+### update the access scopes
+
+If a user updates the access scopes of an already connected app, the access scope update process will require app users to provide consent for the addition of new scopes. You can notify the PIM that the app requires an authorization update using this endpoint:
+
+```
+[your-url]/notify-authorization-update
+```
+
 ### What's next?
 - Want to get your PIM data to your App? Have a look to our [guided tutorials](https://api.akeneo.com/tutorials/homepage.html#tags=App%20Workflow)
 - Need some tools? Have a look to our [dedicated page](https://api.akeneo.com/apps/app-developer-tools.html): we have, with others, a Postman collection that may you during your development.
