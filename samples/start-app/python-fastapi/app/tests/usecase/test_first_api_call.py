@@ -1,7 +1,7 @@
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from app.persistence import tokenRepository
-from app.dependencies import get_config, build_user_agent
+from app.dependencies import build_user_agent
 from urllib.parse import urljoin
 from app.usecase.firstApiCall import first_api_call_usecase
 import requests
@@ -13,8 +13,12 @@ class TestApiCalls(unittest.TestCase):
         self.token = MagicMock()
         self.token.access_token = 'test_token'
 
-    def test_first_api_call_usecase(self):
-        api_url = get_config('AKENEO_PIM_URL') + 'api/rest/v1/channels'
+    @patch('app.usecase.firstApiCall.get_config')
+    def test_first_api_call_usecase(self, mock_get_config):
+        pimUrl = 'https://pim-url.com'
+        mock_get_config.return_value = pimUrl
+
+        api_url = pimUrl  + '/api/rest/v1/channels'
         expected_response = {
             "_links": {
                 "self": {
@@ -72,5 +76,3 @@ class TestApiCalls(unittest.TestCase):
             }
         )
 
-if __name__ == '__main__':
-    unittest.main()
