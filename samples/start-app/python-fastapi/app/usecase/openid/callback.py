@@ -15,7 +15,7 @@ openid_public_key = '/connect/apps/v1/openid/public-key'
 def callback_usecase_with_openid(request, db, session):
     response = callback_usecase(request, db, session)
 
-    pim_url = session.headers['pim_url']
+    pim_url =  session.headers['pim_url'] if session.headers['pim_url'] != '' else get_config('AKENEO_PIM_URL')
     if pim_url == '':
         raise ValueError('No PIM url in session')
     
@@ -56,10 +56,10 @@ def extract_claims_from_signed_token(id_token: str, signature: str, issuer: str)
     
     cert = load_pem_x509_certificate(signature.encode('utf-8'), default_backend())
 
-    jwt_payload =  decode(id_token, key=cert.public_key(), algorithms=['RS256'], options={"verify_signature": True, "verify_iat": False, "verify_aud": False})
+    jwt_payload = decode(id_token, key=cert.public_key(), algorithms=['RS256'], options={"verify_signature": True, "verify_iat": False, "verify_aud": False})
 
     # Verify the issuer
-    if jwt_payload.get('iss') != issuer:
+    if jwt_payload.get('iss').rstrip('/') != issuer.rstrip('/'):
         raise ValueError('Invalid issuer')
 
     return jwt_payload

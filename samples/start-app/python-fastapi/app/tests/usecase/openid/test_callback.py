@@ -6,6 +6,7 @@ from app.model import schemas
 from fastapi import Request
 from sqlalchemy.orm import Session
 import jwt
+from cryptography.hazmat.backends import default_backend
 
 
 class TestCallbackUseCase(unittest.TestCase):
@@ -67,29 +68,39 @@ class TestCallbackUseCase(unittest.TestCase):
 
         mock_get.assert_called_once_with('https://pim.com/connect/apps/v1/openid/public-key', headers={'User-Agent': build_user_agent()})
 
-    def test_extract_claims_from_signed_token(self):
+    @patch('app.usecase.openid.callback.load_pem_x509_certificate')
+    @patch('app.usecase.openid.callback.decode')
+    def test_extract_claims_from_signed_token(self,mock_decode, mock_certificate):
         # Setup
-        id_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL21hcnN1cy5zYW5kYm94LmNsb3VkLmFrZW5lby5jb20iLCJqdGkiOiJmZDAyNDA0OS01NGQ3LTQ2NDgtYTYxZS0zNmFkMGMyNjBmN2MiLCJzdWIiOiJhOGJiMDEyMy1lNjhkLTQzN2UtYjU5My0wZmUxN2MxYmQ1MzgiLCJhdWQiOiJiYWFkZTQ0MC05MjI3LTQzYWMtYjg1MC1kNTZkNzM0OGIzNGUiLCJpYXQiOjE2ODEyMDI2OTMuODQxMjE3LCJleHAiOjE2ODEyMDYyOTMuODQxMjE3LCJmaXJzdG5hbWUiOiJTYW11ZWwiLCJsYXN0bmFtZSI6IkdvbWlzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJlbWFpbCI6InNhbXVlbC5nb21pc0BnZXRha2VuZW8uY29tIn0.oTblZvdyh8RV6gcnP3CCE79ucK8A8gFBDFIjo1H3rl_DQfmw6nVTMV682ihnN-WusMPw7dJZWnnid5et1Wq2EPxp1mtwOzGA_F15hMs_Ie_IFGjQnwVTPoJRH59HADbe30-ZwjloCxOfRPFhrK5d7W38CkSPaxlf0wdU7ZqPAMEW5oFFNsC-5NT1WRvHHPSvNTt1vsc5ZmAKH-FIksMiB2IwGQtGzYvrH1UTptZxrDk3r3cwVYNoVWndcgeUSQ0djXwzsgfzZwfifpnrLEw1UyBsjZhjKAPWQoTf0ddkk3VaGgU53axLHyD8F22sx_ycxV3UQx6Tv5buMzZj_MbqsQ'
-        
-        signature = '-----BEGIN CERTIFICATE-----\r\nMIIC7zCCAdegAwIBAgIUXaYsmjjYO0r4B3bW5ULJLCNRoVgwDQYJKoZIhvcNAQEL\r\nBQAwETEPMA0GA1UECgwGQWtlbmVvMB4XDTIzMDEyOTIxMDQxOFoXDTI0MDEyOTIx\r\nMDQxOFowETEPMA0GA1UECgwGQWtlbmVvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A\r\nMIIBCgKCAQEA2tk0QrRYRPsMSetxiMwleifpC9BMq3rmsNIsFl6f9xYqG/TU/1NW\r\nnYvIzu/Ad9552eJa6k1qoU4d17ulWkZnGJxBoQhOtVSnXVAavyE6IhkC0fJ01Pd9\r\nWlFafcudHHbtgDERQQbSbWrWq5B1UQYpOqTvGUOmjV4i7/hZDFBWY2jsWFAKxLm+\r\nnbpV59yT4n85hA5Kt/swrh5dnYf/nXhAqxjE0sf5aFEA5C/KMlNYErVa821taeKL\r\nEy0/uEWtkxHU3i0/dqB9mL0OC1etkHdMU7uLVaadlFYVcFDDYkMu0Ix5Xb6j3Q9B\r\nF/22nZlesCUqtLEhR7oy0/gPJt8uUHwhqwIDAQABoz8wPTALBgNVHQ8EBAMCAQYw\r\nDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQURGKmWPRSE/Kf1rs0+dBkC6aV6LUw\r\nDQYJKoZIhvcNAQELBQADggEBAIYx0Bz+MiCjSTk/wp1KsL0SVtv1GupiRv3BqYhG\r\nlEIeVo/fmBQOuBmt1fbje6+OD2VaM0KJ4VTt/UrkyzE+VpmavrFynh/oWmkoospN\r\nU+rNfVP2JwombcYLQAyqurR5VAKea/uatnxwqL7TUMG+v9G1ImeBM4hRUWUD0Nce\r\nWybalg6AZeGGjZ0uaSM2v5IKG+8MoZaXuoiPzWJ6teo2CCEkoFBJZlLXOK6X9OSv\r\nO9yFEd9PVU4BrbAxHf9q9HHrh6SMKcdWTfpjL6LbydVIZYXdr2JC/aRF5hO9lxTj\r\nc5PKdB9GCPt3S0ad0n2jdRJy0j1Q2rMFaTJEWoR7SPeFxas=\r\n-----END CERTIFICATE-----'
-        issuer = 'https://marsus.sandbox.cloud.akeneo.com'
+        id_token = 'example_id_token'
+        signature = 'example_signature'
+        issuer = 'example_issuer'
+
+        mock_certificate.return_value.public_key.return_value = 'example_public_key'
+        mock_jwt_payload = {'iss': 'example_issuer', 'sub': 'example_subject'}
+        mock_decode.return_value = mock_jwt_payload
 
         # Exercise
         result = extract_claims_from_signed_token(id_token, signature, issuer)
 
         # Verify
-        self.assertIsNotNone(result)
-        self.assertIsInstance(result, dict)
-        self.assertEqual(result['iss'], issuer)
-        self.assertEqual(result['sub'], 'a8bb0123-e68d-437e-b593-0fe17c1bd538')
+        self.assertEqual(result, mock_jwt_payload)
+        mock_certificate.assert_called_once_with(signature.encode('utf-8'), default_backend())
+        mock_decode.assert_called_once_with(id_token, key='example_public_key', algorithms=['RS256'], options={"verify_signature": True, "verify_iat": False, "verify_aud": False})
 
-    
-    def test_extract_claims_from_signed_token_with_bad_issuer_raise_exception(self):
+    @patch('app.usecase.openid.callback.load_pem_x509_certificate')
+    @patch('app.usecase.openid.callback.decode')
+    def test_extract_claims_from_signed_token_with_bad_issuer(self,mock_decode, mock_certificate):
         # Setup
-        id_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL21hcnN1cy5zYW5kYm94LmNsb3VkLmFrZW5lby5jb20iLCJqdGkiOiJmZDAyNDA0OS01NGQ3LTQ2NDgtYTYxZS0zNmFkMGMyNjBmN2MiLCJzdWIiOiJhOGJiMDEyMy1lNjhkLTQzN2UtYjU5My0wZmUxN2MxYmQ1MzgiLCJhdWQiOiJiYWFkZTQ0MC05MjI3LTQzYWMtYjg1MC1kNTZkNzM0OGIzNGUiLCJpYXQiOjE2ODEyMDI2OTMuODQxMjE3LCJleHAiOjE2ODEyMDYyOTMuODQxMjE3LCJmaXJzdG5hbWUiOiJTYW11ZWwiLCJsYXN0bmFtZSI6IkdvbWlzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJlbWFpbCI6InNhbXVlbC5nb21pc0BnZXRha2VuZW8uY29tIn0.oTblZvdyh8RV6gcnP3CCE79ucK8A8gFBDFIjo1H3rl_DQfmw6nVTMV682ihnN-WusMPw7dJZWnnid5et1Wq2EPxp1mtwOzGA_F15hMs_Ie_IFGjQnwVTPoJRH59HADbe30-ZwjloCxOfRPFhrK5d7W38CkSPaxlf0wdU7ZqPAMEW5oFFNsC-5NT1WRvHHPSvNTt1vsc5ZmAKH-FIksMiB2IwGQtGzYvrH1UTptZxrDk3r3cwVYNoVWndcgeUSQ0djXwzsgfzZwfifpnrLEw1UyBsjZhjKAPWQoTf0ddkk3VaGgU53axLHyD8F22sx_ycxV3UQx6Tv5buMzZj_MbqsQ'
-        
-        signature = '-----BEGIN CERTIFICATE-----\r\nMIIC7zCCAdegAwIBAgIUXaYsmjjYO0r4B3bW5ULJLCNRoVgwDQYJKoZIhvcNAQEL\r\nBQAwETEPMA0GA1UECgwGQWtlbmVvMB4XDTIzMDEyOTIxMDQxOFoXDTI0MDEyOTIx\r\nMDQxOFowETEPMA0GA1UECgwGQWtlbmVvMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A\r\nMIIBCgKCAQEA2tk0QrRYRPsMSetxiMwleifpC9BMq3rmsNIsFl6f9xYqG/TU/1NW\r\nnYvIzu/Ad9552eJa6k1qoU4d17ulWkZnGJxBoQhOtVSnXVAavyE6IhkC0fJ01Pd9\r\nWlFafcudHHbtgDERQQbSbWrWq5B1UQYpOqTvGUOmjV4i7/hZDFBWY2jsWFAKxLm+\r\nnbpV59yT4n85hA5Kt/swrh5dnYf/nXhAqxjE0sf5aFEA5C/KMlNYErVa821taeKL\r\nEy0/uEWtkxHU3i0/dqB9mL0OC1etkHdMU7uLVaadlFYVcFDDYkMu0Ix5Xb6j3Q9B\r\nF/22nZlesCUqtLEhR7oy0/gPJt8uUHwhqwIDAQABoz8wPTALBgNVHQ8EBAMCAQYw\r\nDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQURGKmWPRSE/Kf1rs0+dBkC6aV6LUw\r\nDQYJKoZIhvcNAQELBQADggEBAIYx0Bz+MiCjSTk/wp1KsL0SVtv1GupiRv3BqYhG\r\nlEIeVo/fmBQOuBmt1fbje6+OD2VaM0KJ4VTt/UrkyzE+VpmavrFynh/oWmkoospN\r\nU+rNfVP2JwombcYLQAyqurR5VAKea/uatnxwqL7TUMG+v9G1ImeBM4hRUWUD0Nce\r\nWybalg6AZeGGjZ0uaSM2v5IKG+8MoZaXuoiPzWJ6teo2CCEkoFBJZlLXOK6X9OSv\r\nO9yFEd9PVU4BrbAxHf9q9HHrh6SMKcdWTfpjL6LbydVIZYXdr2JC/aRF5hO9lxTj\r\nc5PKdB9GCPt3S0ad0n2jdRJy0j1Q2rMFaTJEWoR7SPeFxas=\r\n-----END CERTIFICATE-----'
-        issuer = 'bad issuer'
-        
+        id_token = 'example_id_token'
+        signature = 'example_signature'
+        issuer = 'bad_issuer'
+
+        mock_certificate.return_value.public_key.return_value = 'example_public_key'
+
+        mock_jwt_payload = {'iss': 'example_issuer', 'sub': 'example_subject'}
+        mock_decode.return_value = mock_jwt_payload
+
+        # Verify
         with self.assertRaises(ValueError):
             result = extract_claims_from_signed_token(id_token, signature, issuer)
