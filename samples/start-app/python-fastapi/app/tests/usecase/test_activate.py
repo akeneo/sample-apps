@@ -5,7 +5,7 @@ from fastapi import Request
 from app.dependencies import get_config
 
 
-class TestCallbackUsecase(unittest.TestCase):
+class TestActivateUsecase(unittest.TestCase):
 
     def setUp(self):
         self.request = MagicMock(spec=Request)

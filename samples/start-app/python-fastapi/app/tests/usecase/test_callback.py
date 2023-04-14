@@ -18,18 +18,20 @@ class TestCallbackUsecase(unittest.TestCase):
     @patch('requests.post')
     @patch('secrets.token_hex')
     @patch('hashlib.sha256')
-    def test_callback_usecase(self, mock_sha256, mock_token_hex, mock_post, mock_create_token):
+    @patch('app.usecase.callback.get_config')
+    def test_callback_usecase(self, mock_get_config, mock_sha256, mock_token_hex, mock_post, mock_create_token):
         # Arrange
         mock_post.return_value.json.return_value = {'access_token': 'access_token_value'}
         mock_sha256.return_value.hexdigest.return_value = 'd9252f527368ffee07ffe7d9c2722d1e244fc94a8e79e938b8e5a815584942cb'
         mock_token_hex.return_value = '4d713c758a30768e5576cb7b6f3b2dad62e7bdb5fd4a6132b11ca6301824'
+        mock_get_config.return_value = '123456'
         # Act
         response = callback_usecase(self.request, self.db, self.session)
         # Assert
         mock_post.assert_called_once_with(
             'http://pim-url.com/connect/apps/v1/oauth2/token',
             data={
-                'client_id': get_config('CLIENT_ID'),
+                'client_id': '123456',
                 'code_identifier': '4d713c758a30768e5576cb7b6f3b2dad62e7bdb5fd4a6132b11ca6301824', 
                 'code_challenge': 'd9252f527368ffee07ffe7d9c2722d1e244fc94a8e79e938b8e5a815584942cb',
                 'code': 'auth_code',

@@ -17,6 +17,9 @@ def get_config(name):
 def get_session():
     return session
 
+def openid_authentication():
+    return get_config('OPENID_AUTHENTICATION') == 'true' or get_config('OPENID_AUTHENTICATION')  == '1' or get_config('OPENID_AUTHENTICATION') == True
+
 def build_user_agent():
     user_agent = 'AkeneoSampleApp/python-fastapi'
     user_agent = user_agent + ' Version/' + get_config('APPLICATION_VERSION') if get_config('APPLICATION_VERSION') else user_agent + ''
