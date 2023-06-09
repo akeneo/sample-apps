@@ -1,4 +1,4 @@
-# DSM App [README TODO]
+# Start App Node JS + Express
 
 ## Requirements
 - You’ve got a PIM developer sandbox. If not, please contact us ([https://www.akeneo.com/contact/](https://www.akeneo.com/contact/))
