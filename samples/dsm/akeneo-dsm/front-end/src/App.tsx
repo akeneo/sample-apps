@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { ThemeProvider } from 'styled-components';
 import { Badge, connectorTheme as theme } from 'akeneo-design-system';
 
