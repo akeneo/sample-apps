@@ -28,7 +28,7 @@ test("It constructs an HttpsClient object", async () => {
     expect(httpsClient.options.host).toBe(pimUrl.hostname);
     expect(httpsClient.options.port).toBe(pimUrl.port);
     expect(httpsClient.options.headers["User-Agent"]).toBe(
-        'AkeneoSampleApp/js-node-express'
+        'AkeneoSampleApp/akeneo-dsm'
         + ' Version/' + process.env.APPLICATION_VERSION
         + ' Docker/' + process.env.DOCKER_VERSION
     );
@@ -37,17 +37,17 @@ test("It constructs an HttpsClient object", async () => {
 test("It sets an acceptable userAgent", async () => {
 
     let userAgent = httpsClient.buildUserAgent();
-    expect(userAgent).toBe('AkeneoSampleApp/js-node-express');
+    expect(userAgent).toBe('AkeneoSampleApp/akeneo-dsm');
 
     userAgent = httpsClient.buildUserAgent(process.env.APPLICATION_VERSION);
     expect(userAgent).toBe(
-        'AkeneoSampleApp/js-node-express Version/'
+        'AkeneoSampleApp/akeneo-dsm/'
         + process.env.APPLICATION_VERSION
     );
 
     userAgent = httpsClient.buildUserAgent(process.env.APPLICATION_VERSION, process.env.DOCKER_VERSION);
     expect(userAgent).toBe(
-        'AkeneoSampleApp/js-node-express'
+        'AkeneoSampleApp/akeneo-dsm'
         + ' Version/' + process.env.APPLICATION_VERSION
         + ' Docker/' + process.env.DOCKER_VERSION
     );
