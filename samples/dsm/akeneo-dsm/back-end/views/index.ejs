@@ -1,0 +1,76 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Node JS Sample App</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        body{
+            position: relative;
+        }
+        h1 {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 36px;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+        p {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+        a {
+            color: #4CA8E0;
+            text-decoration: none;
+        }
+        .userInformation {
+            position: absolute;
+            display: block;
+            text-align: left;
+            font-size: 13px;
+            width: 20%;
+            line-height: 13px;
+            right: 0;
+        }
+        .userInformation div {
+            color: #9452BA;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            padding-right: 40px;
+            text-transform: uppercase;
+        }
+        .header {
+            position: sticky;
+            border-bottom: 1px solid #9452BA;
+            height: 60px;
+        }
+        .content {
+            position: relative;
+            left: 100px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <% if (typeof user != 'undefined' && user) { %>
+            <%- include('./user', {user: user}); %>
+        <% } %>
+    </div>
+
+    <div class="content">
+        <h1>Welcome to Akeneo NodeJS Start App</h1>
+
+        <p>You’ve successfully installed the NodeJS and Express Start App and now, <b>&nbspyou’re ready to connect to the PIM API.</b></p>
+
+    </div>
+
+</body>
