@@ -9,7 +9,7 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', homepageController.index);
 
-router.get('/my_pim-instance', pimController.instance);
+router.get('/my-pim-instance', pimController.instance);
 
 router.use(appActivation);
 router.use(api);
