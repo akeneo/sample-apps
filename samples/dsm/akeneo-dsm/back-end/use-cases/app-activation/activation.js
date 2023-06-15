@@ -3,7 +3,8 @@ const oauth_scopes = [
     'read_channel_settings',
     'openid',
     'email',
-    'profile'
+    'profile',
+    'read_products'
 ];
 
 let doAppActivate = function({
