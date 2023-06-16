@@ -1,4 +1,4 @@
-const {instance} = require("../controllers/pim.controller");
+const {instance} = require("../../../controllers/api/pim.controller");
 
 test("It sends a json with the pim instance", async () => {
     const req = {};
