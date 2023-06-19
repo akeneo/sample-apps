@@ -10,7 +10,12 @@
 
 source $(dirname -- "${BASH_SOURCE[0]}")/terminalColorsDefinition.sh
 
-DIR="$(pwd)"
+if [ $2 = 'back-end' ]
+then
+  DIR="$(pwd)"/$2;
+else 
+  DIR="$(pwd)";
+fi
 ENV_FILE="$DIR"/.env
 ENV_LOCAL_FILE="$DIR"/.env.local
 ENV_TEST_FILE="$DIR"/.env.test
