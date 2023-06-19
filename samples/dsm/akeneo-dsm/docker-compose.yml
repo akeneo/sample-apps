@@ -3,7 +3,7 @@ version: "3.9"
 services:
   back:
     build:
-      context: .
+      context: ./back-end
       target: development
       args:
         NODE_ENV: local
@@ -12,7 +12,7 @@ services:
       - APP_ENV=${APP_ENV:-dev}
       - NODE_ENV=local
     volumes:
-      - "./:/srv/app:rw"
+      - "./back-end:/srv/app:rw"
     user: "${DEV_UID:-1000}:${DEV_GID:-1000}"
     restart: unless-stopped
     container_name: dsm-back
@@ -23,14 +23,14 @@ services:
 
   front:
     build:
-      context: ../front-end
+      context: ./front-end
     ports:
       - "3000:3000"
     container_name: dsm-front
     environment:
        - CHOKIDAR_USEPOLLING=true
     volumes:
-      - "../front-end/:/srv/app/front"
+      - "./front-end/:/srv/app/front"
     networks:
       - dsm-network
 
