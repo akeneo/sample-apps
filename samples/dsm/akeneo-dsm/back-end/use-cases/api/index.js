@@ -1,6 +1,10 @@
 const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
-const LogicError = require("../../exceptions/logicError.exception");
+const { doPimProductsRetrieve } = require('./pim-instance');
 
+const pimProductsRetrieve = doPimProductsRetrieve({
+    httpsClient,
+    tokenDb
+});
 
-module.exports = {};
+module.exports = { pimProductsRetrieve };
