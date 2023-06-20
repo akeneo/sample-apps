@@ -21,9 +21,25 @@ let doPimProductsRetrieve = function({
             };
     
             const productsFromPim = await httpsClient.request(options);
+
+            const formattedProducts = formatProducts(productsFromPim._embedded.items);
     
-            res.json({products: productsFromPim._embedded.items});
+            res.json({products: formattedProducts});
         }
+    }
+
+    function formatProducts(products) {
+        return products.map(product => {
+            const formattedProduct = {}
+
+            formattedProduct.uuid = product.uuid;
+            formattedProduct.identifier = product.identifier;
+            formattedProduct.enabled = product.enabled;
+            formattedProduct.family = product.family;
+            formattedProduct.categories = product.categories;
+
+            return formattedProduct;
+        });
     }
 }
 
