@@ -1,6 +1,6 @@
 const { httpsClient } = require('../../client/index');
 const { tokenDb } = require('../../data-access/index');
-const { doPimProductsRetrieve } = require('./productRetrieve');
+const { doPimProductsRetrieve } = require('./product-retrieve');
 
 const pimProductsRetrieve = doPimProductsRetrieve({
     httpsClient,
