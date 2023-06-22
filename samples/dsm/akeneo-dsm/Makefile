@@ -42,7 +42,7 @@ logs: ## displays logs
 
 .PHONY: all tests clean
 tests:
-	@../../../../common/bin/install/dotEnvFileCreator.sh test
+	@../../../common/bin/install/dotEnvFileCreator.sh test
 	@$(DOCKER_EXEC) $(BACK_NAME) npm test
 
 _display: ##
