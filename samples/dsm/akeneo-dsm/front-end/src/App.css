@@ -1,0 +1,23 @@
+body {
+    position: relative;
+    left: 100px;
+}
+
+.app-logo {
+    position: relative;
+    top: 30px;
+}
+
+.breadcrumb {
+    position: relative;
+    top: 109px;
+}
+
+.dashboardTitle {
+    position: relative;
+    top: 120px;
+
+    color: #4F5BC6;
+    size: 28px;
+    font-weight: 400;
+}
