@@ -10,14 +10,26 @@ body {
 
 .breadcrumb {
     position: relative;
-    top: 109px;
+    top: 55px;
 }
 
 .dashboardTitle {
     position: relative;
-    top: 120px;
+    top: 63px;
 
     color: #4F5BC6;
     size: 28px;
     font-weight: 400;
+}
+
+.products-table {
+    position: relative;
+    top: 130px;
+
+    border-radius: 5px;
+    border: 1px solid;
+    border-color: #67768A;
+
+    table-layout: fixed;
+    width: 90%;
 }
