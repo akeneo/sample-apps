@@ -81,7 +81,11 @@ function ProductsTable({ products }: { products: Product[]}) {
                         {product.family}
                     </Table.Cell>
                     <Table.Cell>
-                        
+                        <ul>
+                            {product.categories.map(category => (
+                                <li>{category}</li>
+                            ))}
+                        </ul>
                     </Table.Cell>
                     <Table.Cell>
                         {
