@@ -2,19 +2,25 @@ import React from 'react';
 import './App.css';
 import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
-import logo from "./logo-my-custom-start-app.svg";
-import { Badge, 
-        connectorTheme as theme,
-        Breadcrumb } from 'akeneo-design-system';
+import { connectorTheme as theme } from 'akeneo-design-system';
+import ProductsTable from './component/ProductsTable';
+
+interface Product {
+  uuid: string;
+  identifier: string;
+  family: string;
+  categories: string[];
+  enabled: boolean;
+}
 
 function App() {
-  const [pimInstance, setPimInstance] = useState<string | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch('http://localhost:8081/my-pim-instance', { mode: 'cors' })
+    fetch('http://localhost:8081/some-products', { mode: 'cors' })
         .then((res) => res.json())
         .then((data) => {
-            setPimInstance(JSON.stringify(data));
+            setProducts(data.products);
         })
         .catch((err) => {
             console.log('error : ' + err);
@@ -24,19 +30,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <img className='app-logo' src={logo} alt="akeneo custom app logo" />
-        <div className='breadcrumb'>
-          <Breadcrumb>
-            <Breadcrumb.Step>
-              PRODUCT LIST
-            </Breadcrumb.Step>
-            <Breadcrumb.Step href={pimInstance ?? '#'}>
-              {pimInstance ? JSON.parse(pimInstance)['pim-instance'] : 'MY PIM INSTANCE'}
-            </Breadcrumb.Step>
-          </Breadcrumb>
-        </div>
-
-        <h2 className='dashboardTitle'>Dashboard</h2>
+        <ProductsTable products={products} />
       </ThemeProvider>
     </>
   );
