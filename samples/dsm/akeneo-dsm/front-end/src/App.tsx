@@ -39,13 +39,7 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        {
-          isLoading ? (
-            <p className='loader'>Loading...</p> 
-          ) : ( 
-            <Products products={products} token={missingAccessToken}/> 
-          )
-        }
+        <Products products={products} token={missingAccessToken} loading={isLoading}/> 
       </ThemeProvider>
     </>
   );
