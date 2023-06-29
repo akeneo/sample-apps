@@ -10,8 +10,10 @@ function Header({ pimInstance }: { pimInstance: string | null}) {
                 <Breadcrumb.Step>
                     PRODUCT LIST
                 </Breadcrumb.Step>
-                <Breadcrumb.Step href={pimInstance ?? '#'}>
-                    {pimInstance ? JSON.parse(pimInstance)['pim-instance'] : 'MY PIM INSTANCE'}
+                <Breadcrumb.Step>
+                    <a href={pimInstance ? JSON.parse(pimInstance)['pim-instance'] : '#'}>
+                        {pimInstance ? JSON.parse(pimInstance)['pim-instance'].split('//')[1] : 'MY PIM INSTANCE'}
+                    </a>
                 </Breadcrumb.Step>
                 </Breadcrumb>
             </div>
