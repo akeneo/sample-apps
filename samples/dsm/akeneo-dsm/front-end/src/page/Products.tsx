@@ -10,7 +10,7 @@ interface Product {
     enabled: boolean;
 }
 
-function Products({ products, token }: { products: Product[], token: string | null }) {
+function Products({ products, token, loading }: { products: Product[], token: string | null, loading: boolean }) {
     const [pimInstance, setPimInstance] = useState<string | null>(null); 
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function Products({ products, token }: { products: Product[], token: string | nu
             {token ? ( 
                 <p className='missing_token'>You haven’t an App Token yet. Please set one by following your README</p> 
                 ) : (
-                    <Table products={products}/>
+                    loading ? <p className='loader'>Loading...</p> : <Table products={products}/>
                 )
             }
         </>
