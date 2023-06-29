@@ -1,4 +1,4 @@
-const {instance} = require("../../../controllers/api/pim.controller");
+const {pimInstance} = require("../../../use-cases/api/pim-instance");
 
 test("It sends a json with the pim instance", async () => {
     const req = {};
@@ -7,7 +7,7 @@ test("It sends a json with the pim instance", async () => {
     };
     const next = jest.fn();
 
-    instance(req, res, next);
+    pimInstance(req, res, next);
 
     expect(res.json).toEqual({'pim-instance': process.env.AKENEO_PIM_URL});
 });
