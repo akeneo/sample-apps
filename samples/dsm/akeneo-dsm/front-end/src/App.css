@@ -27,9 +27,25 @@ body {
     top: 130px;
 
     border-radius: 5px;
-    border: 1px solid;
+    border: 1px;
     border-color: #67768A;
 
     table-layout: fixed;
-    width: 90%;
+    width: 80%;
+}
+
+.loader {
+    position: relative;
+    top: 200px;
+    left: 30%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.missing_token {
+    position: relative;
+    top: 200px;
+    left: 30%;;
+    margin-right: auto;
+    margin-left: auto;
 }
