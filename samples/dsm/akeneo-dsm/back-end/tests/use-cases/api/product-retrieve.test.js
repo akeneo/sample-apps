@@ -87,7 +87,7 @@ const { doPimProductsRetrieve } = require('../../../use-cases/api/product-retrie
         await pimProductsRetrieve(req, res, next);
 
         expect(res.json).toHaveBeenCalledWith({
-            'access_token': 'Missing access token in database'
+            'access_token': 'Missing access token in the database'
         });
     });
 });
