@@ -4,14 +4,7 @@ import { useEffect, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { connectorTheme as theme } from 'akeneo-design-system';
 import Products from './page/Products';
-
-interface Product {
-  uuid: string;
-  identifier: string;
-  family: string;
-  categories: string[];
-  enabled: boolean;
-}
+import { Product } from './page/Products';
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);

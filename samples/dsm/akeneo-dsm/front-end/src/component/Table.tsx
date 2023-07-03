@@ -1,13 +1,6 @@
 import { Badge,
     Table } from 'akeneo-design-system';
-
-interface Product {
-    uuid: string;
-    identifier: string;
-    family: string;
-    categories: string[];
-    enabled: boolean;
-}
+import { Product } from '../page/Products';
 
 function ProductsTable({ products }: { products: Product[]}) {
     return (
