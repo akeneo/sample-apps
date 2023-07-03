@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Header from '../component/Header';
 import Table from '../component/Table';
 
-interface Product {
+export interface Product {
     uuid: string;
     identifier: string;
     family: string;
