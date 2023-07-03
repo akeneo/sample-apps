@@ -18,9 +18,11 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [missingAccessToken, setMissingAccessToken] = useState<string | null>(null);
 
+  const backendUrl = process.env.BACK_END_URL as string | URL;
+
   useEffect(() => {
     setIsLoading(true);
-    fetch('http://localhost:8081/some-products', { mode: 'cors' })
+    fetch(backendUrl + '/some-products', { mode: 'cors' })
         .then((res) => res.json())
         .then((data) => {
             if (data.access_token) {

@@ -11,10 +11,12 @@ interface Product {
 }
 
 function Products({ products, token, loading }: { products: Product[], token: string | null, loading: boolean }) {
-    const [pimInstance, setPimInstance] = useState<string | null>(null); 
+    const [pimInstance, setPimInstance] = useState<string | null>(null);
+
+    const backendUrl = process.env.BACK_END_URL as string | URL;
 
     useEffect(() => {
-        fetch('http://localhost:8081/my-pim-instance', { mode: 'cors' })
+        fetch(backendUrl + '/my-pim-instance', { mode: 'cors' })
             .then((res) => res.json())
             .then((data) => {
                 setPimInstance(JSON.stringify(data));
@@ -29,7 +31,7 @@ function Products({ products, token, loading }: { products: Product[], token: st
             <Header pimInstance={pimInstance}/>
             
             {token ? ( 
-                <p className='missing_token'>You haven’t an App Token yet. Please set one by following your README</p> 
+                <p className='missing_token'>You haven’t an App Token yet. Please set one by following our README</p> 
                 ) : (
                     loading ? <p className='loader'>Loading...</p> : <Table products={products}/>
                 )
