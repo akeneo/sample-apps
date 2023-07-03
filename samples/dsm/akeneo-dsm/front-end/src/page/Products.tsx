@@ -13,7 +13,7 @@ interface Product {
 function Products({ products, token, loading }: { products: Product[], token: string | null, loading: boolean }) {
     const [pimInstance, setPimInstance] = useState<string | null>(null);
 
-    const backendUrl = process.env.BACK_END_URL as string | URL;
+    const backendUrl = process.env.REACT_APP_BACK_END_URL as string | URL;
 
     useEffect(() => {
         fetch(backendUrl + '/my-pim-instance', { mode: 'cors' })

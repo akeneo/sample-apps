@@ -18,7 +18,7 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [missingAccessToken, setMissingAccessToken] = useState<string | null>(null);
 
-  const backendUrl = process.env.BACK_END_URL as string | URL;
+  const backendUrl = process.env.REACT_APP_BACK_END_URL as string | URL;
 
   useEffect(() => {
     setIsLoading(true);
