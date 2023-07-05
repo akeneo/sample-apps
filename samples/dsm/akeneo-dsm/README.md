@@ -63,11 +63,6 @@ For information, this command launch scripts locate into `common/bin/install` in
 3. Click on CONNECT
 4. Follow the activation process steps until the end
 
-If everything is good, you should see
-![img.png](../../../common/images/step5-2_js-node-express.png)
-
-It means your App is connected. Well done!
-
 ### Step 7: Launch your DSM App
 Open a terminal at the root of the folder of your App, enter the following command :
 ```
