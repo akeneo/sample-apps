@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 describe('doPimProductsRetrieve', () => {
 const { doPimProductsRetrieve } = require('../../../use-cases/api/product-retrieve');
 
