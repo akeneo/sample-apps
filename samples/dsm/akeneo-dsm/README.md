@@ -88,7 +88,7 @@ Open a terminal at the root of the folder of your App, enter the following comma
 make tests
 ```
 
-### update the access scopes
+### Update the access scopes
 
 If a user updates the access scopes of an already connected app, the access scope update process will require app users to provide consent for the addition of new scopes. You can notify the PIM that the app requires an authorization update using this endpoint:
 
