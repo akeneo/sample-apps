@@ -60,6 +60,9 @@ CheckValues() {
   if grep -q "SUB_HASH_KEY" "$FILE"; then
     EXISTING_VARIABLES+=("SUB_HASH_KEY")
   fi
+  if grep -q "TOKEN_MISSING_MESSAGE" "$FILE"; then
+    EXISTING_VARIABLES+=("TOKEN_MISSING_MESSAGE")
+  fi
 }
 
 ## Input from user for authentication information, when at least one of them is missing
@@ -138,6 +141,9 @@ CheckAndFillTestValues() {
   fi
   if [[ ! "${EXISTING_VARIABLES[*]}" =~ "SUB_HASH_KEY" ]]; then
     RANDOM_KEY=$(tr -dc A-Za-z0-9 </dev/urandom | head -c 32 ; echo '')
+  fi
+  if [[ ! "${EXISTING_VARIABLES[*]}" =~ "TOKEN_MISSING_MESSAGE" ]]; then
+    TOKEN_MISSING_MESSAGE="Missing access token in the database"
   fi
 
   return 1

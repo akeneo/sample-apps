@@ -1,4 +1,4 @@
-# DSM App [README TODO]
+# DSM App Node JS + React
 
 ## Requirements
 - You’ve got a PIM developer sandbox. If not, please contact us ([https://www.akeneo.com/contact/](https://www.akeneo.com/contact/))
@@ -9,7 +9,7 @@
 Get the whole Sample-Apps repository and navigate to the Node JS Express start app folder
 ```
 git clone git@github.com:akeneo/sample-apps.git
-cd samples/start-app/js-node-express
+cd samples/dsm/akeneo-dsm
 ```
 
 ### Step 2 (optional): Create a tunnel to expose your local App
@@ -63,12 +63,30 @@ For information, this command launch scripts locate into `common/bin/install` in
 3. Click on CONNECT
 4. Follow the activation process steps until the end
 
-If everything is good, you should see
-![img.png](../../../common/images/step5-2_js-node-express.png)
+### Step 7: Launch your DSM App
+Open a terminal at the root of the folder of your App, enter the following command :
+```
+make start
+```
 
-It means your App is connected. Well done!
+Then go to your favorite browser and enter the following URL
+```
+localhost:3000
+```
 
-### update the access scopes
+If everything goes well, you should see the following page
+![img.png](../../../common/images/step7.png)
+
+### Step 8: Launch the tests
+Open a terminal at the root of the folder of your App, enter the following command :
+```
+make tests
+```
+
+### Step 9: Add new components to your App
+You can add new components to your App by following this link to the [Akeneo DSM](https://dsm.akeneo.com/?path=/story/introduction--page), enjoy!
+
+### Update the access scopes
 
 If a user updates the access scopes of an already connected app, the access scope update process will require app users to provide consent for the addition of new scopes. You can notify the PIM that the app requires an authorization update using this endpoint:
 

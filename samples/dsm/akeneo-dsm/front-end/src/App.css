@@ -1,6 +1,9 @@
 body {
     position: relative;
     left: 100px;
+
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .app-logo {
@@ -31,7 +34,7 @@ body {
     border-color: #67768A;
 
     table-layout: fixed;
-    width: 80%;
+    width: 85%;
 }
 
 .loader {
