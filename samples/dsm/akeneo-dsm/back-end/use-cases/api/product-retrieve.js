@@ -4,7 +4,8 @@ let doPimProductsRetrieve = function({
 }) {
     return async function pimProductsRetrieve(req, res, next) {
         if (!await tokenDb.hasToken()) {
-            res.json({access_token: process.env.TOKEN_MISSING_MESSAGE});
+            const tokenMissingMessage = 'Missing access token in the database';
+            res.json({access_token: tokenMissingMessage});
         } else {
             const token = await tokenDb.getToken();
 
