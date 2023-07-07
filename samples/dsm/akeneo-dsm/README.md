@@ -83,6 +83,9 @@ Open a terminal at the root of the folder of your App, enter the following comma
 make tests
 ```
 
+### Step 9: Add new components to your App
+You can add new components to your App by following this link to the [Akeneo DSM](https://dsm.akeneo.com/?path=/story/introduction--page), enjoy!
+
 ### Update the access scopes
 
 If a user updates the access scopes of an already connected app, the access scope update process will require app users to provide consent for the addition of new scopes. You can notify the PIM that the app requires an authorization update using this endpoint:
