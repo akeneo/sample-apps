@@ -1,0 +1,54 @@
+body {
+    position: relative;
+    left: 100px;
+
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.app-logo {
+    position: relative;
+    top: 30px;
+}
+
+.breadcrumb {
+    position: relative;
+    top: 55px;
+}
+
+.dashboardTitle {
+    position: relative;
+    top: 63px;
+
+    color: #4F5BC6;
+    size: 28px;
+    font-weight: 400;
+}
+
+.products-table {
+    position: relative;
+    top: 130px;
+
+    border-radius: 5px;
+    border: 1px;
+    border-color: #67768A;
+
+    table-layout: fixed;
+    width: 85%;
+}
+
+.loader {
+    position: relative;
+    top: 200px;
+    left: 40%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.missing_token {
+    position: relative;
+    top: 200px;
+    left: 30%;;
+    margin-right: auto;
+    margin-left: auto;
+}

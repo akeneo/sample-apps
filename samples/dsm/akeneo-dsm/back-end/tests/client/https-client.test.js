@@ -41,7 +41,7 @@ test("It sets an acceptable userAgent", async () => {
 
     userAgent = httpsClient.buildUserAgent(process.env.APPLICATION_VERSION);
     expect(userAgent).toBe(
-        'AkeneoSampleApp/akeneo-dsm/'
+        'AkeneoSampleApp/akeneo-dsm Version/'
         + process.env.APPLICATION_VERSION
     );
 

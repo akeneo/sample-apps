@@ -7,7 +7,7 @@ DOCKER_BUILD = BUILDKIT=1 $(DOCKER_COMPOSE) build
 DOCKER_UP = $(DOCKER_COMPOSE) up -d
 DOCKER_DOWN = $(DOCKER_COMPOSE) down
 DOCKER_EXEC = $(DOCKER_COMPOSE) run
-LOG_FILE = ./var/error.log
+LOG_FILE = ./back-end/var/error.log
 APP_ADDRESS = http://localhost:3000/
 
 install: ## Install DSM App
@@ -16,8 +16,8 @@ install: ## Install DSM App
 	@$(MAKE) _display
 
 requirements: ## Check all requirements before building and starting the App
-	@../../../../common/bin/install/checkRequirements.sh
-	@../../../../common/bin/install/dotEnvFileCreator.sh
+	@../../../common/bin/install/checkRequirements.sh
+	@../../../common/bin/install/dotEnvFileCreator.sh local back-end
 
 post-requirements: build
 	@$(MAKE) start
@@ -42,7 +42,7 @@ logs: ## displays logs
 
 .PHONY: all tests clean
 tests:
-	@../../../common/bin/install/dotEnvFileCreator.sh test
+	@../../../common/bin/install/dotEnvFileCreator.sh test back-end
 	@$(DOCKER_EXEC) $(BACK_NAME) npm test
 
 _display: ##
