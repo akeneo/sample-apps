@@ -12,6 +12,7 @@ echo -e $(printf "${INTRO}Welcome to Akeneo's Sample Apps intallation process :$
 echo "1 - Use make php-install for PHP / Symfony sample app"
 echo "2 - Use make node-install for NodeJS sample app"
 echo "3 - Use make python-install for Python sample app"
+echo "4 - Use make rust-install for Rust sample app"
 echo "0 - To quit installation"
 read -p "Your choice : (0) " USER_CHOICE
 
@@ -24,6 +25,9 @@ case $USER_CHOICE in
         ;;
     3)
         make python-install
+        ;;
+    4)
+        make rust-install
         ;;
     *)
         echo -e $(printf "${WARNING}Installation script ended${ENDCOLOR}")
