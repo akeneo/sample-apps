@@ -98,4 +98,4 @@ If a user updates the access scopes of an already connected app, the access scop
 - Want to get your PIM data to your App? Have a look to our [guided tutorials](https://api.akeneo.com/tutorials/homepage.html#tags=App%20Workflow)
 - Need some tools? Have a look to our [dedicated page](https://api.akeneo.com/apps/app-developer-tools.html): we have, with others, a Postman collection that may you during your development.
 
-[Tell us what you think](https://surveys.hotjar.com/32725155-b355-4f87-b500-b505158d8e37)https://surveys.hotjar.com/32725155-b355-4f87-b500-b505158d8e37
+[Tell us what you think!](https://surveys.hotjar.com/32725155-b355-4f87-b500-b505158d8e37)https://surveys.hotjar.com/32725155-b355-4f87-b500-b505158d8e37)
