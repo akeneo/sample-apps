@@ -3,7 +3,13 @@ name = "rust-actix"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "sample-app"
+
 
 [dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
@@ -13,3 +19,6 @@ anyhow = "1.0"
 dotenv = "0.15"
 env_logger = "0.10.0"
 log = "0.4.19"
+
+[dev-dependencies]
+reqwest = "0.11"

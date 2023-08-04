@@ -13,6 +13,8 @@ ifneq (,$(wildcard ./.env))
     APP_ADDRESS = http://localhost:$(APP_PORT)/
 endif
 
+.PHONY: help install requirements build start stop tests bash _display
+
 install: ## Install Rust sample App
 	@$(MAKE) requirements
 	@$(MAKE) build

@@ -1,9 +1,13 @@
-mod controller;
-mod server;
-
-pub use crate::server::run_server;
+use anyhow::Result;
+use rust_actix::application::Application;
+use rust_actix::configuration::Settings;
 
 #[tokio::main]
-async fn main() -> std::io::Result<()> {
-    run_server()?.await
+async fn main() -> Result<()> {
+    let setting = Settings::get(None);
+    let application = Application::build(&setting).expect("Failed to build application");
+
+    tokio::spawn(application.server);
+
+    Ok(())
 }
