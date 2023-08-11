@@ -7,7 +7,7 @@ async fn main() -> Result<()> {
     let setting = Settings::get(None);
     let application = Application::build(&setting).expect("Failed to build application");
 
-    tokio::spawn(application.server);
+    let _ = application.server.await;
 
     Ok(())
 }
