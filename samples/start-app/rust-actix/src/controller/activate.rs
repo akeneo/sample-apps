@@ -17,8 +17,10 @@ async fn activate(
     session: Session,
     data: web::Data<Settings>
 ) -> impl Responder {
+    // create a random state for preventing cross-site request forgery
     let state: String = Alphanumeric.sample_string(&mut rand::thread_rng(), 16);
-        
+
+    // Store in the user session the state and the PIM URL
     let _ = session.insert("oauth2_state",state.clone() );
     let _ = session.insert("pim_url", activate_request.pim_url.clone());
     
