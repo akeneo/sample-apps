@@ -4,7 +4,6 @@ use std::env;
 #[derive(Debug, Clone)]
 pub struct Settings {
     pub app_server_addr: String,
-    pub pim_url: String,
     pub pim_client_id: String,
     pub pim_client_secret: String,
 }
@@ -18,7 +17,6 @@ impl Settings {
 
         Self {
             app_server_addr: format!("{app_host}:{app_port}"),
-            pim_url: env::var("PIM_URL").expect("PIM_URL is not set in .env file"),
             pim_client_id: env::var("PIM_CLIENT_ID")
                 .expect("PIM_CLIENT_ID is not set in .env file"),
             pim_client_secret: env::var("PIM_CLIENT_SECRET")

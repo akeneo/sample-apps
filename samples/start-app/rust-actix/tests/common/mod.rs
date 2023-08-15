@@ -9,7 +9,7 @@ pub struct TestApp {
 impl TestApp {
     pub async fn spawn_app() -> Self {
         let settings = Settings::get(Some("tests/features/.env.test".to_string()));
-        let application = Application::build(&settings).expect("Failed to build application");
+        let application = Application::build(settings).expect("Failed to build application");
         let address = format!("http://{}", &application.address);
 
         tokio::spawn(application.server);
