@@ -1,11 +1,11 @@
-use dotenv::dotenv;
-use std::env;
+use std::{env, fs};
 
 #[derive(Debug, Clone)]
 pub struct Settings {
     pub app_server_addr: String,
-    pub pim_client_id: String,
-    pub pim_client_secret: String,
+    pub client_id: String,
+    pub client_secret: String,
+    pub secure_cookie: bool,
 }
 
 impl Settings {
@@ -17,10 +17,14 @@ impl Settings {
 
         Self {
             app_server_addr: format!("{app_host}:{app_port}"),
-            pim_client_id: env::var("PIM_CLIENT_ID")
-                .expect("PIM_CLIENT_ID is not set in .env file"),
-            pim_client_secret: env::var("PIM_CLIENT_SECRET")
-                .expect("PIM_CLIENT_SECRET is not set in .env file"),
+            client_id: env::var("CLIENT_ID")
+                .expect("CLIENT_ID is not set in .env file"),
+            client_secret: env::var("CLIENT_SECRET")
+                .expect("CLIENT_SECRET is not set in .env file"),
+            secure_cookie: env::var("SECURE_COOKIE")
+                .expect("SECURE_COOKIE is not set in .env file")
+                .parse::<bool>()
+                .expect("SECURE_COOKIE is not a boolean"),
         }
     }
 
@@ -30,8 +34,14 @@ impl Settings {
                 dotenv::from_filename(path).ok();
             }
             None => {
-                dotenv().ok();
-                dotenv::from_filename(".env.local").ok();
+                match fs::metadata(".env.local") {
+                    Err(_) => {
+                        dotenv::dotenv().ok()
+                    },
+                    Ok(_) => {
+                        dotenv::from_filename(".env.local").ok()
+                    }
+                };
             }
         };
     }

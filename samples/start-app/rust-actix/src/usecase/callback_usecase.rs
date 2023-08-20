@@ -1,7 +1,9 @@
 use anyhow::Result;
 use rand::distributions::{Alphanumeric, DistString};
+use reqwest::StatusCode;
 use sha2::{Sha256,Digest};
 
+#[derive(Debug)]
 pub struct CallbackAuthorizationRequest {
     pub pim_url: String,
     pub code: String,
@@ -11,9 +13,10 @@ pub struct CallbackAuthorizationRequest {
 
 
 impl CallbackAuthorizationRequest {
-    pub async fn execute(&self) -> Result<()> {
+    pub async fn execute(&self) -> Result<(StatusCode, String)> {
         let client = reqwest::Client::new();
         let mut params = std::collections::HashMap::new();
+
         let code_identifier = self.code_identifier();
         let code_challenge = self.code_challenge(&code_identifier);
         let grant_type = "authorization_code".to_string();
@@ -24,14 +27,12 @@ impl CallbackAuthorizationRequest {
         params.insert("code", &self.code);
         params.insert("grant_type", &grant_type);
 
-        let response = client.post(format!("{}/oauth/token", self.pim_url))
+        let response = client.post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url))
             .form(&params)
             .send()
             .await?;
         
-        println!("{:?}", response.text().await?);
-
-        Ok(())
+        Ok((response.status(), response.text().await?))
     }
 
     fn code_identifier(&self) -> String {

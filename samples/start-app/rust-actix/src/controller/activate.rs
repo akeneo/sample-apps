@@ -1,5 +1,5 @@
 use actix_session::Session;
-use actix_web::{get, web::{self, Redirect}, Responder};
+use actix_web::{get, web, Responder, HttpResponse};
 use rand::distributions::{Alphanumeric, DistString};
 use serde::Deserialize;
 
@@ -13,20 +13,20 @@ pub struct ActivateRequest {
 
 #[get("/activate")]
 async fn activate(
-    activate_request: web::Query<ActivateRequest>, 
-    session: Session,
-    data: web::Data<Settings>
+    session: Session,    
+    data: web::Data<Settings>,
+    activate_request: web::Query<ActivateRequest>,
 ) -> impl Responder {
     // create a random state for preventing cross-site request forgery
     let state: String = Alphanumeric.sample_string(&mut rand::thread_rng(), 16);
 
     // Store in the user session the state and the PIM URL
-    let _ = session.insert("oauth2_state",state.clone() );
-    let _ = session.insert("pim_url", activate_request.pim_url.clone());
+    session.insert("state", state.clone()).unwrap();
+    session.insert("pim_url", activate_request.pim_url.clone()).unwrap();
     
-    let client_id = data.pim_client_id.clone();
+    let client_id = data.client_id.clone();
 
-    Redirect::to(
-        ActivateResponse::build(activate_request.into_inner(), client_id, state).redirect_uri
-    )
+    HttpResponse::Found()
+        .append_header(("Location", ActivateResponse::build(activate_request.into_inner(), client_id, state).redirect_uri))
+        .finish()
 }

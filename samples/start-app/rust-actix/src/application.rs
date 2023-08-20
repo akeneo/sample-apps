@@ -1,7 +1,8 @@
 use std::net::TcpListener;
 
+use actix_session::config::PersistentSession;
 use actix_session::{SessionMiddleware, storage::CookieSessionStore};
-use actix_web::cookie::Key;
+use actix_web::cookie::{self, Key};
 use actix_web::{dev::Server, App, HttpServer};
 
 use crate::configuration::Settings;
@@ -16,7 +17,7 @@ pub struct Application {
 impl Application {
     pub fn build(settings: Settings) -> anyhow::Result<Self> {
         let listener =
-            TcpListener::bind(settings.app_server_addr.as_str()).expect("Failed to bind address");
+            TcpListener::bind(settings.app_server_addr.as_str()).expect("Failed to bind address");    
         let address = listener.local_addr().unwrap().to_string();
         let server = HttpServer::new(move || {
             App::new()
@@ -24,7 +25,13 @@ impl Application {
                     actix_web::web::Data::new(settings.clone()),
                 )
                 .wrap(
-                    SessionMiddleware::new(CookieSessionStore::default(), Key::from(&[0; 64]))
+                    SessionMiddleware::builder(CookieSessionStore::default(), Key::generate())
+                    .cookie_secure(settings.secure_cookie)
+                    .cookie_name("SAMPLE-APP-ID".to_string())
+                    .session_lifecycle(
+                        PersistentSession::default().session_ttl(cookie::time::Duration::hours(1)),
+                    )
+                    .build(),
                 )
                 .service(health_check::health_check)
                 .service(index::index)

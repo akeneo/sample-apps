@@ -1,5 +1,6 @@
 use actix_session::Session;
 use actix_web::{get, HttpResponse, Responder, web};
+use reqwest::StatusCode;
 use serde::Deserialize;
 
 use crate::{configuration::Settings, application::callback_usecase::CallbackAuthorizationRequest};
@@ -12,12 +13,16 @@ pub struct CallbackRequest {
 
 #[get("/callback")]
 async fn callback(
-    callback_request: web::Query<CallbackRequest>, 
     session: Session,
-    data: web::Data<Settings>
+    data: web::Data<Settings>,
+    callback_request: web::Query<CallbackRequest>, 
 ) -> impl Responder {
     // We check if the received state is the same as in the session, for security.
-    let state = session.get::<String>("state").unwrap().unwrap();
+    let state = match session.get::<String>("state").unwrap() {
+        None => return HttpResponse::BadRequest().body("Invalid Session information, missing state"),
+        Some(s) => s,
+    };
+
     if state != callback_request.state {
         return HttpResponse::BadRequest().body("Invalid state");
     }
@@ -30,13 +35,17 @@ async fn callback(
     let authorization_request = CallbackAuthorizationRequest {
             pim_url,
             code: callback_request.code.clone(),
-            client_id: data.pim_client_id.clone(),
-            client_secret: data.pim_client_secret.clone(),
+            client_id: data.client_id.clone(),
+            client_secret: data.client_secret.clone(),
     };
 
-    let content = authorization_request.execute().await;
+    let (status_code, content ) = authorization_request.execute().await.unwrap();
 
-    println!("Content: {:?}", content);
+    if status_code != StatusCode::OK {
+        return HttpResponse::BadRequest().body("Invalid request");
+    }
 
-    HttpResponse::Ok().body("Hello callback!")
+    return HttpResponse::Ok().body(format!("Access token content : {content}"));
+
+
 }
