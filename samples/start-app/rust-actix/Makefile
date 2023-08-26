@@ -10,7 +10,7 @@ DOCKER_EXEC = $(DOCKER_COMPOSE) run
 ifneq (,$(wildcard ./.env))
     include .env
     export
-    APP_ADDRESS = http://127.0.0.1:$(APP_PORT)/
+    APP_ADDRESS = http://localhost:$(APP_PORT)/
 endif
 
 .PHONY: tests bash
@@ -35,13 +35,13 @@ start: ## start docker image
 stop: ## remove docker container
 	$(DOCKER_DOWN)
 
-tests:
+tests: # run tests
 	$(DOCKER_EXEC) $(APP_NAME) cargo test
 
-bash:
+bash: #
 	$(DOCKER_EXEC) $(APP_NAME) bash
 
-_display: ##
+_display: ## Display all informations about the App
 	@echo ""
 	@echo "**** Rust + Actix Web Sample App ****"
 	@echo ""
