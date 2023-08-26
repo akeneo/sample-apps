@@ -2,6 +2,7 @@ use anyhow::Result;
 use rand::distributions::{Alphanumeric, DistString};
 use reqwest::StatusCode;
 use sha2::{Sha256,Digest};
+use tracing::event;
 
 #[derive(Debug)]
 pub struct CallbackAuthorizationRequest {
@@ -26,6 +27,8 @@ impl CallbackAuthorizationRequest {
         params.insert("code_challenge", &code_challenge);
         params.insert("code", &self.code);
         params.insert("grant_type", &grant_type);
+        
+        event!(tracing::Level::DEBUG, "Requesting access token");
 
         let response = client.post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url))
             .form(&params)

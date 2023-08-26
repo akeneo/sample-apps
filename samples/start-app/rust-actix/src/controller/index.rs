@@ -1,11 +1,7 @@
-use actix_session::Session;
 use actix_web::{get, HttpResponse, Responder};
 
+#[tracing::instrument(name = "Index")]
 #[get("/")]
-async fn index(
-    session: Session,
-) -> impl Responder {
-    session.insert("state", "state".to_string()).unwrap();
-
+async fn index() -> impl Responder {
     HttpResponse::Ok().body("Hello index!")
 }

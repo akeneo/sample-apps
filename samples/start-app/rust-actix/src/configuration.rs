@@ -6,6 +6,8 @@ pub struct Settings {
     pub client_id: String,
     pub client_secret: String,
     pub secure_cookie: bool,
+    pub app_name: String,
+    pub log_level: String,
 }
 
 impl Settings {
@@ -25,6 +27,8 @@ impl Settings {
                 .expect("SECURE_COOKIE is not set in .env file")
                 .parse::<bool>()
                 .expect("SECURE_COOKIE is not a boolean"),
+            app_name: env::var("APP_NAME").unwrap_or_else(|_| "sample-app".into()),
+            log_level: env::var("LOG_LEVEL").unwrap_or_else(|_| "error".into()),
         }
     }
 

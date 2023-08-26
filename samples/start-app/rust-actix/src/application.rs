@@ -7,6 +7,7 @@ use actix_web::{dev::Server, App, HttpServer};
 
 use crate::configuration::Settings;
 pub use crate::controller::*;
+use crate::logger::init_subscriber;
 pub use crate::usecase::*;
 
 pub struct Application {
@@ -16,6 +17,9 @@ pub struct Application {
 
 impl Application {
     pub fn build(settings: Settings) -> anyhow::Result<Self> {
+        // Initialize logger
+        init_subscriber(settings.app_name.clone(),settings.log_level.clone());
+
         let listener =
             TcpListener::bind(settings.app_server_addr.as_str()).expect("Failed to bind address");    
         let address = listener.local_addr().unwrap().to_string();
@@ -24,6 +28,10 @@ impl Application {
                 .app_data(
                     actix_web::web::Data::new(settings.clone()),
                 )
+                // We can log every request that comes in using the TracingLogger middleware
+                // .wrap(
+                //     TracingLogger::default(),
+                // )
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), Key::generate())
                     .cookie_secure(settings.secure_cookie)

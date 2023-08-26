@@ -1,5 +1,6 @@
 use reqwest::Url;
 use serde::Deserialize;
+use tracing::event;
 
 use crate::application::activate::ActivateRequest;
 
@@ -17,10 +18,10 @@ impl ActivateResponse {
         client_id: String,
         state: String,
     ) -> Self {
-        
+        event!(tracing::Level::DEBUG, "Building authorize PIM Url");
 
         let url = format!("{}{}?response_type={}&client_id={}&scope={}&state={}",
-            Self::remove_last_slash(&active_resquest.pim_url), 
+            Self::remove_last_slash(&active_resquest.pim_url.to_string()), 
             PIM_AUTHORIZATION_URL, 
             "code".to_string(),
             client_id,

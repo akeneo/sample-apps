@@ -11,6 +11,11 @@ pub struct CallbackRequest {
     pub code: String,
 }
 
+#[tracing::instrument(
+    name = "Callback", 
+    skip(session, data, callback_request), 
+    fields(code = %callback_request.code, state = %callback_request.state)
+)]
 #[get("/callback")]
 async fn callback(
     session: Session,
