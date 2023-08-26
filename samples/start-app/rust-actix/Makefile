@@ -10,10 +10,10 @@ DOCKER_EXEC = $(DOCKER_COMPOSE) run
 ifneq (,$(wildcard ./.env))
     include .env
     export
-    APP_ADDRESS = http://localhost:$(APP_PORT)/
+    APP_ADDRESS = http://127.0.0.1:$(APP_PORT)/
 endif
 
-.PHONY: help install requirements build start stop tests bash _display
+.PHONY: tests bash
 
 install: ## Install Rust sample App
 	@$(MAKE) requirements

@@ -16,7 +16,7 @@ fn get_subscriber<Sink>(
     let env_filter = EnvFilter::try_from_default_env()
         .unwrap_or(EnvFilter::new(env_filter));
     let formatting_layer: BunyanFormattingLayer<Sink> = BunyanFormattingLayer::new(
-        name.into(),
+        name,
         sink
     );
     Registry::default()

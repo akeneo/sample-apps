@@ -50,7 +50,5 @@ async fn callback(
         return HttpResponse::BadRequest().body("Invalid request");
     }
 
-    return HttpResponse::Ok().body(format!("Access token content : {content}"));
-
-
+    HttpResponse::Ok().body(format!("Access token content : {content}"))
 }

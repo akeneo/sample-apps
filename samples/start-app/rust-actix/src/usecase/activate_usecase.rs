@@ -21,11 +21,11 @@ impl ActivateResponse {
         event!(tracing::Level::DEBUG, "Building authorize PIM Url");
 
         let url = format!("{}{}?response_type={}&client_id={}&scope={}&state={}",
-            Self::remove_last_slash(&active_resquest.pim_url.to_string()), 
+            Self::remove_last_slash(active_resquest.pim_url.as_ref()), 
             PIM_AUTHORIZATION_URL, 
-            "code".to_string(),
+            "code",
             client_id,
-            PIM_AUTHORIZATION_SCOPES.to_string(),
+            PIM_AUTHORIZATION_SCOPES,
             state,
         );
 
@@ -36,7 +36,7 @@ impl ActivateResponse {
 
     fn remove_last_slash(url: &str) -> String {
         let mut url = url.to_string();
-        if url.ends_with("/") {
+        if url.ends_with('/') {
             url.pop();
         }
         url
