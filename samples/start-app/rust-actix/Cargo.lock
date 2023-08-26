@@ -1401,6 +1401,7 @@ dependencies = [
  "env_logger",
  "hex",
  "log",
+ "once_cell",
  "rand",
  "reqwest",
  "serde",

@@ -1,10 +1,11 @@
 use rust_actix::{usecase::activate_usecase::ActivateResponse, controller::activate::ActivateRequest};
+use url::Url;
 
 #[test]
 fn return_a_redirection_url() {
     let response = ActivateResponse::build(
         ActivateRequest {
-            pim_url: "https://example.com".to_owned()
+            pim_url: Url::parse("https://example.com").expect("Invalid Url"),
         },
         "client_id".to_owned(),
         "state".to_owned(),
