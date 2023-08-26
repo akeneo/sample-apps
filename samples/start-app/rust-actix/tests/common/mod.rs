@@ -1,8 +1,7 @@
+use once_cell::sync::Lazy;
 use rust_actix::application::Application;
 use rust_actix::configuration::Settings;
 use rust_actix::logger::init_subscriber;
-use once_cell::sync::Lazy;
-
 
 #[derive(Debug)]
 pub struct TestApp {

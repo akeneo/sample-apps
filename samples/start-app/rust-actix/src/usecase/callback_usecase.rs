@@ -1,7 +1,7 @@
 use anyhow::Result;
 use rand::distributions::{Alphanumeric, DistString};
 use reqwest::StatusCode;
-use sha2::{Sha256,Digest};
+use sha2::{Digest, Sha256};
 use tracing::event;
 
 #[derive(Debug)]
@@ -12,7 +12,6 @@ pub struct CallbackAuthorizationRequest {
     pub client_secret: String,
 }
 
-
 impl CallbackAuthorizationRequest {
     pub async fn execute(&self) -> Result<(StatusCode, String)> {
         let client = reqwest::Client::new();
@@ -21,20 +20,21 @@ impl CallbackAuthorizationRequest {
         let code_identifier = self.code_identifier();
         let code_challenge = self.code_challenge(&code_identifier);
         let grant_type = "authorization_code".to_string();
-        
+
         params.insert("client_id", &self.client_id);
         params.insert("code_identifier", &code_identifier);
         params.insert("code_challenge", &code_challenge);
         params.insert("code", &self.code);
         params.insert("grant_type", &grant_type);
-        
+
         event!(tracing::Level::DEBUG, "Requesting access token");
 
-        let response = client.post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url))
+        let response = client
+            .post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url))
             .form(&params)
             .send()
             .await?;
-        
+
         Ok((response.status(), response.text().await?))
     }
 

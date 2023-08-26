@@ -1,2 +1,2 @@
-mod health_check;
 mod activate;
+mod health_check;

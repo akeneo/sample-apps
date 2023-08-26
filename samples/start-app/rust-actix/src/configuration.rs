@@ -19,8 +19,7 @@ impl Settings {
 
         Self {
             app_server_addr: format!("{app_host}:{app_port}"),
-            client_id: env::var("CLIENT_ID")
-                .expect("CLIENT_ID is not set in .env file"),
+            client_id: env::var("CLIENT_ID").expect("CLIENT_ID is not set in .env file"),
             client_secret: env::var("CLIENT_SECRET")
                 .expect("CLIENT_SECRET is not set in .env file"),
             secure_cookie: env::var("SECURE_COOKIE")
@@ -39,12 +38,8 @@ impl Settings {
             }
             None => {
                 match fs::metadata(".env.local") {
-                    Err(_) => {
-                        dotenv::dotenv().ok()
-                    },
-                    Ok(_) => {
-                        dotenv::from_filename(".env.local").ok()
-                    }
+                    Err(_) => dotenv::dotenv().ok(),
+                    Ok(_) => dotenv::from_filename(".env.local").ok(),
                 };
             }
         };

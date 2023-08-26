@@ -7,7 +7,7 @@ use rust_actix::logger::init_subscriber;
 async fn main() -> Result<()> {
     let settings = Settings::get(None);
     // Initialize logger
-    init_subscriber(settings.app_name.clone(),settings.log_level.clone());
+    init_subscriber(settings.app_name.clone(), settings.log_level.clone());
 
     let application = Application::build(settings).expect("Failed to build application");
 

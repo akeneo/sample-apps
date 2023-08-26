@@ -1,4 +1,6 @@
-use rust_actix::{usecase::activate_usecase::ActivateResponse, controller::activate::ActivateRequest};
+use rust_actix::{
+    controller::activate::ActivateRequest, usecase::activate_usecase::ActivateResponse,
+};
 use url::Url;
 
 #[test]
