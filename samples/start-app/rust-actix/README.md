@@ -8,7 +8,7 @@
 Alternatively, install Rust (1.72 or higher) for your OS. See the official installation tutorial [here](https://www.rust-lang.org/tools/install) to develop the app, the compilation will be faster than under Docker.
 
 ### Step 1: Get this App on your local machine
-Get the whole Sample-Apps repository and navigate to the PHP Symfony start app folder
+Get the whole Sample-Apps repository and navigate to the Rust Actix start app folder
 ```
 git clone git@github.com:akeneo/sample-apps.git
 cd samples/start-app/rust-actix

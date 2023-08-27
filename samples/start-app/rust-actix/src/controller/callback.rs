@@ -2,8 +2,14 @@ use actix_session::Session;
 use actix_web::{get, web, HttpResponse, Responder};
 use reqwest::StatusCode;
 use serde::Deserialize;
+use tracing::{event, Level};
 
 use crate::{application::callback_usecase::CallbackAuthorizationRequest, configuration::Settings};
+
+const ERROR_MISSING_STATE: &str = "Invalid Session information, missing state";
+const ERROR_MISSING_PIM_URL: &str = "Invalid Session information, missing pim_url";
+const ERROR_INVALID_STATE: &str = "Invalid state";
+const ERROR_INVALID_REQUEST: &str = "Invalid request";
 
 #[derive(Debug, Deserialize)]
 pub struct CallbackRequest {
@@ -25,18 +31,26 @@ async fn callback(
     // We check if the received state is the same as in the session, for security.
     let state = match session.get::<String>("state").unwrap() {
         None => {
-            return HttpResponse::BadRequest().body("Invalid Session information, missing state")
+            event!(Level::ERROR, ERROR_MISSING_STATE);
+            return HttpResponse::BadRequest().body(ERROR_MISSING_STATE);
         }
         Some(s) => s,
     };
 
     if state != callback_request.state {
-        return HttpResponse::BadRequest().body("Invalid state");
+        event!(
+            Level::ERROR,
+            ERROR_INVALID_STATE,
+            received_state = callback_request.state,
+            expected_state = state
+        );
+        return HttpResponse::BadRequest().body(ERROR_INVALID_STATE);
     }
 
     let pim_url = match session.get::<String>("pim_url").unwrap() {
         None => {
-            return HttpResponse::BadRequest().body("Invalid Session information, missing pim_url")
+            event!(Level::ERROR, ERROR_MISSING_PIM_URL);
+            return HttpResponse::BadRequest().body(ERROR_MISSING_PIM_URL);
         }
         Some(p) => p,
     };
@@ -51,7 +65,20 @@ async fn callback(
     let (status_code, content) = authorization_request.execute().await.unwrap();
 
     if status_code != StatusCode::OK {
-        return HttpResponse::BadRequest().body("Invalid request");
+        event!(
+            Level::ERROR,
+            ERROR_INVALID_STATE,
+            status_code = status_code.as_u16(),
+        );
+        return HttpResponse::BadRequest().body(ERROR_INVALID_REQUEST);
+    }
+    
+    if content.contains("access_token") {
+        event!(Level::INFO, "Access token received");
+        // TODO: Store the access token in the sqlite database
+        
+    } else {
+        event!(Level::ERROR, "Access token not received");
     }
 
     HttpResponse::Ok().body(format!("Access token content : {content}"))

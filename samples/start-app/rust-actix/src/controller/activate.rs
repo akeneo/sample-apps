@@ -31,12 +31,11 @@ async fn activate(
         .insert("pim_url", activate_request.pim_url.clone().as_str())
         .unwrap();
 
-    let client_id = data.client_id.clone();
-
     HttpResponse::Found()
         .append_header((
             "Location",
-            ActivateResponse::build(activate_request.into_inner(), client_id, state).redirect_uri,
+            ActivateResponse::build(activate_request.into_inner(), data.client_id.clone(), state)
+                .redirect_uri,
         ))
         .finish()
 }

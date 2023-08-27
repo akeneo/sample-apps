@@ -4,3 +4,4 @@ pub mod controller;
 pub mod logger;
 pub mod model;
 pub mod usecase;
+pub mod database;

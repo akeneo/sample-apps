@@ -1,4 +1,4 @@
-FROM rust:1.71-bookworm
+FROM rust:1.72-bookworm
 
 WORKDIR /srv/app
 

@@ -4,6 +4,8 @@ use actix_session::config::PersistentSession;
 use actix_session::{storage::CookieSessionStore, SessionMiddleware};
 use actix_web::cookie::{self, Key};
 use actix_web::{dev::Server, App, HttpServer};
+use r2d2::Pool;
+use r2d2_sqlite::SqliteConnectionManager;
 
 use crate::configuration::Settings;
 pub use crate::controller::*;
@@ -15,13 +17,14 @@ pub struct Application {
 }
 
 impl Application {
-    pub fn build(settings: Settings) -> anyhow::Result<Self> {
+    pub fn build(settings: Settings, pool: Pool<SqliteConnectionManager>) -> anyhow::Result<Self> {
         let listener =
             TcpListener::bind(settings.app_server_addr.as_str()).expect("Failed to bind address");
         let address = listener.local_addr().unwrap().to_string();
         let server = HttpServer::new(move || {
             App::new()
                 .app_data(actix_web::web::Data::new(settings.clone()))
+                .app_data(actix_web::web::Data::new(pool.clone()))
                 // We can log every request that comes in using the TracingLogger middleware
                 // .wrap(
                 //     TracingLogger::default(),
