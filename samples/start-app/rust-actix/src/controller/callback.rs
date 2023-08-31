@@ -1,10 +1,16 @@
 use actix_session::Session;
 use actix_web::{get, web, HttpResponse, Responder};
+use r2d2::Pool;
+use r2d2_sqlite::SqliteConnectionManager;
 use reqwest::StatusCode;
 use serde::Deserialize;
 use tracing::{event, Level};
 
-use crate::{application::callback_usecase::CallbackAuthorizationRequest, configuration::Settings};
+use crate::{
+        application::callback_usecase::CallbackAuthorizationRequest, 
+        configuration::Settings, 
+        model::token::{self, Token, TokenRepository}
+    };
 
 const ERROR_MISSING_STATE: &str = "Invalid Session information, missing state";
 const ERROR_MISSING_PIM_URL: &str = "Invalid Session information, missing pim_url";
@@ -27,6 +33,7 @@ async fn callback(
     session: Session,
     data: web::Data<Settings>,
     callback_request: web::Query<CallbackRequest>,
+    pool: web::Data<Pool<SqliteConnectionManager>>
 ) -> impl Responder {
     // We check if the received state is the same as in the session, for security.
     let state = match session.get::<String>("state").unwrap() {
@@ -67,7 +74,7 @@ async fn callback(
     if status_code != StatusCode::OK {
         event!(
             Level::ERROR,
-            ERROR_INVALID_STATE,
+            ERROR_INVALID_REQUEST,
             status_code = status_code.as_u16(),
         );
         return HttpResponse::BadRequest().body(ERROR_INVALID_REQUEST);
@@ -76,7 +83,11 @@ async fn callback(
     if content.contains("access_token") {
         event!(Level::INFO, "Access token received");
         // TODO: Store the access token in the sqlite database
-        
+        let conn = pool.get().unwrap();
+        token::Token::save(conn, Token {
+            access_token: "test".to_string()
+        }).unwrap()
+
     } else {
         event!(Level::ERROR, "Access token not received");
     }

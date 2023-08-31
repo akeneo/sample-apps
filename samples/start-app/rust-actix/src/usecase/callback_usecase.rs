@@ -30,7 +30,7 @@ impl CallbackAuthorizationRequest {
         event!(tracing::Level::DEBUG, "Requesting access token");
 
         let response = client
-            .post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url))
+            .post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url.trim_end_matches('/')))
             .form(&params)
             .send()
             .await?;

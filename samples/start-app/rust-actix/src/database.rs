@@ -19,19 +19,17 @@ fn create_tables(pool : Pool<SqliteConnectionManager>) -> Result<()>
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS token (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
-                access_token VARCHAR(255) NOT NULL COLLATE \"BINARY\"
+                access_token VARCHAR(255) PRIMARY KEY
             )",
         [],
     )?;
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS user (
-                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                sub VARCHAR(255) NOT NULL PRIMARY KEY,
                 email VARCHAR(255) NOT NULL, 
                 firstname VARCHAR(255) NOT NULL, 
-                lastname VARCHAR(255) NOT NULL, 
-                sub VARCHAR(255) NOT NULL
+                lastname VARCHAR(255) NOT NULL
             )",
         [],
     )?;
