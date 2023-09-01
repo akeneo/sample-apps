@@ -1,4 +1,5 @@
 target/*
 .env.local
 rust_actix.db
+rust_actix_test.db
 docker-compose.override.yml
