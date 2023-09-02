@@ -1,6 +1,7 @@
 use anyhow::Result;
 use rand::distributions::{Alphanumeric, DistString};
 use reqwest::StatusCode;
+use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use tracing::event;
 
@@ -12,8 +13,16 @@ pub struct CallbackAuthorizationRequest {
     pub client_secret: String,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct AuthorizationResponse {
+    pub access_token: String,
+    pub token_type: String,
+    pub scope: String,
+    pub id_token: Option<String>,
+}
+
 impl CallbackAuthorizationRequest {
-    pub async fn execute(&self) -> Result<(StatusCode, String)> {
+    pub async fn execute(&self) -> Result<AuthorizationResponse> {
         let client = reqwest::Client::new();
         let mut params = std::collections::HashMap::new();
 
@@ -30,12 +39,26 @@ impl CallbackAuthorizationRequest {
         event!(tracing::Level::DEBUG, "Requesting access token");
 
         let response = client
-            .post(format!("{}/connect/apps/v1/oauth2/token", self.pim_url.trim_end_matches('/')))
+            .post(format!(
+                "{}/connect/apps/v1/oauth2/token",
+                self.pim_url.trim_end_matches('/')
+            ))
             .form(&params)
             .send()
             .await?;
 
-        Ok((response.status(), response.text().await?))
+        let response_status = response.status();
+
+        if response_status == StatusCode::OK {
+            let response_body = response.text().await?;
+            let authorization_response: AuthorizationResponse =
+                serde_json::from_str(&response_body)?;
+            event!(tracing::Level::DEBUG, "Access token received");
+            Ok(authorization_response)
+        } else {
+            event!(tracing::Level::ERROR, "Error while requesting access token");
+            Err(anyhow::anyhow!("Error while requesting access token"))
+        }
     }
 
     fn code_identifier(&self) -> String {

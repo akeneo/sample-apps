@@ -2,19 +2,17 @@ use anyhow::Result;
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 
-pub fn init_database(name: String) -> Result<Pool<SqliteConnectionManager>>
-{
+pub fn init_database(name: String) -> Result<Pool<SqliteConnectionManager>> {
     let manager = SqliteConnectionManager::file(name);
     let pool = Pool::new(manager).unwrap();
 
-    // Create tables if they don't exist 
+    // Create tables if they don't exist
     create_tables(pool.clone())?;
 
     Ok(pool)
 }
 
-fn create_tables(pool : Pool<SqliteConnectionManager>) -> Result<()>
-{
+fn create_tables(pool: Pool<SqliteConnectionManager>) -> Result<()> {
     let conn = pool.get().unwrap();
 
     conn.execute(

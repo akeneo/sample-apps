@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Result};
 use r2d2::PooledConnection;
 use r2d2_sqlite::SqliteConnectionManager;
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct User {
@@ -11,16 +11,13 @@ pub struct User {
     email: String,
 }
 
-
 pub trait UserRepository {
-    fn save(conn:  PooledConnection<SqliteConnectionManager>, user: User) -> Result<()>;
-    fn find_by_sub(conn:  PooledConnection<SqliteConnectionManager>, sub: i32) -> Result<User>;
+    fn save(conn: PooledConnection<SqliteConnectionManager>, user: User) -> Result<()>;
+    fn find_by_sub(conn: PooledConnection<SqliteConnectionManager>, sub: i32) -> Result<User>;
 }
 
-
 impl UserRepository for User {
-    fn save(conn:  PooledConnection<SqliteConnectionManager>, user: User) -> Result<()> {
-        
+    fn save(conn: PooledConnection<SqliteConnectionManager>, user: User) -> Result<()> {
         conn.execute(
             "INSERT INTO user (sub, username, password, email) VALUES (?, ?, ?, ?)",
             [user.sub, user.username, user.password, user.email],
@@ -29,8 +26,7 @@ impl UserRepository for User {
         Ok(())
     }
 
-    fn find_by_sub(conn:  PooledConnection<SqliteConnectionManager>, sub: i32) -> Result<User> {
-        
+    fn find_by_sub(conn: PooledConnection<SqliteConnectionManager>, sub: i32) -> Result<User> {
         let mut stmt = conn.prepare("SELECT * FROM user WHERE sub = ?")?;
         let user_iter = stmt.query_map([sub], |row| {
             Ok(User {

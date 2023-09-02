@@ -1,8 +1,8 @@
 use anyhow::Result;
 use rust_actix::application::Application;
 use rust_actix::configuration::Settings;
-use rust_actix::logger::init_subscriber;
 use rust_actix::database::init_database;
+use rust_actix::logger::init_subscriber;
 
 #[tokio::main]
 async fn main() -> Result<()> {

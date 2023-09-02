@@ -26,6 +26,7 @@ async fn activate(
     let state: String = Alphanumeric.sample_string(&mut rand::thread_rng(), 16);
 
     // Store in the user session the state and the PIM URL
+    session.clear();
     session.insert("state", state.clone()).unwrap();
     session
         .insert("pim_url", activate_request.pim_url.clone().as_str())

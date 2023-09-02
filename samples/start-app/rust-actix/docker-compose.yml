@@ -1,12 +1,13 @@
 services:
     app:
         container_name: "rust-actix-app"
-        #command: "cargo watch -x run"
-        command: "cargo run"
+        command: "cargo watch -x run"
+        #command: "cargo run"
         build:
             context: .
             dockerfile: Dockerfile
         volumes:
             - "./:/srv/app:rw"
+            - "~/.cargo/registry:/usr/local/cargo/registry:rw"
         ports:
             - "${APP_PORT:-8080}:${APP_PORT:-8080}"

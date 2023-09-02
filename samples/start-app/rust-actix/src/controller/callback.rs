@@ -2,20 +2,18 @@ use actix_session::Session;
 use actix_web::{get, web, HttpResponse, Responder};
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
-use reqwest::StatusCode;
 use serde::Deserialize;
 use tracing::{event, Level};
 
 use crate::{
-        application::callback_usecase::CallbackAuthorizationRequest, 
-        configuration::Settings, 
-        model::token::{self, Token, TokenRepository}
-    };
+    application::callback_usecase::CallbackAuthorizationRequest,
+    configuration::Settings,
+    model::token::{self, Token, TokenRepository},
+};
 
 const ERROR_MISSING_STATE: &str = "Invalid Session information, missing state";
 const ERROR_MISSING_PIM_URL: &str = "Invalid Session information, missing pim_url";
 const ERROR_INVALID_STATE: &str = "Invalid state";
-const ERROR_INVALID_REQUEST: &str = "Invalid request";
 
 #[derive(Debug, Deserialize)]
 pub struct CallbackRequest {
@@ -33,7 +31,7 @@ async fn callback(
     session: Session,
     data: web::Data<Settings>,
     callback_request: web::Query<CallbackRequest>,
-    pool: web::Data<Pool<SqliteConnectionManager>>
+    pool: web::Data<Pool<SqliteConnectionManager>>,
 ) -> impl Responder {
     // We check if the received state is the same as in the session, for security.
     let state = match session.get::<String>("state").unwrap() {
@@ -61,7 +59,7 @@ async fn callback(
         }
         Some(p) => p,
     };
-
+    // Call the PIM API to get the access tokens
     let authorization_request = CallbackAuthorizationRequest {
         pim_url,
         code: callback_request.code.clone(),
@@ -69,28 +67,25 @@ async fn callback(
         client_secret: data.client_secret.clone(),
     };
 
-    let (status_code, content) = authorization_request.execute().await.unwrap();
+    let authorization = authorization_request.execute().await.unwrap();
+    let access_token = authorization.access_token.clone();
 
-    if status_code != StatusCode::OK {
-        event!(
-            Level::ERROR,
-            ERROR_INVALID_REQUEST,
-            status_code = status_code.as_u16(),
-        );
-        return HttpResponse::BadRequest().body(ERROR_INVALID_REQUEST);
-    }
-    
-    if content.contains("access_token") {
-        event!(Level::INFO, "Access token received");
-        // TODO: Store the access token in the sqlite database
-        let conn = pool.get().unwrap();
-        token::Token::save(conn, Token {
-            access_token: "test".to_string()
-        }).unwrap()
+    // Save the access token in the database
+    let conn = pool.get().unwrap();
+    token::Token::save(
+        conn,
+        Token {
+            access_token: access_token.clone(),
+        },
+    )
+    .unwrap();
 
-    } else {
-        event!(Level::ERROR, "Access token not received");
+    // If we have an id_token, we can extract the user information from it
+    if Some(authorization.id_token) != None {
+        // TODO: extract user information from id_token
+
+        // Save the user information in the database
     }
 
-    HttpResponse::Ok().body(format!("Access token content : {content}"))
+    HttpResponse::Ok().body(format!("Access token : {access_token}"))
 }
