@@ -21,6 +21,8 @@ pub struct AuthorizationResponse {
     pub id_token: Option<String>,
 }
 
+const PIM_API_AURHORIZATION_ENDPOINT: &str = "/connect/apps/v1/oauth2/token";
+
 impl CallbackAuthorizationRequest {
     pub async fn execute(&self) -> Result<AuthorizationResponse> {
         let client = reqwest::Client::new();
@@ -40,8 +42,9 @@ impl CallbackAuthorizationRequest {
 
         let response = client
             .post(format!(
-                "{}/connect/apps/v1/oauth2/token",
-                self.pim_url.trim_end_matches('/')
+                "{}{}",
+                self.pim_url.trim_end_matches('/'),
+                PIM_API_AURHORIZATION_ENDPOINT
             ))
             .form(&params)
             .send()

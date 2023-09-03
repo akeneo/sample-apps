@@ -6,9 +6,10 @@ use serde::Deserialize;
 use tracing::{event, Level};
 
 use crate::{
-    application::callback_usecase::CallbackAuthorizationRequest,
+    application::{callback_usecase::CallbackAuthorizationRequest, openid_connect::IdToken},
     configuration::Settings,
     model::token::{self, Token, TokenRepository},
+    model::user::{self, UserRepository},
 };
 
 const ERROR_MISSING_STATE: &str = "Invalid Session information, missing state";
@@ -59,9 +60,10 @@ async fn callback(
         }
         Some(p) => p,
     };
+
     // Call the PIM API to get the access tokens
     let authorization_request = CallbackAuthorizationRequest {
-        pim_url,
+        pim_url: pim_url.clone(),
         code: callback_request.code.clone(),
         client_id: data.client_id.clone(),
         client_secret: data.client_secret.clone(),
@@ -69,23 +71,35 @@ async fn callback(
 
     let authorization = authorization_request.execute().await.unwrap();
     let access_token = authorization.access_token.clone();
+    let id_token = authorization.id_token.clone();
 
     // Save the access token in the database
     let conn = pool.get().unwrap();
+
     token::Token::save(
         conn,
         Token {
             access_token: access_token.clone(),
         },
     )
+    .await
     .unwrap();
 
     // If we have an id_token, we can extract the user information from it
-    if Some(authorization.id_token) != None {
-        // TODO: extract user information from id_token
+    if id_token != None {
+        // Get the user information from the id_token
+        let token = IdToken {
+            id_token: id_token.unwrap().to_string(),
+        };
+
+        let user = IdToken::get_user(&token, &pim_url).await.unwrap();
 
         // Save the user information in the database
+        let conn = pool.get().unwrap();
+        user::User::save(conn, user.clone()).await.unwrap();
+
+        return HttpResponse::Ok().body(format!("User : {:?}", user));
     }
 
-    HttpResponse::Ok().body(format!("Access token : {access_token}"))
+    HttpResponse::Ok().body(format!("Token : {}", access_token))
 }

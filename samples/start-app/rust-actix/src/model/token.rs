@@ -1,4 +1,5 @@
 use anyhow::{anyhow, Result};
+use async_trait::async_trait;
 use r2d2::PooledConnection;
 use r2d2_sqlite::SqliteConnectionManager;
 use serde::{Deserialize, Serialize};
@@ -8,16 +9,18 @@ pub struct Token {
     pub access_token: String,
 }
 
+#[async_trait]
 pub trait TokenRepository {
-    fn save(conn: PooledConnection<SqliteConnectionManager>, token: Token) -> Result<()>;
-    fn find_by_access_token(
+    async fn save(conn: PooledConnection<SqliteConnectionManager>, token: Token) -> Result<()>;
+    async fn find_by_access_token(
         conn: PooledConnection<SqliteConnectionManager>,
         access_token: &str,
     ) -> Result<Token>;
 }
 
+#[async_trait]
 impl TokenRepository for Token {
-    fn save(conn: PooledConnection<SqliteConnectionManager>, token: Token) -> Result<()> {
+    async fn save(conn: PooledConnection<SqliteConnectionManager>, token: Token) -> Result<()> {
         let mut stmt = conn.prepare("SELECT * FROM token WHERE access_token = ?")?;
         if stmt.exists([token.access_token.clone()])? {
             return Ok(());
@@ -33,7 +36,7 @@ impl TokenRepository for Token {
         Ok(())
     }
 
-    fn find_by_access_token(
+    async fn find_by_access_token(
         conn: PooledConnection<SqliteConnectionManager>,
         access_token: &str,
     ) -> Result<Token> {
