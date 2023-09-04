@@ -3,20 +3,8 @@ use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use sailfish::TemplateOnce;
 
+use crate::template::{AccessToken, NoAccessToken};
 use crate::model::token::{Token, TokenRepository};
-
-
-#[derive(TemplateOnce)]
-#[template(path = "./access_token.stpl")]
-struct AccessTokenTemplate {
-    
-}
-
-#[derive(TemplateOnce)]
-#[template(path = "./no_access_token.stpl")]
-struct NoAccessTokenTemplate {
-    
-}
 
 
 #[tracing::instrument(
@@ -30,13 +18,13 @@ async fn index(
     // Check if we have a token in DB
     match Token::exists(&pool).await {
         Ok(_) => {
-            let ctx = AccessTokenTemplate {};
+            let ctx = AccessToken { user: None };
             return HttpResponse::Ok().body(
                 ctx.render_once().unwrap(),
             )
         },
         Err(_) => {
-            let ctx = NoAccessTokenTemplate {};
+            let ctx = NoAccessToken {};
 
             return HttpResponse::Ok().body(
                 ctx.render_once().unwrap(),
