@@ -13,10 +13,7 @@ pub struct Token {
 #[async_trait]
 pub trait TokenRepository {
     async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, token: Token) -> Result<()>;
-    async fn find_by_access_token(
-        pool: &web::Data<Pool<SqliteConnectionManager>>,
-        access_token: &str,
-    ) -> Result<Token>;
+    async fn exists(pool: &web::Data<Pool<SqliteConnectionManager>>) -> Result<()>;
 }
 
 #[async_trait]
@@ -38,26 +35,16 @@ impl TokenRepository for Token {
         Ok(())
     }
 
-    async fn find_by_access_token(
+    async fn exists(
         pool: &web::Data<Pool<SqliteConnectionManager>>,
-        access_token: &str,
-    ) -> Result<Token> {
+    ) -> Result<()> {
         let conn = pool.get().unwrap();
-        let mut stmt = conn
-            .prepare("SELECT * FROM token WHERE access_token = ?")
-            .unwrap();
-        let token_iter = stmt
-            .query_map([access_token], |row| {
-                Ok(Token {
-                    access_token: row.get(0)?,
-                })
-            })
-            .unwrap();
+        let mut stmt = conn.prepare("SELECT * FROM token")?;
 
-        for token in token_iter {
-            return Ok(token.unwrap());
+        if stmt.exists(())? {
+            return Ok(());
         }
 
-        Err(anyhow!("Token not found"))
+        Err(anyhow!("No token exists"))
     }
 }

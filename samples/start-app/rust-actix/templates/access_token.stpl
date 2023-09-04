@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP sample app</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        body{
+            position: relative;
+        }
+        h1 {
+
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 36px;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+        p {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+        a {
+            color: #4CA8E0;
+            text-decoration: none;
+        }
+
+        .userInformation {
+            position: absolute;
+            display: block;
+            text-align: left;
+            font-size: 13px;
+            width: 20%;
+            line-height: 13px;
+            right: 0;
+        }
+
+        .userInformation div {
+            color: #9452BA;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            padding-right: 40px;
+            text-transform: uppercase;
+        }
+
+        .header {
+            position: sticky;
+            border-bottom: 1px solid #9452BA;
+            height: 60px;
+        }
+
+        .content {
+            position: relative;
+            left: 100px;
+            top: 100px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>UserInformation</div>
+</div>
+
+<div class="content">
+
+    <h1>Congratulations!</h1>
+
+    <p>You’ve got your App token and<b>&nbspyou’re ready to query the PIM API.</b></p>
+
+    <p>
+    To do so, open the following page <a href="/first-api-call" target="_blank">&nbsp’first-API-call’</a>.
+    If you want to have a look at the HTTP client, open the file <b><i>&nbsp’src/UseCase/FirstApiCall.php’</i></b>.</p>
+
+</div>
+
+</body>
+</html>

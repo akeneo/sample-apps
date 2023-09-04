@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PHP sample app</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        body{
+            position: relative;
+        }
+        h1 {
+
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 36px;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+        p {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 24px;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+        a {
+            color: #4CA8E0;
+            text-decoration: none;
+        }
+
+        .header {
+            position: sticky;
+            border-bottom: 1px solid #9452BA;
+            height: 60px;
+        }
+
+        .content {
+            position: relative;
+            left: 100px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+
+    <h1>It seems that you haven’t got your App token yet.</h1>
+
+    <p>Please, get it by following our <i><a href="https://api.akeneo.com/tutorials/how-to-get-your-app-token.html" target="_blank">How to get your App token</a></i>&nbsptutorial.</p>
+
+</div>
+</body>
+</html>
