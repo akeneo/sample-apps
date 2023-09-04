@@ -1,6 +1,7 @@
+use actix_web::web;
 use anyhow::{anyhow, Result};
 use async_trait::async_trait;
-use r2d2::PooledConnection;
+use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use serde::{Deserialize, Serialize};
 
@@ -14,14 +15,15 @@ pub struct User {
 
 #[async_trait]
 pub trait UserRepository {
-    async fn save(conn: PooledConnection<SqliteConnectionManager>, user: User) -> Result<()>;
-    async fn find_by_sub(conn: PooledConnection<SqliteConnectionManager>, sub: i32)
+    async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, user: User) -> Result<()>;
+    async fn find_by_sub(pool: &web::Data<Pool<SqliteConnectionManager>>, sub: i32)
         -> Result<User>;
 }
 
 #[async_trait]
 impl UserRepository for User {
-    async fn save(conn: PooledConnection<SqliteConnectionManager>, user: User) -> Result<()> {
+    async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, user: User) -> Result<()> {
+        let conn = pool.get().unwrap();
         conn.execute(
             "INSERT INTO user (sub, firstname, lastname, email) VALUES (?, ?, ?, ?)",
             [user.sub, user.firstname, user.lastname, user.email],
@@ -31,9 +33,10 @@ impl UserRepository for User {
     }
 
     async fn find_by_sub(
-        conn: PooledConnection<SqliteConnectionManager>,
+        pool: &web::Data<Pool<SqliteConnectionManager>>,
         sub: i32,
     ) -> Result<User> {
+        let conn = pool.get().unwrap();
         let mut stmt = conn.prepare("SELECT * FROM user WHERE sub = ?")?;
         let user_iter = stmt.query_map([sub], |row| {
             Ok(User {

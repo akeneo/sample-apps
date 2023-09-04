@@ -74,10 +74,8 @@ async fn callback(
     let id_token = authorization.id_token.clone();
 
     // Save the access token in the database
-    let conn = pool.get().unwrap();
-
     token::Token::save(
-        conn,
+        &pool,
         Token {
             access_token: access_token.clone(),
         },
@@ -95,8 +93,7 @@ async fn callback(
         let user = IdToken::get_user(&token, &pim_url).await.unwrap();
 
         // Save the user information in the database
-        let conn = pool.get().unwrap();
-        user::User::save(conn, user.clone()).await.unwrap();
+        user::User::save(&pool, user.clone()).await.unwrap();
 
         return HttpResponse::Ok().body(format!("User : {:?}", user));
     }

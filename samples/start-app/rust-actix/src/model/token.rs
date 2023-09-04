@@ -1,6 +1,7 @@
+use actix_web::web;
 use anyhow::{anyhow, Result};
 use async_trait::async_trait;
-use r2d2::PooledConnection;
+use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use serde::{Deserialize, Serialize};
 
@@ -11,16 +12,17 @@ pub struct Token {
 
 #[async_trait]
 pub trait TokenRepository {
-    async fn save(conn: PooledConnection<SqliteConnectionManager>, token: Token) -> Result<()>;
+    async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, token: Token) -> Result<()>;
     async fn find_by_access_token(
-        conn: PooledConnection<SqliteConnectionManager>,
+        pool: &web::Data<Pool<SqliteConnectionManager>>,
         access_token: &str,
     ) -> Result<Token>;
 }
 
 #[async_trait]
 impl TokenRepository for Token {
-    async fn save(conn: PooledConnection<SqliteConnectionManager>, token: Token) -> Result<()> {
+    async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, token: Token) -> Result<()> {
+        let conn = pool.get().unwrap();
         let mut stmt = conn.prepare("SELECT * FROM token WHERE access_token = ?")?;
         if stmt.exists([token.access_token.clone()])? {
             return Ok(());
@@ -37,9 +39,10 @@ impl TokenRepository for Token {
     }
 
     async fn find_by_access_token(
-        conn: PooledConnection<SqliteConnectionManager>,
+        pool: &web::Data<Pool<SqliteConnectionManager>>,
         access_token: &str,
     ) -> Result<Token> {
+        let conn = pool.get().unwrap();
         let mut stmt = conn
             .prepare("SELECT * FROM token WHERE access_token = ?")
             .unwrap();
