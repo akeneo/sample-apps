@@ -24,26 +24,32 @@ async fn index(
     // Check if we have a token in DB
     match Token::exists(&pool).await {
         Ok(_) => {
-            let mut ctx = AccessToken { user: None };
+            let mut ctx = AccessToken { sub: "".to_string(), email: "".to_string() };
             // Authenticate User with his cookie
             let sub = session.get::<String>("sub").unwrap_or_else(|_| None);
             let vector = session.get::<String>("vector").unwrap_or_else(|_| None);
-
+            
             if sub.is_some() && vector.is_some() && vector.unwrap() == data.sub_hash_key.clone() {
                 // Get user from DB
-                ctx.user =  user::User::find_by_sub(&pool, sub.unwrap()).await.ok();
-            }
+                match user::User::find_by_sub(&pool, sub.unwrap()).await {
+                    Ok(user) => {
+                        ctx.sub = user.sub;
+                        ctx.email = user.email;
+                    },
+                    Err(_) => {}
+                };
+            };
             
             return HttpResponse::Ok().body(
                 ctx.render_once().unwrap(),
-            )
+            );
         },
         Err(_) => {
             let ctx = NoAccessToken {};
 
             return HttpResponse::Ok().body(
                 ctx.render_once().unwrap(),
-            )    
+            );   
         }
     };
 }

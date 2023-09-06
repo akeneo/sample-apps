@@ -5,10 +5,13 @@
 </head>
 <body>
 
-    <% if user.is_some() { %>
-    <div class="header">
-        <div>UserInformation</div>
-    </div>
+    <% if !sub.is_empty() && !email.is_empty() { %>
+        <div class="header">
+            <div class="userInformation">
+                <div>User : <%= sub %></div>
+                <div>Email : <%= email %></div>
+            </div>
+        </div>
     <% } %>
 
     <div class="content">

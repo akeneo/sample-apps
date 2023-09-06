@@ -35,7 +35,7 @@ impl Application {
                         .cookie_name("SAMPLE-APP-ID".to_string())
                         .session_lifecycle(
                             PersistentSession::default()
-                                .session_ttl(cookie::time::Duration::hours(1)),
+                                .session_ttl(cookie::time::Duration::days(30)),
                         )
                         .build(),
                 )

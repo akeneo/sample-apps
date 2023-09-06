@@ -24,6 +24,11 @@ pub trait UserRepository {
 impl UserRepository for User {
     async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, user: User) -> Result<()> {
         let conn = pool.get().unwrap();
+        let mut stmt = conn.prepare("SELECT * FROM user WHERE sub = ?")?;
+        if stmt.exists([user.sub.clone()])? {
+            return Ok(());
+        }
+
         conn.execute(
             "INSERT INTO user (sub, firstname, lastname, email) VALUES (?, ?, ?, ?)",
             [user.sub, user.firstname, user.lastname, user.email],
@@ -37,7 +42,7 @@ impl UserRepository for User {
         sub: String,
     ) -> Result<User> {
         let conn = pool.get().unwrap();
-        let mut stmt = conn.prepare("SELECT * FROM user WHERE sub = ?")?;
+        let mut stmt = conn.prepare("SELECT sub, firstname, lastname, email FROM user WHERE sub = ?")?;
         let user_iter = stmt.query_map([sub], |row| {
             Ok(User {
                 sub: row.get(0)?,

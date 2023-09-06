@@ -1,11 +1,10 @@
 use sailfish::TemplateOnce;
 
-use crate::model::user::User;
-
 #[derive(TemplateOnce)]
 #[template(path = "./access_token.stpl")]
 pub struct AccessToken {
-    pub user: Option<User>,
+    pub sub: String,
+    pub email: String,
 }
 
 #[derive(TemplateOnce)]
