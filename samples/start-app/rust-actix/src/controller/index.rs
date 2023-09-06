@@ -26,8 +26,8 @@ async fn index(
         Ok(_) => {
             let mut ctx = AccessToken { user: None };
             // Authenticate User with his cookie
-            let sub = session.get::<String>("sub").unwrap();
-            let vector = session.get::<String>("vector").unwrap();
+            let sub = session.get::<String>("sub").unwrap_or_else(|_| None);
+            let vector = session.get::<String>("vector").unwrap_or_else(|_| None);
 
             if sub.is_some() && vector.is_some() && vector.unwrap() == data.sub_hash_key.clone() {
                 // Get user from DB

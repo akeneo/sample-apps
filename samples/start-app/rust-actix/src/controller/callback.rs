@@ -1,5 +1,5 @@
 use actix_session::Session;
-use actix_web::{get, web::{self, Redirect}, HttpResponse, Responder, http::header};
+use actix_web::{get, web, HttpResponse, Responder, http::header};
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use serde::Deserialize;
