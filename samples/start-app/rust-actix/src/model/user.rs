@@ -16,7 +16,7 @@ pub struct User {
 #[async_trait]
 pub trait UserRepository {
     async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, user: User) -> Result<()>;
-    async fn find_by_sub(pool: &web::Data<Pool<SqliteConnectionManager>>, sub: i32)
+    async fn find_by_sub(pool: &web::Data<Pool<SqliteConnectionManager>>, sub: String)
         -> Result<User>;
 }
 
@@ -34,7 +34,7 @@ impl UserRepository for User {
 
     async fn find_by_sub(
         pool: &web::Data<Pool<SqliteConnectionManager>>,
-        sub: i32,
+        sub: String,
     ) -> Result<User> {
         let conn = pool.get().unwrap();
         let mut stmt = conn.prepare("SELECT * FROM user WHERE sub = ?")?;

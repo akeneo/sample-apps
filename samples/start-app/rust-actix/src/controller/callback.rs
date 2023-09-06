@@ -1,5 +1,5 @@
 use actix_session::Session;
-use actix_web::{get, web, HttpResponse, Responder};
+use actix_web::{get, web::{self, Redirect}, HttpResponse, Responder, http::header};
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use serde::Deserialize;
@@ -95,8 +95,14 @@ async fn callback(
         // Save the user information in the database
         user::User::save(&pool, user.clone()).await.unwrap();
 
-        return HttpResponse::Ok().body(format!("User : {:?}", user));
+        session.clear();
+        session.insert("sub", user.sub.clone()).unwrap();
+        session.insert("vector", data.sub_hash_key.clone()).unwrap();
     }
 
-    HttpResponse::Ok().body(format!("Token : {}", access_token))
+    // Redirect to the home page
+    HttpResponse::Found()
+        .insert_header((header::LOCATION, "/"))
+        .finish()
+        
 }

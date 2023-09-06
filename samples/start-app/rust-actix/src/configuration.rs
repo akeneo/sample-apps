@@ -8,6 +8,7 @@ pub struct Settings {
     pub secure_cookie: bool,
     pub app_name: String,
     pub log_level: String,
+    pub sub_hash_key: String,
 }
 
 impl Settings {
@@ -28,6 +29,7 @@ impl Settings {
                 .expect("SECURE_COOKIE is not a boolean"),
             app_name: env::var("APP_NAME").unwrap_or_else(|_| "sample-app".into()),
             log_level: env::var("LOG_LEVEL").unwrap_or_else(|_| "error".into()),
+            sub_hash_key: env::var("SUB_HASH_KEY").expect("SUB_HASH_KEY is not set in .env file"),
         }
     }
 

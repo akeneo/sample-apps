@@ -1,5 +1,5 @@
 use actix_session::Session;
-use actix_web::{get, web, HttpResponse, Responder};
+use actix_web::{get, web, HttpResponse, Responder, http::header};
 use rand::distributions::{Alphanumeric, DistString};
 use serde::Deserialize;
 use url::Url;
@@ -33,8 +33,8 @@ async fn activate(
         .unwrap();
 
     HttpResponse::Found()
-        .append_header((
-            "Location",
+        .insert_header((
+            header::LOCATION,
             ActivateResponse::build(activate_request.into_inner(), data.client_id.clone(), state)
                 .redirect_uri,
         ))
