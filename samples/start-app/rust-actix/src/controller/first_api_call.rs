@@ -1,35 +1,39 @@
-use actix_web::{get, HttpResponse, Responder, web, http::header};
+use actix_web::{get, HttpResponse, Responder, web};
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
+use tracing::event;
 
-use crate::{model::token::{Token, TokenRepository}, usecase::first_api_callback_usecase::FirstApiCallRequest};
+use crate::{model::token::{Token, TokenRepository}, usecase::first_api_callback_usecase::FirstApiCallRequest, configuration::Settings};
 
 
 #[tracing::instrument(
     name = "FirstApiCall"
+    skip(data)
 )]
 #[get("/first-api-call")]
 async fn first_api_call(
+    data: web::Data<Settings>,
     pool: web::Data<Pool<SqliteConnectionManager>>,
 ) -> impl Responder {
     match Token::get(&pool).await {
         Ok(token) => {
-            // Call API
             let first_api_request = FirstApiCallRequest { token };
 
-            match first_api_request.execute() {
+            match first_api_request.execute(data.pim_url.clone()).await {
                 Ok(response) => {
-                    println!(response)
+                    HttpResponse::Ok().content_type(
+                        "application/json"
+                    ).body(response)
                 },
-                Err(_) => {}
+                Err(_) => {
+                    event!(tracing::Level::ERROR, "Error while calling the API");   
+                    HttpResponse::InternalServerError().body("Error while calling the API")
+                }
             }
-
         },
-        Err(_) => {}
-    };    
-
-    // Redirect to the home page
-    HttpResponse::Found()
-        .insert_header((header::LOCATION, "/"))
-        .finish()
+        _ => {
+            event!(tracing::Level::DEBUG, "No token found");  
+            HttpResponse::InternalServerError().body("No token found")
+        }
+    }
 }

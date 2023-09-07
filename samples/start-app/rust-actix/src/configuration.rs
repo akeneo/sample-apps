@@ -3,6 +3,7 @@ use std::{env, fs};
 #[derive(Debug, Clone)]
 pub struct Settings {
     pub app_server_addr: String,
+    pub pim_url: String,
     pub client_id: String,
     pub client_secret: String,
     pub secure_cookie: bool,
@@ -26,6 +27,7 @@ impl Settings {
 
         Self {
             app_server_addr: format!("{app_host}:{app_port}"),
+            pim_url: env::var("PIM_URL").expect("PIM_URL is not set in .env file"),
             client_id: env::var("CLIENT_ID").expect("CLIENT_ID is not set in .env file"),
             client_secret: env::var("CLIENT_SECRET")
                 .expect("CLIENT_SECRET is not set in .env file"),
