@@ -30,7 +30,7 @@ impl Application {
                 //     TracingLogger::default(),
                 // )
                 .wrap(
-                    SessionMiddleware::builder(CookieSessionStore::default(), Key::generate())
+                    SessionMiddleware::builder(CookieSessionStore::default(), Key::from(settings.session_key.as_bytes()))
                         .cookie_secure(settings.secure_cookie)
                         .cookie_name("SAMPLE-APP-ID".to_string())
                         .session_lifecycle(

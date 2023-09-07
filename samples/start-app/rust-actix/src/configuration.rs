@@ -6,6 +6,7 @@ pub struct Settings {
     pub client_id: String,
     pub client_secret: String,
     pub secure_cookie: bool,
+    pub session_key: String,
     pub app_name: String,
     pub log_level: String,
     pub sub_hash_key: String,
@@ -17,6 +18,11 @@ impl Settings {
 
         let app_host = env::var("APP_HOST").expect("APP_HOST is not set in .env file");
         let app_port = env::var("APP_PORT").expect("APP_PORT is not set in .env file");
+        let session_key = env::var("SESSION_KEY").expect("SESSION_KEY is not set in .env file");
+
+        if session_key.len() < 64 {
+            panic!("SESSION_KEY must be at least 64 characters long");
+        }
 
         Self {
             app_server_addr: format!("{app_host}:{app_port}"),
@@ -27,6 +33,7 @@ impl Settings {
                 .expect("SECURE_COOKIE is not set in .env file")
                 .parse::<bool>()
                 .expect("SECURE_COOKIE is not a boolean"),
+            session_key: session_key,    
             app_name: env::var("APP_NAME").unwrap_or_else(|_| "sample-app".into()),
             log_level: env::var("LOG_LEVEL").unwrap_or_else(|_| "error".into()),
             sub_hash_key: env::var("SUB_HASH_KEY").expect("SUB_HASH_KEY is not set in .env file"),

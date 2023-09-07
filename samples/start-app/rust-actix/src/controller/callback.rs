@@ -42,6 +42,7 @@ async fn callback(
         }
         Some(s) => s,
     };
+    session.remove("state").unwrap();
 
     if state != callback_request.state {
         event!(
@@ -60,6 +61,7 @@ async fn callback(
         }
         Some(p) => p,
     };
+    session.remove("pim_url").unwrap();
 
     // Call the PIM API to get the access tokens
     let authorization_request = CallbackAuthorizationRequest {
@@ -95,7 +97,6 @@ async fn callback(
         // Save the user information in the database
         user::User::save(&pool, user.clone()).await.unwrap();
 
-        session.clear();
         session.insert("sub", user.sub.clone()).unwrap();
         session.insert("vector", data.sub_hash_key.clone()).unwrap();
     }
