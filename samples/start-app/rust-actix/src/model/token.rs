@@ -14,6 +14,7 @@ pub struct Token {
 pub trait TokenRepository {
     async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, token: Token) -> Result<()>;
     async fn exists(pool: &web::Data<Pool<SqliteConnectionManager>>) -> Result<()>;
+    async fn get(pool: &web::Data<Pool<SqliteConnectionManager>>) -> Result<(Token)>;
 }
 
 #[async_trait]
@@ -46,5 +47,24 @@ impl TokenRepository for Token {
         }
 
         Err(anyhow!("No token exists"))
+    }
+
+    async fn get(
+        pool: &web::Data<Pool<SqliteConnectionManager>>,
+    ) -> Result<(Token)> {
+        let conn = pool.get().unwrap();
+        let mut stmt = conn.prepare("SELECT token FROM token LIMIT 1")?;
+
+        let token_iter = stmt.query_map((), |row| {
+            Ok(Token {
+                access_token: row.get(0)?,
+            })
+        })?;
+
+        for token in token_iter {
+            return Ok(token?);
+        }
+
+        Err(anyhow!("Token not found"))
     }
 }
