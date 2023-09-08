@@ -35,33 +35,36 @@ async fn callback(
     pool: web::Data<Pool<SqliteConnectionManager>>,
 ) -> impl Responder {
     // We check if the received state is the same as in the session, for security.
-    let state = match session.get::<String>("state").unwrap() {
+    match session.get::<String>("state").unwrap() {
         None => {
             event!(Level::ERROR, ERROR_MISSING_STATE);
             return HttpResponse::BadRequest().body(ERROR_MISSING_STATE);
         }
-        Some(s) => s,
+        Some(state) => {
+            session.remove("state").unwrap();
+
+            if state != callback_request.state {
+                event!(
+                    Level::ERROR,
+                    ERROR_INVALID_STATE,
+                    received_state = callback_request.state,
+                    expected_state = state
+                );
+                return HttpResponse::BadRequest().body(ERROR_INVALID_STATE);
+            }
+        }
     };
-    session.remove("state").unwrap();
-
-    if state != callback_request.state {
-        event!(
-            Level::ERROR,
-            ERROR_INVALID_STATE,
-            received_state = callback_request.state,
-            expected_state = state
-        );
-        return HttpResponse::BadRequest().body(ERROR_INVALID_STATE);
-    }
-
+    // Retrieve Pim URL
     let pim_url = match session.get::<String>("pim_url").unwrap() {
         None => {
             event!(Level::ERROR, ERROR_MISSING_PIM_URL);
             return HttpResponse::BadRequest().body(ERROR_MISSING_PIM_URL);
         }
-        Some(p) => p,
+        Some(pim_url) => {
+            session.remove("pim_url").unwrap();
+            pim_url
+        }
     };
-    session.remove("pim_url").unwrap();
 
     // Call the PIM API to get the access tokens
     let authorization_request = CallbackAuthorizationRequest {
