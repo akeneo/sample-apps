@@ -1,10 +1,13 @@
-use actix_web::{get, HttpResponse, Responder, web};
+use actix_web::{get, web, HttpResponse, Responder};
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use tracing::event;
 
-use crate::{model::token::{Token, TokenRepository}, usecase::first_api_callback_usecase::FirstApiCallRequest, configuration::Settings};
-
+use crate::{
+    configuration::Settings,
+    model::token::{Token, TokenRepository},
+    usecase::first_api_callback_usecase::FirstApiCallRequest,
+};
 
 #[tracing::instrument(
     name = "FirstApiCall"
@@ -20,19 +23,17 @@ async fn first_api_call(
             let first_api_request = FirstApiCallRequest { token };
 
             match first_api_request.execute(data.pim_url.clone()).await {
-                Ok(response) => {
-                    HttpResponse::Ok().content_type(
-                        "application/json"
-                    ).body(response)
-                },
+                Ok(response) => HttpResponse::Ok()
+                    .content_type("application/json")
+                    .body(response),
                 Err(_) => {
-                    event!(tracing::Level::ERROR, "Error while calling the API");   
+                    event!(tracing::Level::ERROR, "Error while calling the API");
                     HttpResponse::InternalServerError().body("Error while calling the API")
                 }
             }
-        },
+        }
         _ => {
-            event!(tracing::Level::DEBUG, "No token found");  
+            event!(tracing::Level::DEBUG, "No token found");
             HttpResponse::InternalServerError().body("No token found")
         }
     }

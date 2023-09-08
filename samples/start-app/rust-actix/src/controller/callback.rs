@@ -1,5 +1,5 @@
 use actix_session::Session;
-use actix_web::{get, web, HttpResponse, Responder, http::header};
+use actix_web::{get, http::header, web, HttpResponse, Responder};
 use r2d2::Pool;
 use r2d2_sqlite::SqliteConnectionManager;
 use serde::Deserialize;
@@ -86,7 +86,7 @@ async fn callback(
     .unwrap();
 
     // If we have an id_token, we can extract the user information from it
-    if id_token != None {
+    if id_token.is_some() {
         // Get the user information from the id_token
         let token = IdToken {
             id_token: id_token.unwrap().to_string(),
@@ -105,5 +105,4 @@ async fn callback(
     HttpResponse::Found()
         .insert_header((header::LOCATION, "/"))
         .finish()
-        
 }

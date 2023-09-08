@@ -1,5 +1,5 @@
 use actix_session::Session;
-use actix_web::{get, web, HttpResponse, Responder, http::header};
+use actix_web::{get, http::header, web, HttpResponse, Responder};
 use rand::distributions::{Alphanumeric, DistString};
 use serde::Deserialize;
 use url::Url;

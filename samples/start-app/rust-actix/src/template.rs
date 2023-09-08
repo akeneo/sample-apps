@@ -9,12 +9,8 @@ pub struct AccessToken {
 
 #[derive(TemplateOnce)]
 #[template(path = "./no_access_token.stpl")]
-pub struct NoAccessToken {
-    
-}
+pub struct NoAccessToken {}
 
 #[derive(TemplateOnce)]
 #[template(path = "./no_access_token.stpl")]
-pub struct Error {
-    
-}
+pub struct Error {}

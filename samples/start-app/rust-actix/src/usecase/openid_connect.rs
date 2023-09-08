@@ -32,7 +32,7 @@ struct Claims {
 const PIM_API_OPENID_PUBLIC_KEY: &str = "/connect/apps/v1/openid/public-key";
 
 impl IdToken {
-    pub async fn get_user(&self, pim_url: &String) -> Result<User> {
+    pub async fn get_user(&self, pim_url: &str) -> Result<User> {
         let public_key_content = fetch_public_key(pim_url).await?;
 
         let token = decode::<Claims>(
@@ -52,7 +52,7 @@ impl IdToken {
     }
 }
 
-async fn fetch_public_key(pim_url: &String) -> Result<PubliKey> {
+async fn fetch_public_key(pim_url: &str) -> Result<PubliKey> {
     let client = reqwest::Client::new();
     let response = client
         .get(format!(

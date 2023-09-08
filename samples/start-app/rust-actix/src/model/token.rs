@@ -36,9 +36,7 @@ impl TokenRepository for Token {
         Ok(())
     }
 
-    async fn exists(
-        pool: &web::Data<Pool<SqliteConnectionManager>>,
-    ) -> Result<()> {
+    async fn exists(pool: &web::Data<Pool<SqliteConnectionManager>>) -> Result<()> {
         let conn = pool.get().unwrap();
         let mut stmt = conn.prepare("SELECT access_token FROM token")?;
 
@@ -49,20 +47,16 @@ impl TokenRepository for Token {
         Err(anyhow!("No token exists"))
     }
 
-    async fn get(
-        pool: &web::Data<Pool<SqliteConnectionManager>>,
-    ) -> Result<Token> {
-        let conn = pool.get().unwrap();
+    async fn get(pool: &web::Data<Pool<SqliteConnectionManager>>) -> Result<Token> {
+        let conn: r2d2::PooledConnection<SqliteConnectionManager> = pool.get().unwrap();
+
         let mut stmt = conn.prepare("SELECT access_token FROM token LIMIT 1")?;
+        let mut rows = stmt.query(())?;
 
-        let token_iter = stmt.query_map((), |row| {
-            Ok(Token {
+        if let Some(row) = rows.next()? {
+            return Ok(Token {
                 access_token: row.get(0)?,
-            })
-        })?;
-
-        for token in token_iter {
-            return Ok(token?);
+            });
         }
 
         Err(anyhow!("Token not found"))

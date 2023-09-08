@@ -35,7 +35,7 @@ impl Settings {
                 .expect("SECURE_COOKIE is not set in .env file")
                 .parse::<bool>()
                 .expect("SECURE_COOKIE is not a boolean"),
-            session_key: session_key,    
+            session_key,
             app_name: env::var("APP_NAME").unwrap_or_else(|_| "sample-app".into()),
             log_level: env::var("LOG_LEVEL").unwrap_or_else(|_| "error".into()),
             sub_hash_key: env::var("SUB_HASH_KEY").expect("SUB_HASH_KEY is not set in .env file"),
