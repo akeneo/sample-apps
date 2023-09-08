@@ -1,8 +1,7 @@
 services:
     app:
         container_name: "rust-actix-app"
-        #command: "cargo watch -x run"
-        command: "cargo run"
+        command: "cargo watch -x run"
         build:
             context: .
             dockerfile: Dockerfile

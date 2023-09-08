@@ -15,7 +15,7 @@ So far, you will find the following use cases
 
 | Folder name | Use case                            | Description                                                          | Technologies                                             |
 |-------------|-------------------------------------|----------------------------------------------------------------------|----------------------------------------------------------|
-| [start-app](https://github.com/akeneo/sample-apps/tree/main/samples/start-app) | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI, Rust/Actix Web |
+| [start-app](https://github.com/akeneo/sample-apps/tree/main/samples/start-app) | Start App | The minimum app for getting an App token and querying the Akeneo PIM | PHP/Symfony, Javascript/NodeJS/ExpressJS, Python/fastAPI, Rust/Actix |
 | [dsm](https://github.com/akeneo/sample-apps/tree/main/samples/dsm/akeneo-dsm/) | DSM | An example app to show you how to use the Akeneo DSM | NodeJS/React/TypeScript |
 
 [Don’t hesitate to help us complete this list!](https://github.com/akeneo/sample-apps/blob/main/CONTRIBUTING.md)
