@@ -6,7 +6,7 @@ pub struct FirstApiCallRequest {
     pub token: Token,
 }
 
-const FIRST_API_CALL_URL: &str = "/api/rest/v1/channels";
+static FIRST_API_CALL_URL:  &str = "/api/rest/v1/channels";
 
 impl FirstApiCallRequest {
     pub async fn execute(&self, pim_url: String) -> Result<String> {

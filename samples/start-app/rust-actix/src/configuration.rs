@@ -6,12 +6,17 @@ pub struct Settings {
     pub pim_url: String,
     pub client_id: String,
     pub client_secret: String,
+    pub scopes: String,
     pub secure_cookie: bool,
     pub session_key: String,
     pub app_name: String,
     pub log_level: String,
     pub sub_hash_key: String,
 }
+
+// https://api.akeneo.com/apps/authentication-and-authorization.html#authorization-and-authentication-scopes
+static PIM_AUTHORIZATION_SCOPES: &str =
+    "openid email profile read_channel_localization read_channel_settings read_products";
 
 impl Settings {
     pub fn get(path: Option<String>) -> Self {
@@ -20,6 +25,7 @@ impl Settings {
         let app_host = env::var("APP_HOST").expect("APP_HOST is not set in .env file");
         let app_port = env::var("APP_PORT").expect("APP_PORT is not set in .env file");
         let session_key = env::var("SESSION_KEY").expect("SESSION_KEY is not set in .env file");
+        let scopes = env::var("SCOPES").unwrap_or(PIM_AUTHORIZATION_SCOPES.to_string());
 
         if session_key.len() < 64 {
             panic!("SESSION_KEY must be at least 64 characters long");
@@ -31,6 +37,7 @@ impl Settings {
             client_id: env::var("CLIENT_ID").expect("CLIENT_ID is not set in .env file"),
             client_secret: env::var("CLIENT_SECRET")
                 .expect("CLIENT_SECRET is not set in .env file"),
+            scopes,
             secure_cookie: env::var("SECURE_COOKIE")
                 .expect("SECURE_COOKIE is not set in .env file")
                 .parse::<bool>()

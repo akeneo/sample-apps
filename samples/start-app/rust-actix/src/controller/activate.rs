@@ -35,8 +35,13 @@ async fn activate(
     HttpResponse::Found()
         .insert_header((
             header::LOCATION,
-            ActivateResponse::build(activate_request.into_inner(), data.client_id.clone(), state)
-                .redirect_uri,
+            ActivateResponse::build(
+                activate_request.into_inner(),
+                data.client_id.clone(),
+                data.scopes.clone(),
+                state,
+            )
+            .redirect_uri,
         ))
         .finish()
 }

@@ -4,8 +4,6 @@ use tracing::event;
 
 use crate::application::activate::ActivateRequest;
 
-static PIM_AUTHORIZATION_SCOPES: &str =
-    "openid email profile read_channel_localization read_channel_settings";
 static PIM_AUTHORIZATION_URL: &str = "/connect/apps/v1/authorize";
 
 #[derive(Debug, Deserialize)]
@@ -14,7 +12,12 @@ pub struct ActivateResponse {
 }
 
 impl ActivateResponse {
-    pub fn build(active_resquest: ActivateRequest, client_id: String, state: String) -> Self {
+    pub fn build(
+        active_resquest: ActivateRequest,
+        client_id: String,
+        scopes: String,
+        state: String,
+    ) -> Self {
         event!(tracing::Level::DEBUG, "Building authorize PIM Url");
 
         let url = format!(
@@ -23,7 +26,7 @@ impl ActivateResponse {
             PIM_AUTHORIZATION_URL,
             "code",
             client_id,
-            PIM_AUTHORIZATION_SCOPES,
+            scopes,
             state,
         );
 

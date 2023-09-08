@@ -29,7 +29,7 @@ struct Claims {
     email_verified: Option<bool>,
 }
 
-const PIM_API_OPENID_PUBLIC_KEY: &str = "/connect/apps/v1/openid/public-key";
+static PIM_API_OPENID_PUBLIC_KEY: &str = "/connect/apps/v1/openid/public-key";
 
 impl IdToken {
     pub async fn get_user(&self, pim_url: &str) -> Result<User> {
