@@ -33,7 +33,7 @@ impl Settings {
 
         Self {
             app_server_addr: format!("{app_host}:{app_port}"),
-            pim_url: env::var("PIM_URL").expect("PIM_URL is not set in .env file"),
+            pim_url: env::var("AKENEO_PIM_URL").expect("AKENEO_PIM_URL is not set in .env file"),
             client_id: env::var("CLIENT_ID").expect("CLIENT_ID is not set in .env file"),
             client_secret: env::var("CLIENT_SECRET")
                 .expect("CLIENT_SECRET is not set in .env file"),

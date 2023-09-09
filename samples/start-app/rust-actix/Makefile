@@ -36,10 +36,13 @@ stop: ## remove docker container
 	$(DOCKER_DOWN)
 
 tests: # run tests
-	$(DOCKER_EXEC) $(APP_NAME) cargo test
+	$(DOCKER_EXEC)  $(APP_NAME) cargo test
 
 bash: #
 	$(DOCKER_EXEC) $(APP_NAME) bash
+
+logs: ## Display logs
+	$(DOCKER_COMPOSE) logs --tail 20 -f $(APP_NAME) 
 
 _display: ## Display all informations about the App
 	@echo ""
