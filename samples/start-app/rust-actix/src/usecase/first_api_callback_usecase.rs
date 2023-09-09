@@ -6,10 +6,10 @@ pub struct FirstApiCallRequest {
     pub token: Token,
 }
 
-static FIRST_API_CALL_URL:  &str = "/api/rest/v1/channels";
+static FIRST_API_CALL_URL: &str = "/api/rest/v1/channels";
 
 impl FirstApiCallRequest {
-    pub async fn execute(&self, pim_url: String) -> Result<String> {
+    pub async fn execute(&self, pim_url: &str) -> Result<String> {
         let client = reqwest::Client::new();
 
         let response = client

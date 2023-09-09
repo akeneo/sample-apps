@@ -14,15 +14,15 @@ pub struct ActivateResponse {
 impl ActivateResponse {
     pub fn build(
         active_resquest: ActivateRequest,
-        client_id: String,
-        scopes: String,
-        state: String,
+        client_id: &str,
+        scopes: &str,
+        state: &str,
     ) -> Self {
         event!(tracing::Level::DEBUG, "Building authorize PIM Url");
 
         let url = format!(
             "{}{}?response_type={}&client_id={}&scope={}&state={}",
-            Self::remove_last_slash(active_resquest.pim_url.as_ref()),
+            Self::remove_last_slash(active_resquest.pim_url.as_str()),
             PIM_AUTHORIZATION_URL,
             "code",
             client_id,

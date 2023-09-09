@@ -16,7 +16,7 @@ pub struct Settings {
 
 // https://api.akeneo.com/apps/authentication-and-authorization.html#authorization-and-authentication-scopes
 static PIM_AUTHORIZATION_SCOPES: &str =
-    "openid email profile read_channel_localization read_channel_settings read_products";
+    "openid email profile read_channel_localization read_channel_settings";
 
 impl Settings {
     pub fn get(path: Option<String>) -> Self {

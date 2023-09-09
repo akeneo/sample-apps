@@ -37,9 +37,9 @@ async fn activate(
             header::LOCATION,
             ActivateResponse::build(
                 activate_request.into_inner(),
-                data.client_id.clone(),
-                data.scopes.clone(),
-                state,
+                &data.client_id,
+                &data.scopes,
+                &state,
             )
             .redirect_uri,
         ))

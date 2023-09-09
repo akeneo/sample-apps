@@ -18,7 +18,7 @@ pub trait UserRepository {
     async fn save(pool: &web::Data<Pool<SqliteConnectionManager>>, user: User) -> Result<()>;
     async fn find_by_sub(
         pool: &web::Data<Pool<SqliteConnectionManager>>,
-        sub: String,
+        sub: &str,
     ) -> Result<User>;
 }
 
@@ -41,7 +41,7 @@ impl UserRepository for User {
 
     async fn find_by_sub(
         pool: &web::Data<Pool<SqliteConnectionManager>>,
-        sub: String,
+        sub: &str,
     ) -> Result<User> {
         let conn = pool.get().unwrap();
 

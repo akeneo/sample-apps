@@ -6,11 +6,10 @@ pub struct NotifyAuthorizationRequest {
     pub token: Token,
 }
 
-static NOTIFICATION_AUTHORIZATION_UPDATE_URL: &str =
-    "/connect/apps/v1/scopes/update?scopes=";
+static NOTIFICATION_AUTHORIZATION_UPDATE_URL: &str = "/connect/apps/v1/scopes/update?scopes=";
 
 impl NotifyAuthorizationRequest {
-    pub async fn execute(&self, pim_url: String, scopes: String) -> Result<String> {
+    pub async fn execute(&self, pim_url: &str, scopes: &str) -> Result<String> {
         let client = reqwest::Client::new();
 
         let response = client

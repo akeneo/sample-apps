@@ -23,7 +23,7 @@ async fn notify_authorization_update(
             let notify_authorization_update_request = NotifyAuthorizationRequest { token };
 
             match notify_authorization_update_request
-                .execute(data.pim_url.clone(), data.scopes.clone())
+                .execute(&data.pim_url, &data.scopes)
                 .await
             {
                 Ok(response) => HttpResponse::Ok()

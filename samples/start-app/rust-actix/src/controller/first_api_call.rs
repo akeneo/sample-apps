@@ -22,7 +22,7 @@ async fn first_api_call(
         Ok(token) => {
             let first_api_request = FirstApiCallRequest { token };
 
-            match first_api_request.execute(data.pim_url.clone()).await {
+            match first_api_request.execute(&data.pim_url).await {
                 Ok(response) => HttpResponse::Ok()
                     .content_type("application/json")
                     .body(response),

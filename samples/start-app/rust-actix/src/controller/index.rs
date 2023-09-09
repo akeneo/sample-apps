@@ -32,7 +32,7 @@ async fn index(
 
             if sub.is_some() && vector.is_some() && vector.unwrap() == data.sub_hash_key.clone() {
                 // Get user from DB
-                if let Ok(user) = user::User::find_by_sub(&pool, sub.unwrap()).await {
+                if let Ok(user) = user::User::find_by_sub(&pool, &sub.unwrap()).await {
                     ctx.sub = user.sub;
                     ctx.email = user.email;
                 }
