@@ -41,5 +41,4 @@ tracing-log = "0.1"
 tracing-bunyan-formatter = "0.3"
 
 [dev-dependencies]
-reqwest = "0.11"
 once_cell = "1"
