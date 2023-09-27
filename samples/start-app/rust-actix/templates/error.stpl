@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include!("_header.stpl"); %>
+</head>
+<body>
+<h1>An unexpected error occured</h1>
+
+<p>Check the logs to have a better understanding of this error</p>
+
+</body>
+</html>

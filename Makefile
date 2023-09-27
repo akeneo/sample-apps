@@ -2,6 +2,7 @@ APPS_DIR=samples/start-app
 PHP_SYMFONY_DIR=$(APPS_DIR)/php-symfony/
 JS_NODE_EXPRESS_DIR=$(APPS_DIR)/js-node-express/
 PYTHON_FASTAPI_DIR=$(APPS_DIR)/python-fastapi/
+RUST_ACTIX_DIR=$(APPS_DIR)/rust-actix/
 BIN_INSTALL_DIR=common/bin/install/
 
 install: ## Install and start project
@@ -18,3 +19,7 @@ node-install: ## Install NodeJS sample App
 python-install: ## Install NodeJS sample App
 	@echo "Using NodeJs install script"
 	cd $(PYTHON_FASTAPI_DIR) && make install
+
+rust-install: ## Install Rust + Actix Web sample App
+	@echo "Using Rust install script"
+	cd $(RUST_ACTIX_DIR) && make install

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include!("_header.stpl"); %>
+</head>
+<body>
+
+    <% if !sub.is_empty() && !email.is_empty() { %>
+        <div class="header">
+            <div class="userInformation">
+                <div>User : <%= sub %></div>
+                <div>Email : <%= email %></div>
+            </div>
+        </div>
+    <% } %>
+
+    <div class="content">
+
+        <h1>Congratulations!</h1>
+
+        <p>You’ve got your App token and<b>&nbspyou’re ready to query the PIM API.</b></p>
+
+        <p>
+        To do so, open the following page <a href="/first-api-call" target="_blank">&nbsp’first-API-call’</a>.
+        If you want to have a look at the HTTP client, open the file <b><i>&nbsp’src/UseCase/FirstApiCall.php’</i></b>.</p>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<meta charset="UTF-8">
+    <title>Rust Actix sample app</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <style>
+        body{
+            position: relative;
+        }
+        h1 {
+            font-weight: 700;
+            font-size: 30px;
+            line-height: 36px;
+        }
+        p {
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        h1, p {
+            font-family: 'Lato';
+            font-style: normal;
+            display: flex;
+            align-items: center;
+            color: #414D97;
+        }
+
+        a {
+            color: #4CA8E0;
+            text-decoration: none;
+        }
+
+        .userInformation {
+            position: absolute;
+            display: block;
+            text-align: left;
+            font-size: 13px;
+            width: 20%;
+            line-height: 13px;
+            right: 0;
+        }
+
+        .userInformation div {
+            color: #9452BA;
+            margin-bottom: 12px;
+            padding-bottom: 5px;
+            padding-right: 40px;
+            text-transform: uppercase;
+        }
+
+        .header {
+            position: sticky;
+            border-bottom: 1px solid #9452BA;
+            height: 60px;
+        }
+
+        .content {
+            position: relative;
+            left: 100px;
+            top: 100px;
+        }
+
+    </style>
