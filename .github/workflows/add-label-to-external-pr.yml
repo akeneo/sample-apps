@@ -1,0 +1,25 @@
+name: Add labels to Pull Requests from external users
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  add_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if user is external
+        run: |
+          curl -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}"\
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/orgs/akeneo/memberships/${{ github.event.pull_request.user.login }}"
+          if [[ $status == 200 ]]; then
+            echo "User is part of the organization"
+          else
+            curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/labels" \
+              -d '{"labels": ["external"]}'
+          fi
