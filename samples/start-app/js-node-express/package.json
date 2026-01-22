@@ -19,7 +19,7 @@
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^9.0.0",
     "locutus": "^2.0.16",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "morgan": "^1.9.1",
     "sqlite3": "^5.1.5",
     "swig": "^1.4.2",
