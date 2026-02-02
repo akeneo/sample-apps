@@ -18,7 +18,7 @@
     "express": "^4.18.2",
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^9.0.0",
-    "locutus": "^2.0.16",
+    "locutus": "^2.0.39",
     "lodash": "^4.17.21",
     "morgan": "^1.9.1",
     "sqlite3": "^5.1.5",
